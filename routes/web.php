@@ -35,9 +35,6 @@
     Route::post('user/register', 'FrontendController@registerSubmit')->name('register.submit');
 // Reset password
     Route::post('password-reset', 'FrontendController@showResetForm')->name('password.reset');
-// Socialite
-    Route::get('login/{provider}/', 'Auth\LoginController@redirect')->name('login.redirect');
-    Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name('login.callback');
 
     Route::get('/', 'FrontendController@home')->name('home');
 
@@ -110,9 +107,14 @@ Route::get('payment/success', 'StripeController@success')->name('stripe.success'
 //after order page
 Route::get('thank-you', 'ThankYouController@index')->name('order.thankyou');
 
+
+// Socialite
+Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login_form');
+Route::post('admin/login', 'Admin\Auth\LoginController@login')->name('admin.login');
+Route::post('admin/logout', 'Admin\Auth\LoginController@logout');
 // Backend section start
 
-    Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::group(['prefix' => '/admin', 'middleware' => ['auth.admin', 'admin']], function () {
         Route::get('/', 'AdminController@index')->name('admin');
         Route::get('/file-manager', function () {
             return view('backend.layouts.file-manager');
@@ -159,6 +161,8 @@ Route::get('thank-you', 'ThankYouController@index')->name('order.thankyou');
         // Password Change
         Route::get('change-password', 'AdminController@changePassword')->name('change.password.form');
         Route::post('change-password', 'AdminController@changPasswordStore')->name('change.password');
+
+        Route::get('testing', 'TestingController@index');
     });
 
 
