@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    public static $status = [
+        'active' => 'active',
+        'inactive' => 'inactive',
+    ];
     /**
      * The attributes that should be cast to native types.
      *

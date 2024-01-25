@@ -134,62 +134,38 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-      Posts
+      Information
     </div>
 
-    <!-- Posts -->
+    {{-- Admin --}}
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCollapse" aria-expanded="true" aria-controls="postCollapse">
-        <i class="fas fa-fw fa-folder"></i>
-        <span>Posts</span>
-      </a>
-      <div id="postCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Post Options:</h6>
-          <a class="collapse-item" href="{{route('post.index')}}">Posts</a>
-          <a class="collapse-item" href="{{route('post.create')}}">Add Post</a>
-        </div>
-      </div>
-    </li>
-
-     <!-- Category -->
-     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCategoryCollapse" aria-expanded="true" aria-controls="postCategoryCollapse">
-          <i class="fas fa-sitemap fa-folder"></i>
-          <span>Category</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminCollapse" aria-expanded="true" aria-controls="adminCollapse">
+          <i class="fas fa-truck"></i>
+          <span>Admin</span>
         </a>
-        <div id="postCategoryCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="adminCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Category Options:</h6>
-            <a class="collapse-item" href="{{route('post-category.index')}}">Category</a>
-            <a class="collapse-item" href="{{route('post-category.create')}}">Add Category</a>
+            <h6 class="collapse-header">Admin Options:</h6>
+            <a class="collapse-item" href="{{route('admin-setting.index')}}">Admin</a>
+            <a class="collapse-item" href="{{route('admin-setting.create')}}">Add Admin</a>
           </div>
         </div>
-      </li>
-
-      <!-- Tags -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tagCollapse" aria-expanded="true" aria-controls="tagCollapse">
-            <i class="fas fa-tags fa-folder"></i>
-            <span>Tags</span>
-        </a>
-        <div id="tagCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Tag Options:</h6>
-            <a class="collapse-item" href="{{route('post-tag.index')}}">Tag</a>
-            <a class="collapse-item" href="{{route('post-tag.create')}}">Add Tag</a>
-            </div>
-        </div>
     </li>
 
-      <!-- Comments -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{route('comment.index')}}">
-            <i class="fas fa-comments fa-chart-area"></i>
-            <span>Comments</span>
+    {{-- IB --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ibCollapse" aria-expanded="true" aria-controls="ibCollapse">
+          <i class="fas fa-truck"></i>
+          <span>IB</span>
         </a>
-      </li>
-
+        <div id="ibCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">IB Options:</h6>
+            <a class="collapse-item" href="{{route('ib.index')}}">IB</a>
+            <a class="collapse-item" href="{{route('ib.create')}}">Add IB</a>
+          </div>
+        </div>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

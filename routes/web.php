@@ -112,10 +112,23 @@ Route::get('thank-you', 'ThankYouController@index')->name('order.thankyou');
 Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login_form');
 Route::post('admin/login', 'Admin\Auth\LoginController@login')->name('admin.login');
 Route::post('admin/logout', 'Admin\Auth\LoginController@logout');
-// Backend section start
 
+// Socialite
+Route::get('login/{provider}/', 'Auth\LoginController@redirect')->name('login.redirect');
+Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name('login.callback');
+
+// Backend section start
     Route::group(['prefix' => '/admin', 'middleware' => ['auth.admin', 'admin']], function () {
+        
         Route::get('/', 'AdminController@index')->name('admin');
+
+        // admin
+        Route::resource('/admin-setting', 'Admin\AdminSettingController');
+
+        // ib
+        Route::get('/ib/export', 'Admin\IBController@export');
+        Route::resource('/ib', 'Admin\IBController');
+
         Route::get('/file-manager', function () {
             return view('backend.layouts.file-manager');
         })->name('file-manager');

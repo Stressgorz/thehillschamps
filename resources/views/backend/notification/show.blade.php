@@ -3,9 +3,9 @@
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
         <span class="badge badge-danger badge-counter">
-            @if(count(Auth::user()->unreadNotifications) >5 )<span data-count="5" class="count">5+</span>
+            @if(count(Auth::guard('admin')->user()->unreadNotifications) >5 )<span data-count="5" class="count">5+</span>
             @else 
-                <span class="count" data-count="{{count(Auth::user()->unreadNotifications)}}">{{count(Auth::user()->unreadNotifications)}}</span>
+                <span class="count" data-count="{{count(Auth::guard('admin')->user()->unreadNotifications)}}">{{count(Auth::guard('admin')->user()->unreadNotifications)}}</span>
             @endif
         </span>
       </a>
@@ -14,7 +14,7 @@
         <h6 class="dropdown-header">
           Notifications Center
         </h6>
-        @foreach(Auth::user()->unreadNotifications as $notification)
+        @foreach(Auth::guard('admin')->user()->unreadNotifications as $notification)
     <a class="dropdown-item d-flex align-items-center" target="_blank" href="{{route('admin.notification',$notification->id)}}">
                 <div class="mr-3">
                     <div class="icon-circle bg-primary">

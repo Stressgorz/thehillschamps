@@ -347,6 +347,7 @@ class FrontendController extends Controller
 
     // Login
     public function login(){
+        
         return view('frontend.pages.login');
     }
     public function loginSubmit(Request $request){
