@@ -160,9 +160,38 @@
         </a>
         <div id="ibCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">IB Options:</h6>
-            <a class="collapse-item" href="{{route('ib.index')}}">IB</a>
-            <a class="collapse-item" href="{{route('ib.create')}}">Add IB</a>
+            <h6 class="collapse-header">User Options:</h6>
+            <a class="collapse-item" href="{{route('users.index')}}">User</a>
+            <a class="collapse-item" href="{{route('users.create')}}">Add User</a>
+          </div>
+        </div>
+    </li>
+
+    {{-- Team --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#teamCollapse" aria-expanded="true" aria-controls="teamCollapse">
+          <i class="fas fa-truck"></i>
+          <span>Team</span>
+        </a>
+        <div id="teamCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Team Options:</h6>
+            <a class="collapse-item" href="{{route('teams.index')}}">Team</a>
+            <a class="collapse-item" href="{{route('teams.create')}}">Add Team</a>
+          </div>
+        </div>
+    </li>
+    {{-- Sales --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#salescollapse" aria-expanded="true" aria-controls="salescollapse">
+          <i class="fas fa-truck"></i>
+          <span>Sales</span>
+        </a>
+        <div id="salescollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales Options:</h6>
+            <a class="collapse-item" href="{{route('sales.index')}}">Sales</a>
+            <a class="collapse-item" href="{{route('sales.create')}}">Add Sales</a>
           </div>
         </div>
     </li>

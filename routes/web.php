@@ -126,14 +126,21 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         Route::resource('/admin-setting', 'Admin\AdminSettingController');
 
         // ib
-        Route::get('/ib/export', 'Admin\IBController@export');
-        Route::resource('/ib', 'Admin\IBController');
+        Route::get('/users/export', 'Admin\UserController@export');
+        Route::resource('/users', 'Admin\UserController');
+
+        // teams
+        Route::resource('/teams', 'Admin\TeamController');
+
+        // sales
+        Route::get('/sales/export', 'Admin\SaleController@export');
+        Route::resource('/sales', 'Admin\SaleController');
 
         Route::get('/file-manager', function () {
             return view('backend.layouts.file-manager');
         })->name('file-manager');
-        // user route
-        Route::resource('users', 'UsersController');
+        // // user route
+        // Route::resource('users', 'UsersController');
         // Banner
         Route::resource('banner', 'BannerController');
         // Brand
@@ -175,7 +182,7 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         Route::get('change-password', 'AdminController@changePassword')->name('change.password.form');
         Route::post('change-password', 'AdminController@changPasswordStore')->name('change.password');
 
-        Route::get('testing', 'TestingController@index');
+        Route::get('testing', 'Test\TestingController@index');
     });
 
 

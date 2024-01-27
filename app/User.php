@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role','photo','status','provider','provider_id',
+        'username', 'email', 'password','role','photo','status','code', 'ib_code','phone', 'dob' ,'email_verified_at', 'firstname' ,'lastname' ,'upline_id' ,'team_id' ,'position_id' ,'points' ,'created_at' ,'updated_at',
     ];
 
     /**
@@ -30,6 +30,12 @@ class User extends Authenticatable
 
 
     public static $status = [
+        'active' => 'active',
+        'inactive' => 'inactive',
+        'removed' => 'removed',
+    ];
+
+    public static $role = [
         'active' => 'active',
         'inactive' => 'inactive',
     ];

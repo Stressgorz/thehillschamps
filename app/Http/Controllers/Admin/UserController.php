@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembersExport;
 use Carbon\Carbon;
 
-class IBController extends Controller
+class UserController extends Controller
 {
 
     /**
@@ -48,11 +48,12 @@ class IBController extends Controller
         $positions = Position::where('status', Position::$status['active'])->get();
         $teams = Team::where('status', Team::$status['active'])->get();
 
-        return view('backend.ib.index', [
+        return view('backend.users.index', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
             'table_data' => $table_data,
             'positions' => $positions,
             'teams' => $teams,
+            'user_status' => User::$status,
         ]);
     }
 
@@ -122,11 +123,16 @@ class IBController extends Controller
     public function create()
     {
         $user_status = User::$status;
-        $user_role = User::$role;
+        $positions = Position::where('status', Position::$status['active'])->get();
+        $teams = Team::where('status', Team::$status['active'])->get();
+        $users = User::select('id', 'firstname', 'lastname')
+                        ->where('status', User::$status['active'])->get();
 
-        return view('backend.admin.create', [
-            'admin_role' => $user_status,
-            'admin_status' => $user_role,
+        return view('backend.users.create', [
+            'user_status' => $user_status,  
+            'positions' => $positions,
+            'teams' => $teams,
+            'users' => $users,
         ]);
     }
 
@@ -138,46 +144,87 @@ class IBController extends Controller
      */
     public function store(Request $request)
     {
-        $data = static::adminStoreValidation($request);
+        $data = static::userStoreValidation($request);
 
-        $admin = Admin::create([
-        	'username' => $data['username'],
+        $user = User::create([
+        	'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'name' => $data['name'],
-            'contact' => $data['contact'],
-            'email' => $data['email'],
-            'role' => $data['role'],
+            'username' => $data['username'],
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'code' => $data['code'],
+            'ib_code' => $data['ib_code'],
+            'phone' => $data['phone'],
+            'dob' => $data['dob'],
+            'team_id' => $data['team_id'],
+            'position_id' => $data['position_id'],
+            'upline_id' => $data['upline_id'],
             'status' => $data['status'],
-
         ]);
 
-        if($admin){
-            request()->session()->flash('success','Admin successfully added');
+        if($user){
+            request()->session()->flash('success','User successfully added');
         } else{
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('admin-setting.index');
+        return redirect()->route('users.index');
     }
 
-    public static function adminStoreValidation($request){
+    public static function userStoreValidation($request){
 
         $data[] = $request->validate([
-            'username' => ['required',
-            function ($attribute, $value, $fail) {
-                $admin_name = Admin::where('username', $value)->first();
-                if ($admin_name) {
-                    $fail('username is exists');
-                }
-            }
-            ],
+            'email' => ['required',
+                function ($attribute, $value, $fail) {
+                    $user_email = User::where('email', $value)->first();
+                    if ($user_email) {
+                        $fail('Email is exists');
+                    }
+                }],
             'password' => ['required'],
             'confirm_password' => ['same:password'],
-            'name' => ['required'],
-            'contact' => ['required'],
-            'email' => ['required'],
+            'username' => ['required',
+                function ($attribute, $value, $fail) {
+                    $username = User::where('username', $value)->first();
+                    if ($username) {
+                        $fail('User Name is exists');
+                    }
+                }
+            ],
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'code' => ['required'],
+            'ib_code' => ['required'],
+            'phone' => ['required'],
+            'dob' => ['required'],
+            'team_id' => ['required',
+            function ($attribute, $value, $fail) {
+                $team = Team::where('id', $value)
+                            ->where('status', Team::$status['active'])
+                            ->first();
+                if (empty($team)) {
+                    $fail('Team does not exist');
+                }
+            }],
+            'position_id' => ['required',
+            function ($attribute, $value, $fail) {
+                $position = Position::where('id', $value)
+                            ->where('status', Position::$status['active'])
+                            ->first();
+                if (empty($position)) {
+                    $fail('Position does not exist');
+                }
+            }],
+            'upline_id' => ['nullable',
+            function ($attribute, $value, $fail) {
+                $upline = User::where('id', $value)
+                            ->where('status', Position::$status['active'])
+                            ->first();
+                if (empty($upline)) {
+                    $fail('Upline does not exist');
+                }
+            }],
             'status' => ['required'],
-            'role' => ['required'],
         ]);
 
         $validated = [];
@@ -207,12 +254,21 @@ class IBController extends Controller
      */
     public function edit($id)
     {
-        $admin=Admin::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        return view('backend.admin.edit', [
-            'admin' => $admin,
-            'admin_role' => Admin::$role,
-            'admin_status' => Admin::$status,
+        $user_status = User::$status;
+        $positions = Position::where('status', Position::$status['active'])->get();
+        $teams = Team::where('status', Team::$status['active'])->get();
+        $users = User::select('id', 'firstname', 'lastname')
+                        ->where('status', User::$status['active'])->get();
+
+
+        return view('backend.users.edit', [
+            'user' => $user,
+            'users' => $users,
+            'teams' => $teams,
+            'positions' => $positions,
+            'user_status' => User::$status,
         ]);
     }
 
@@ -227,21 +283,21 @@ class IBController extends Controller
     {
         
         // return $request->all();
-        $data = static::adminUpdateValidation($request, $id);
+        $data = static::userUpdateValidation($request, $id);
 
         $updateData = [
-            'name' => $data['name'],
-            'contact' => $data['contact'],
-            'email' => $data['email'],
-            'role' => $data['role'],
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'code' => $data['code'],
+            'ib_code' => $data['ib_code'],
+            'phone' => $data['phone'],
+            'dob' => $data['dob'],
+            'points' => $data['points'],
+            'team_id' => $data['team_id'],
+            'position_id' => $data['position_id'],
+            'upline_id' => $data['upline_id'],
             'status' => $data['status'],
         ];
-
-        if(isset($data['username'])){
-            $updateData = [
-                'username' => $data['username'],
-            ];
-        }
 
         if(isset($data['password'])){
             $updateData = [
@@ -249,44 +305,58 @@ class IBController extends Controller
             ];
         }
 
-        $admin=Admin::findOrFail($id);
+        $user=User::findOrFail($id);
 
-        if($admin){
-            $admin->fill($updateData)->save();
-            request()->session()->flash('success','Admin successfully updated');
+        if($user){
+            $user->fill($updateData)->save();
+            request()->session()->flash('success','User successfully updated');
         }else {
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('admin-setting.index');
+        return redirect()->route('users.index');
     }
 
-    public static function adminUpdateValidation($request, $id){
+    public static function userUpdateValidation($request, $id){
+
 
         $data[] = $request->validate([
-            'name' => ['required'],
-            'contact' => ['required'],
-            'email' => ['required'],
-            'status' => ['required'],
-            'role' => ['required'],
-        ]);
-
-        $admin = Admin::select('username')
-                        ->where('id', $id)
-                        ->first();
-
-        if($request->username != $admin->username){
-            $data[] = $request->validate([
-                'username' => ['required',
-                function ($attribute, $value, $fail) {
-                    $admin_name = Admin::where('username', $value)->first();
-                    if ($admin_name) {
-                        $fail('username has exist');
-                    }
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'code' => ['required'],
+            'ib_code' => ['required'],
+            'phone' => ['required'],
+            'dob' => ['required'],
+            'points' => ['nullable'],
+            'team_id' => ['required',
+            function ($attribute, $value, $fail) {
+                $team = Team::where('id', $value)
+                            ->where('status', Team::$status['active'])
+                            ->first();
+                if (empty($team)) {
+                    $fail('Team does not exist');
                 }
-                ],
-            ]);
-        }
+            }],
+            'position_id' => ['required',
+            function ($attribute, $value, $fail) {
+                $position = Position::where('id', $value)
+                            ->where('status', Position::$status['active'])
+                            ->first();
+                if (empty($position)) {
+                    $fail('Position does not exist');
+                }
+            }],
+            'upline_id' => ['nullable',
+            function ($attribute, $value, $fail) {
+                $upline = User::where('id', $value)
+                            ->where('status', Position::$status['active'])
+                            ->first();
+                if (empty($upline)) {
+                    $fail('Upline does not exist');
+                }
+            }],
+            'status' => ['required'],
+        ]);
 
         if($request->password != null){
             $data[] = $request->validate([
@@ -312,19 +382,19 @@ class IBController extends Controller
      */
     public function destroy($id)
     {
-        $admin=Admin::findOrFail($id);
+        $user=User::findOrFail($id);
 
-        if($admin){
+        if($user){
             // return $child_cat_id;
-            $admin = Admin::where('id', $id)->update([
-                'status' => Admin::$status['inactive'],
+            $user = User::where('id', $id)->update([
+                'status' => User::$status['inactive'],
             ]);
 
-            request()->session()->flash('success','Admin successfully deleted');
+            request()->session()->flash('success','User successfully deleted');
         } else {
-            request()->session()->flash('error','Error while deleting admin');
+            request()->session()->flash('error','Error while deleting User');
         }
-        return redirect()->route('admin-setting.index');
+        return redirect()->route('users.index');
     }
 
     /**
