@@ -9,57 +9,9 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Sales Lists</h6>
+      <h6 class="m-0 font-weight-bold text-primary float-left">Sales Approval Lists</h6>
     </div>
-    <div class="card-header py-3">
-      <form class="form-horizontal">
-        <div class="form-group row">
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <label class="control-label">Status</label>
-                <div class="form-group">
-                  <select name="sales_status" class="form-control">
-                  <option value=''>Select Status</option>
-                      @foreach($sales_status as $status)
-                          <option value='{{$status}}' {{(($status==Request::get('sales_status')) ? 'selected' : '')}}>{{$status}}</option>
-                      @endforeach
-                  </select>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <label class="control-label">Broker</label>
-                <div class="form-group">
-                  <select name="broker_type" class="form-control">
-                  <option value=''>Select Broker</option>
-                      @foreach($brokers as $broker)
-                          <option value='{{$broker}}' {{(($broker==Request::get('broker_type')) ? 'selected' : '')}}>{{$broker}}</option>
-                      @endforeach
-                  </select>
-                </div>
-            </div>
-
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label class="control-label">From Date</label>
-                <div class='input-group date datepicker'>
-                    </span>
-                    <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label class="control-label">To Date</label>
-                <div class='input-group date datepicker'>
-                    </span>
-                    <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
-                </div>
-            </div>
-
-        </div>
-          <div class="form-group">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                  <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
-                  <button id="clear_search" type="submit" class="btn btn-info">Clear Search</button>
-              </div>
-          </div>
-      </form>           
+    <div class="card-header py-3">   
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -95,15 +47,18 @@
                     <td>{{$data->mt4_id}}</td>
                     <td>{{$data->user_firstname .' '.$data->user_lastname}}</td>
                     <td>{{$data->date}}</td>
-                    <td>{{$data->updated_at}}</td>
+                    <td>{{$data->updated_at}}</td>  
                     <td>
-                    <a href="{{route('sales.show',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
-                    <a href="{{route('sales.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-                    <form method="POST" action="{{route('sales.destroy',[$data->id])}}">
+                    <a href="{{route('sales-approval.show',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
+                    <form method="POST" action="{{route('sales.approve',[$data->id])}}">
+                      @csrf
+                          <button class="btn btn-success btn-sm appBtn" data-id={{$data->id}} style="height:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Approve"><i class="fas fa-check"></i></button>
+                      </form>
+                    <form method="POST" action="{{route('sales-approval.destroy',[$data->id])}}">
                       @csrf
                       @method('delete')
                           <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                        </form>
+                    </form>
                     </td>
                 </tr>
             @endforeach
@@ -172,6 +127,26 @@
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to recover this data!",
                     icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                       form.submit();
+                    } else {
+                        swal("Your data is safe!");
+                    }
+                });
+          })
+          $('.appBtn').click(function(e){
+            var form=$(this).closest('form');
+              var dataID=$(this).data('id');
+              // alert(dataID);
+              e.preventDefault();
+              swal({
+                    title: "Are you sure?",
+                    text: "Once Approved, you can change at the edit menu!",
+                    icon: "success",
                     buttons: true,
                     dangerMode: true,
                 })

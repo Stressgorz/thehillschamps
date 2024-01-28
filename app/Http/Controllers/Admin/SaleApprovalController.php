@@ -16,53 +16,25 @@ use App\Exports\MembersExport;
 use Carbon\Carbon;
 use App\User;
 
-class SaleController extends Controller
+class SaleApprovalController extends Controller
 {
-    /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        
-        $now = Carbon::now();
-
-        if (empty($request->query('sales_status'))) {
-            $request->request->add([
-                'sales_status' => $request->query('sales_status'),
-            ]);
-        }
-
-        if (empty($request->query('broker_type'))) {
-            $request->request->add([
-                'broker_type' => $request->query('broker_type'),
-            ]);
-        }
-
-        if (empty($request->query('fdate'))) {
-            $fdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->subDays(1)->format('Y-m-d');
-            $request->request->add([
-                'fdate' => $fdate,
-            ]);
-        }
-        if (empty($request->query('tdate'))) {
-            $tdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->format('Y-m-d');
-            $request->request->add([
-                'tdate' => $tdate,
-            ]);
-        }
 
         $table_data = $this->filter($request);
 
-        return view('backend.sales.index', [
+        return view('backend.sales-approval.index', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
             'table_data' => $table_data,
             'sales_status' => Sale::$sales_status,
             'brokers' => Sale::$broker,
         ]);
     }
-
     
     public static function filter(Request $filters)
     {
@@ -78,21 +50,10 @@ class SaleController extends Controller
                     'clients.email as client_email',
                     'clients.contact as client_contact',
                     )
-                    ->orderBy('id','ASC');
+                    ->where('sales.sales_status', Sale::$sales_status['pending'])
+                    ->orderBy('id','DESC');
 
-        $params = [
-            'sales' => [
-                'sales_status' => 'sales_status',
-                'broker_type' => 'broker_type',
-                'created_by' => 'created_by',
-            ],
-            'users' => [
-                'user_email' => 'email',
-            ],
-            'clients' => [
-                'client_email' => 'email',
-            ],
-        ];
+        $params = [];
 
         foreach ($params as $table => $columns) {
         	foreach ($columns as $field => $param) {
@@ -118,32 +79,6 @@ class SaleController extends Controller
         	}
         }
         return $query->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $team_status = Team::$status;
-
-        return view('backend.sales.create', [
-            'team_status' => $team_status,  
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-        return redirect()->route('sales.index');
     }
 
     /**
@@ -185,7 +120,7 @@ class SaleController extends Controller
                                 ->select('name')
                                 ->first();
 
-        return view('backend.sales.show', [
+        return view('backend.sales-approval.show', [
             'sales' => $sale ?? [],
             'user_upline' => $user_upline,
             'client_upline' => $client_upline,
@@ -194,80 +129,29 @@ class SaleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
+            /**
+     * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function approve(Request $request, $id)
     {
-        $sale = Sale::findOrFail($id);
-
-        return view('backend.sales.edit', [
-            'sales' => $sale,
-            'sales_status' => Sale::$sales_status,
-            'sales_broker' => Sale::$broker,
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        // return $request->all();
-        $data = static::saleUpdateValidation($request, $id);
-
-        $updateData = [
-            'amount' => $data['amount'],
-            'mt4_id' => $data['mt4_id'],
-            'mt4_pass' => $data['mt4_pass'],
-            'broker_type' => $data['broker_type'],
-            'sales_status' => $data['sales_status'],
-            'reason' => $data['reason'],
-            'remark' => $data['remark'],
-            'date' => $data['date'],
-        ];
-
         $sale=Sale::findOrFail($id);
 
         if($sale){
-            $sale->fill($updateData)->save();
-            request()->session()->flash('success','Sales successfully updated');
-        }else {
-            request()->session()->flash('error','Error occurred, Please try again!');
+            // return $child_cat_id;
+            $sale = Sale::where('id', $id)->update([
+                'sales_status' => Sale::$sales_status['approved'],
+            ]);
+
+            request()->session()->flash('success','Sales successfully approved');
+        } else {
+            request()->session()->flash('error','Error while approving Sales');
         }
-
-        return redirect()->route('sales.index');
+        return redirect()->route('sales-approval.index');
     }
-
-    public static function saleUpdateValidation($request, $id){
-
-        $data[] = $request->validate([
-            'amount' => ['required'],
-            'mt4_id' => ['required'],
-            'mt4_pass' => ['required'],
-            'broker_type' => ['required'],
-            'sales_status' => ['required'],
-            'reason' => ['nullable'],
-            'remark' => ['nullable'],
-            'date' => ['required'],
-        ]);
-
-        $validated = [];
-        foreach ($data as $value) {
-            $validated = array_merge($validated, $value);
-        }
-
-        return $validated;
-    }
-
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -278,28 +162,19 @@ class SaleController extends Controller
     {
         $sale=Sale::findOrFail($id);
 
+
         if($sale){
             // return $child_cat_id;
             $sale = Sale::where('id', $id)->update([
-                'status' => Sale::$status['inactive'],
+                'sales_status' => Sale::$sales_status['reject'],
             ]);
 
-            request()->session()->flash('success','Sales successfully deleted');
+            request()->session()->flash('success','Sales successfully rejected');
         } else {
-            request()->session()->flash('error','Error while deleting Sales');
+            request()->session()->flash('error','Error while rejecting Sales');
         }
-        return redirect()->route('sales.index');
+        return redirect()->route('sales-approval.index');
     }
 
-    /**
-     * Export filtered data.
-     *
-     */
-    public function export(Request $request)
-    {   
-        
-        $table_data = $this->filter($request);
-        return Excel::download(new MembersExport($table_data), 'members-'.Carbon::now()->format('YmdHis').'.xlsx');
-    }
-    
+
 }

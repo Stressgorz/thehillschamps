@@ -9,7 +9,7 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Sales Lists</h6>
+      <h6 class="m-0 font-weight-bold text-primary float-left">Mar Subsidize Lists</h6>
     </div>
     <div class="card-header py-3">
       <form class="form-horizontal">
@@ -17,21 +17,10 @@
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">Status</label>
                 <div class="form-group">
-                  <select name="sales_status" class="form-control">
+                  <select name="status" class="form-control">
                   <option value=''>Select Status</option>
-                      @foreach($sales_status as $status)
-                          <option value='{{$status}}' {{(($status==Request::get('sales_status')) ? 'selected' : '')}}>{{$status}}</option>
-                      @endforeach
-                  </select>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <label class="control-label">Broker</label>
-                <div class="form-group">
-                  <select name="broker_type" class="form-control">
-                  <option value=''>Select Broker</option>
-                      @foreach($brokers as $broker)
-                          <option value='{{$broker}}' {{(($broker==Request::get('broker_type')) ? 'selected' : '')}}>{{$broker}}</option>
+                      @foreach($mar_status as $status)
+                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$approval_status[$status]}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -67,15 +56,12 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>Sales Status</th>
-              <th>Broker</th>
-              <th>Amounts</th>
-              <th>Client Name</th>
-              <th>Phone</th>
-              <th>Client Email</th>
-              <th>MT4 ID</th>
-              <th>IB</th>
-              <th>Sales Date</th>
+              <th>Status</th>
+              <th>IB Name</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Contact</th>
+              <th>File</th>
               <th>Submission Date</th>
               <th>Action</th>
             </tr>
@@ -86,20 +72,18 @@
               @php
               @endphp
                 <tr>
-                    <td>{{$data->sales_status}}</td>
-                    <td>{{$data->broker_type}}</td>
-                    <td>{{$data->amount}}</td>
-                    <td>{{$data->client_name}}</td>
-                    <td>{{$data->client_contact}}</td>
-                    <td>{{$data->client_email}}</td>
-                    <td>{{$data->mt4_id}}</td>
+                    <td>{{Helper::$approval_status[$data->status]}}</td>
                     <td>{{$data->user_firstname .' '.$data->user_lastname}}</td>
+                    <td>{{$data->name}}</td>
+                    <td>{{$data->email}}</td>
+                    <td>{{$data->contact}}</td>
+                    <td>{{$data->bank_acc}}</td>
+                    <td>{{$data->file ? 'Yes' : 'No'}}</td>
                     <td>{{$data->date}}</td>
-                    <td>{{$data->updated_at}}</td>
                     <td>
-                    <a href="{{route('sales.show',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
-                    <a href="{{route('sales.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-                    <form method="POST" action="{{route('sales.destroy',[$data->id])}}">
+                    <a href="{{route('mar.show',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
+                    <a href="{{route('mar.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                    <form method="POST" action="{{route('mar.destroy',[$data->id])}}">
                       @csrf
                       @method('delete')
                           <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
@@ -110,7 +94,7 @@
           </tbody>
         </table>
         @else
-          <h6 class="text-center">No Sales found!!! Please create Sales</h6>
+          <h6 class="text-center">No Mar found!!! Please create Mar</h6>
         @endif
       </div>
     </div>

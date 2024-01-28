@@ -191,11 +191,45 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Sales Options:</h6>
             <a class="collapse-item" href="{{route('sales.index')}}">Sales</a>
-            <a class="collapse-item" href="{{route('sales.create')}}">Add Sales</a>
           </div>
         </div>
     </li>
 
+    {{-- Client --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientcollapse" aria-expanded="true" aria-controls="clientcollapse">
+          <i class="fas fa-truck"></i>
+          <span>Client</span>
+        </a>
+        <div id="clientcollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Client Options:</h6>
+            <a class="collapse-item" href="{{route('clients.index')}}">Client</a>
+          </div>
+        </div>
+    </li>
+
+        <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Management
+    </div>
+
+    {{-- Sales Approval --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#salesapprovalcollapse" aria-expanded="true" aria-controls="salesapprovalcollapse">
+          <i class="fas fa-truck"></i>
+          <span>Sales Approval</span>
+        </a>
+        <div id="salesapprovalcollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales Approval Options:</h6>
+            <a class="collapse-item" href="{{route('sales-approval.index')}}">Sales Approval</a>
+          </div>
+        </div>
+    </li>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
      <!-- Heading -->

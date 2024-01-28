@@ -185,6 +185,20 @@ class Helper{
         }
         return implode('', $pieces);
     }
+
+
+    public static $general_status = [
+        '1' => 'Active',
+        '9' => 'Inactive',
+        '999' => 'Removed',
+    ];
+
+    public static $approval_status = [
+        '1' => 'Approved',
+        '9' => 'Pending',
+        '999' => 'Reject',
+    ];
+
 }
 
 ?>

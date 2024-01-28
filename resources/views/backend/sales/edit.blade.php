@@ -3,26 +3,75 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Edit Team</h5>
+    <h5 class="card-header">Edit Sales</h5>
     <div class="card-body">
-      <form method="post" action="{{route('teams.update',$team->id)}}">
+      <form method="post" action="{{route('sales.update',$sales->id)}}">
         @csrf 
         @method('PATCH')
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Team Name <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="name" placeholder="Enter name"  value="{{$team->name}}" class="form-control">
-          @error('name')
+          <label for="inputTitle" class="col-form-label">Amount<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="number" name="amount" placeholder="Enter amount"  value="{{$sales->amount}}" class="form-control">
+          @error('amount')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
 
         <div class="form-group">
-          <label for="status">Status</label>
-          <select name="status" class="form-control">
-              @foreach($team_status as $status)
-                  <option value='{{$status}}' {{(($team->status==$status) ? 'selected' : '')}}>{{$status}}</option>
+          <label for="inputTitle" class="col-form-label">MT4 ID<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="mt4_id" placeholder="Enter MT4 ID"  value="{{$sales->mt4_id}}" class="form-control">
+          @error('mt4_id')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">MT4 Password <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="mt4_pass" placeholder="Enter MT4 Password"  value="{{$sales->mt4_pass}}" class="form-control">
+          @error('mt4_pass')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="status">Broker</label>
+          <select name="broker_type" class="form-control">
+              @foreach($sales_broker as $broker)
+                  <option value='{{$broker}}' {{(($sales->broker==$broker) ? 'selected' : '')}}>{{$broker}}</option>
               @endforeach
           </select>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select name="sales_status" class="form-control">
+              @foreach($sales_status as $status)
+                  <option value='{{$status}}' {{(($sales->sales_status==$status) ? 'selected' : '')}}>{{$status}}</option>
+              @endforeach
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Reject Reason</label>
+          <input id="inputTitle" type="text" name="reason" placeholder="Enter reject reason"  value="{{$sales->reason}}" class="form-control">
+          @error('reason')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Remark</label>
+          <input id="inputTitle" type="text" name="remark" placeholder="Enter remark"  value="{{$sales->remark}}" class="form-control">
+          @error('remark')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Date<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="date" name="date" placeholder="Enter date"  value="{{$sales->date}}" class="form-control">
+          @error('date')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
         </div>
 
         <div class="form-group mb-3">
@@ -51,17 +100,5 @@
     });
     });
 </script>
-<script>
-  $('#is_parent').change(function(){
-    var is_checked=$('#is_parent').prop('checked');
-    // alert(is_checked);
-    if(is_checked){
-      $('#parent_cat_div').addClass('d-none');
-      $('#parent_cat_div').val('');
-    }
-    else{
-      $('#parent_cat_div').removeClass('d-none');
-    }
-  })
-</script>
+
 @endpush

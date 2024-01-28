@@ -136,6 +136,21 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         Route::get('/sales/export', 'Admin\SaleController@export');
         Route::resource('/sales', 'Admin\SaleController');
 
+        // Ads
+        Route::get('/ads/export', 'Admin\AdsController@export');
+        Route::resource('/ads', 'Admin\AdsController');
+
+        // Mar
+        Route::get('/mar/export', 'Admin\MarController@export');
+        Route::resource('/mar', 'Admin\MarController');
+
+        // Client
+        Route::resource('/clients', 'Admin\ClientController');
+
+        // Client   
+        Route::resource('/sales-approval', 'Admin\SaleApprovalController');
+        Route::post('/sales-approval/{id}/approve', 'Admin\SaleApprovalController@approve')->name('sales.approve');
+        
         Route::get('/file-manager', function () {
             return view('backend.layouts.file-manager');
         })->name('file-manager');
