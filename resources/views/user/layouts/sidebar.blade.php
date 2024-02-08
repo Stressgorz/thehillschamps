@@ -39,6 +39,25 @@
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
     </li>
+
+        <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!--Orders -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('clients.index')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Create Clients</span>
+        </a>
+    </li>
+
+        <!--Orders -->
+        <li class="nav-item">
+        <a class="nav-link" href="{{route('sales.index')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Sales</span>
+        </a>
+    </li>
     
 
     <!-- Divider -->

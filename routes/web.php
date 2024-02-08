@@ -36,10 +36,10 @@
 // Reset password
     Route::post('password-reset', 'FrontendController@showResetForm')->name('password.reset');
 
-    Route::get('/', 'FrontendController@home')->name('home');
+    Route::get('/', 'FrontendController@index')->name('home');
 
 // Frontend Routes
-    Route::get('/home', 'FrontendController@index');
+    Route::get('/home', 'FrontendController@home');
     Route::get('/about-us', 'FrontendController@aboutUs')->name('about-us');
     Route::get('/contact', 'FrontendController@contact')->name('contact');
     Route::post('/contact/message', 'MessageController@store')->name('contact.store');
@@ -204,6 +204,13 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
 // User section start
     Route::group(['prefix' => '/user', 'middleware' => ['user']], function () {
         Route::get('/', 'HomeController@index')->name('user');
+
+        // Client
+        Route::resource('/clients', 'User\ClientController');
+
+        // Client
+        Route::resource('/sales', 'User\SaleController');
+
         // Profile
         Route::get('/profile', 'HomeController@profile')->name('user-profile');
         Route::post('/profile/{id}', 'HomeController@profileUpdate')->name('user-profile-update');

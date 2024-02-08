@@ -32,4 +32,11 @@ class Sale extends Model
         'FXP' => 'FXP',
         'Goldstone' => 'Goldstone',
     ];
+
+        /**
+     * The path of the storage folder to store uploaded files.
+     *
+     * @var string
+     */
+    public static $path = 'Sales_Slip';
 }
