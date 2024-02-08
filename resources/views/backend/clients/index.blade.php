@@ -20,7 +20,7 @@
                   <select name="status" class="form-control">
                   <option value=''>Select Status</option>
                       @foreach($client_status as $status)
-                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{$status}}</option>
+                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$approval_status[$status]}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -104,7 +104,7 @@
                     <td>{{$data->contact}}</td>
                     <td>{{$data->address}}</td>
                     <td>{{$data->team_name}}</td>
-                    <td>{{$data->created_by}}</td>
+                    <td>{{$data->created_at}}</td>
                     <td></td>
                     <td>
                     <a href="{{route('clients.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>

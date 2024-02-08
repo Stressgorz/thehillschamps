@@ -10,7 +10,7 @@ class Team extends Model
     protected $fillable=['name', 'status', 'created_at','updated_at'];
 
     public static $status = [
-        'active' => 'active',
-        'inactive' => 'inactive',
+        'active' => '1',
+        'inactive' => '9',
     ];
 }

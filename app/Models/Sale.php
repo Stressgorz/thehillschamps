@@ -17,14 +17,14 @@ class Sale extends Model
     ];
 
     public static $status = [
-        'active' => 'active',
-        'inactive' => 'inactive',
+        'active' => '1',
+        'inactive' => '9',
     ];
 
     public static $sales_status = [
-        'approved' => 'approved',
-        'pending' => 'pending',
-        'reject' => 'reject',
+        'approved' => 'Approve',
+        'pending' => 'Pending',
+        'reject' => 'Reject',
     ];
 
     public static $broker = [

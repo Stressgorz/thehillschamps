@@ -83,7 +83,7 @@
           <label for="status">Status</label>
           <select name="status" class="form-control">
               @foreach($client_status as $status)
-                  <option value='{{$status}}' {{(($client->status==$status) ? 'selected' : '')}}>{{$status}}</option>
+                  <option value='{{$status}}' {{(($client->status==$status) ? 'selected' : '')}}>{{Helper::$approval_status[$status]}}</option>
               @endforeach
           </select>
         </div>

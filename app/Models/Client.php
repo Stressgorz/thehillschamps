@@ -17,7 +17,8 @@ class Client extends Model
     ];
 
     public static $status = [
-        'active' => 'active',
-        'inactive' => 'inactive',
+        'active' => '1',
+        'pending' => '9',
+        'inactive' => '999',
     ];
 }

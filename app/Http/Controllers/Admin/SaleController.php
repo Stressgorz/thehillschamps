@@ -84,7 +84,7 @@ class SaleController extends Controller
             'sales' => [
                 'sales_status' => 'sales_status',
                 'broker_type' => 'broker_type',
-                'created_by' => 'created_by',
+                'created_at' => 'created_at',
             ],
             'users' => [
                 'user_email' => 'email',
@@ -96,7 +96,7 @@ class SaleController extends Controller
 
         foreach ($params as $table => $columns) {
         	foreach ($columns as $field => $param) {
-	            if ($field == 'created_by') {
+	            if ($field == 'created_at') {
 	                if ($filters->get('fdate')) {
 	                    $query->where($table.'.'.$param, '>=',  $filters->get('fdate'));
 	                }

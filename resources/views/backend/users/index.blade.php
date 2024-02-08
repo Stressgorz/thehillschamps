@@ -86,7 +86,7 @@
               @php
               @endphp
                 <tr>
-                    <td>{{$data->status}}</td>
+                    <td>{{Helper::$general_status[$data->status]}}</td>
                     <td>{{$data->ib_code}}</td>
                     <td>
                         {{$data->username}}

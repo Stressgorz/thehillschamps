@@ -33,7 +33,7 @@
 
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">User Name <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="username" placeholder="Enter username"  value="{{old('username')}}" class="form-control" readonly>
+          <input id="inputTitle" type="text" name="username" placeholder="Enter username"  value="{{old('username')}}" class="form-control">
           @error('username')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -128,7 +128,7 @@
           <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
           <select name="status" class="form-control">
               @foreach($user_status as $status)
-                  <option value='{{$status}}'>{{$status}}</option>
+                  <option value='{{$status}}'>{{Helper::$general_status[$status]}}</option>
               @endforeach
           </select>
           @error('status')

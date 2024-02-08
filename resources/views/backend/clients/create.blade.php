@@ -72,7 +72,7 @@
           <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
           <select name="status" class="form-control">
               @foreach($admin_status as $status)
-                  <option value='{{$status}}'>{{$status}}</option>
+                  <option value='{{$status}}'>{{$Helper::$general_status['$status']}}</option>
               @endforeach
           </select>
           @error('status')

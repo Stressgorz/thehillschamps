@@ -66,7 +66,6 @@ class UserController extends Controller
                     ->leftJoin('users as upline', function ($join) {
                         $join->on('users.upline_id', '=', 'upline.id');
                     })
-                    ->where('users.status', User::$status['active'])
 		        	->select('users.*',
                     'teams.name as team_name',
                     'positions.name as position_name',
@@ -77,7 +76,7 @@ class UserController extends Controller
 
         $params = [
             'users' => [
-                'name' => 'name',
+                'name' => 'username',
             ],
             'positions' => [
                 'position' => 'name',
