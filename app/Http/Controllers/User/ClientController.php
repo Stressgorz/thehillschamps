@@ -154,16 +154,18 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $data = static::clientStoreValidation($request);
+        $upline_client_id = Client::where('email', $data['upline_client_email'])->pluck('id')->first();
+        $upline_user_id = User::where('email', $data['upline_user_email'])->pluck('id')->first();
 
         $client = Client::create([
-        	'user_id' => $data['user_id'],
-        	'name' => $data['user_id'],
-            'email' => $data['name'],
+            'user_id' => $request->user()->id,
+        	'name' => $data['name'],
+            'email' => $data['email'],
             'contact' => $data['contact'],
-            'address' => $data['email'],
-            'upline_client_id' => $data['role'],
-            'upline_user_id' => $data['status'],
-            'status' => $data['status'],
+            'address' => $data['address'],
+            'upline_client_id' => $upline_client_id ??0,
+            'upline_user_id' => $upline_user_id??0,
+            'status' => Client::$status['active'],
         ]);
 
         if($client){
@@ -186,26 +188,18 @@ class ClientController extends Controller
                 }
             }
             ],
-            'user_id' => ['required',
+            'upline_user_email' => ['nullable',
             function ($attribute, $value, $fail) {
-                $user_id = User::where('id', $value)->first();
-                if (empty($user_id)) {
-                    $fail('User does not exists');
-                }
-            }
-            ],
-            'upline_user_id' => ['required',
-            function ($attribute, $value, $fail) {
-                $upline_user_id = User::where('id', $value)->first();
-                if (empty($upline_user_id)) {
+                $upline_user_email = User::where('email', $value)->first();
+                if (empty($upline_user_email)) {
                     $fail('Upline User does not exists');
                 }
             }
             ],
-            'upline_client_id' => ['required',
+            'upline_client_email' => ['nullable',
             function ($attribute, $value, $fail) {
-                $upline_client_id = Client::where('id', $value)->first();
-                if (empty($upline_client_id)) {
+                $upline_client_email = Client::where('email', $value)->first();
+                if (empty($upline_client_email)) {
                     $fail('Upline Client does not exists');
                 }
             }
@@ -213,7 +207,6 @@ class ClientController extends Controller
             'name' => ['required'],
             'contact' => ['required'],
             'address' => ['required'],
-            'status' => ['required'],
         ]);
 
         $validated = [];

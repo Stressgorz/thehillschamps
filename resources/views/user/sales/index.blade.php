@@ -10,7 +10,8 @@
      </div>
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Sales Lists</h6>
-      <a href="{{route('sales.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add Sale"><i class="fas fa-plus"></i> Add Sales</a>
+  
+      
     </div>
     <div class="card-header py-3">
       <form class="form-horizontal">
@@ -81,6 +82,14 @@
               <th>Action</th>
             </tr>
           </thead>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th>Total Amount</th>
+              <th>{{$total_amount}}</th>
+              <th></th>
+              </tr>
+          </tfoot>
           <tbody>
 
             @foreach($table_data as $data)

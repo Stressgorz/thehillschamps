@@ -211,9 +211,14 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         // Client
         Route::resource('/sales', 'User\SaleController');
 
+        // Leaderboard
+        Route::resource('/leaderboard', 'User\LeaderboardController');
+
+
         // Profile
-        Route::get('/profile', 'HomeController@profile')->name('user-profile');
-        Route::post('/profile/{id}', 'HomeController@profileUpdate')->name('user-profile-update');
+        Route::get('/profile', 'HomeController@profile')->name('user-profile'); 
+        Route::get('/profile/update/{id}', 'HomeController@showprofileUpdate')->name('user-profile-update-page');;
+        Route::post('/profile/update/{id}', 'HomeController@profileUpdate')->name('user-profile-update');
         //  Order
         Route::get('/order', "HomeController@orderIndex")->name('user.order.index');
         Route::get('/order/show/{id}', "HomeController@orderShow")->name('user.order.show');

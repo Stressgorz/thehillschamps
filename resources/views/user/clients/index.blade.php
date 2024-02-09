@@ -10,6 +10,7 @@
      </div>
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Client Lists</h6>
+      <a href="{{route('clients.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Client</a>
     </div>
     <div class="card-header py-3">
       <form class="form-horizontal">

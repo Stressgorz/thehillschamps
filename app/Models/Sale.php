@@ -39,4 +39,9 @@ class Sale extends Model
      * @var string
      */
     public static $path = 'Sales_Slip';
+
+    public static $leaderboard_type = [
+        'month' => 'month',
+        'year' => 'year',
+    ];
 }

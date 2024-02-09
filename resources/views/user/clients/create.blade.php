@@ -5,77 +5,52 @@
 <div class="card">
     <h5 class="card-header">Add Admin</h5>
     <div class="card-body">
-      <form method="post" action="{{route('admin-setting.store')}}">
+      <form method="post" action="{{route('clients.store')}}">
         {{csrf_field()}}
 
         <div class="form-group">
-          <label for="inputUsername" class="col-form-label">Username <span class="text-danger">*</span></label>
-          <input id="inputUsername" type="text" name="username" placeholder="Enter Username"  value="{{old('username')}}" class="form-control">
-          @error('username')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-            <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
-            <input id="password" type="password" class="form-control" name="password" autocomplete="current-password">
-            @error('password')
-            <span class="text-danger">{{$message}}</span>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label for="password" class="col-form-label">Confirm Password <span class="text-danger">*</span></label>
-            <input id="confirm_password" type="password" class="form-control" name="confirm_password" autocomplete="current-password">
-            @error('confirm_password')
-            <span class="text-danger">{{$message}}</span>
-            @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Full Name <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="name" placeholder="Enter Name"  value="{{old('name')}}" class="form-control">
+          <label for="inputUsername" class="col-form-label">Name <span class="text-danger">*</span></label>
+          <input id="inputUsername" type="text" name="name" placeholder="Enter name"  value="{{old('name')}}" class="form-control">
           @error('name')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Contact Number <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="contact" placeholder="Enter contact"  value="{{old('contact')}}" class="form-control">
-          @error('contact')
+            <label for="password" class="col-form-label">Email <span class="text-danger">*</span></label>
+            <input id="password" type="email" class="form-control" placeholder="Enter Email" name="email">
+            @error('email')
+            <span class="text-danger">{{$message}}</span>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-form-label">Contact <span class="text-danger">*</span></label>
+            <input id="contact" type="text" class="form-control" placeholder="Enter Contact"  name="contact">
+            @error('contact')
+            <span class="text-danger">{{$message}}</span>
+            @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Address<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="address" placeholder="Enter Address"  class="form-control">
+          @error('address')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Email Address <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="email" placeholder="Enter Email"  value="{{old('email')}}" class="form-control">
-          @error('email')
+          <label for="inputTitle" class="col-form-label">Marketer Email <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="upline_client_email" placeholder="Enter Marketer Email"  class="form-control">
+          @error('upline_client_email')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
 
-        
         <div class="form-group">
-          <label for="role" class="col-form-label">Role <span class="text-danger">*</span></label>
-          <select name="role" class="form-control">
-              @foreach($admin_role as $role)
-                  <option value='{{$role}}'>{{$role}}</option>
-              @endforeach
-          </select>
-          @error('role')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-        
-        <div class="form-group">
-          <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
-          <select name="status" class="form-control">
-              @foreach($admin_status as $status)
-                  <option value='{{$status}}'>{{$Helper::$general_status['$status']}}</option>
-              @endforeach
-          </select>
-          @error('status')
+          <label for="inputTitle" class="col-form-label">IB Email <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="upline_user_email" placeholder="Enter IB Email " class="form-control">
+          @error('upline_user_email')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>

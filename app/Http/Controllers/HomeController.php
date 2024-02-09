@@ -7,6 +7,7 @@ use App\User;
 use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\PostComment;
+use App\Models\Client;
 use App\Rules\MatchOldPassword;
 use Hash;
 
@@ -33,24 +34,97 @@ class HomeController extends Controller
         return view('user.index');
     }
 
-    public function profile(){
+    public function profile(Request $request){
         $profile=Auth()->user();
+        $total_clients = Client::where('user_id', $request->user()->id)
+                                ->where('status', Client::$status['active'])
+                                ->count();
+
         // return $profile;
-        return view('user.users.profile')->with('profile',$profile);
+        return view('user.users.profile', [
+            'profile' => $profile,
+            'total_clients' => $total_clients,
+        ]);
+    }
+
+    public function showprofileUpdate(){
+        $profile=Auth()->user();
+        
+        // return $profile;
+        return view('user.users.profile-edit')->with('profile',$profile);
     }
 
     public function profileUpdate(Request $request,$id){
+
         // return $request->all();
         $user=User::findOrFail($id);
-        $data=$request->all();
-        $status=$user->fill($data)->save();
-        if($status){
+        if($user){
+            $data = static::profileUpdateValidation($request, $id);
+            $upline = '';
+            
+            if( isset($data['upline_email']) && $data['upline_email']){
+                $upline = User::where('email', $data['upline_email'])->select('id')->first();
+            }
+
+            $path = User::$path.'/'.$id;
+            $image = '';
+
+            if (isset($data['photo'])) {
+
+                $filename = $data['photo']->getClientOriginalName();
+                $data['photo']->storeAs($path, $filename, 'public');
+                $image = $filename;
+            }
+
+            $updateData = [
+                'dob' => $data['dob'],
+                'code' => $data['code'],
+                'firstname' => $data['firstname'],
+                'lastname' => $data['lastname'],
+                'phone' => $data['phone'],
+                'photo' => $image,
+            ];
+
+            if( isset($data['upline_email']) && $data['upline_email']){
+                $updateData['upline_id'] = $upline->id;
+            }
+
+            $user->fill($updateData)->save();
+
             request()->session()->flash('success','Successfully updated your profile');
-        }
-        else{
+        } else {
             request()->session()->flash('error','Please try again!');
         }
+
         return redirect()->back();
+    }
+
+    
+    public static function profileUpdateValidation($request, $id){
+
+        $data[] = $request->validate([
+            'dob' => ['required'],
+            'code' => ['required'],
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'phone' => ['required'],
+            'upline_email' => ['nullable',
+                function ($attribute, $value, $fail) {
+                    $upline_email = User::where('email', $value)->first();
+                    if (empty($upline_email)) {
+                        $fail('Upline Email Doesnt Exist');
+                    }
+                }
+            ],
+            'photo' => ['nullable'],
+        ]);
+
+        $validated = [];
+        foreach ($data as $value) {
+            $validated = array_merge($validated, $value);
+        }
+
+        return $validated;
     }
 
     // Order
@@ -85,7 +159,6 @@ class HomeController extends Controller
     public function orderShow($id)
     {
         $order=Order::find($id);
-        dd($order);
         // return $order;
         return view('user.order.show')->with('order',$order);
     }

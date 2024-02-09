@@ -199,6 +199,32 @@ class Helper{
         '999' => 'Reject',
     ];
 
+    public static $year = [
+        '2019',
+        '2020',
+        '2021',
+        '2022',
+        '2023',
+        '2024',
+        '2025',
+        '2026',
+        '2027',
+    ];
+
+    public static $month = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Nov',
+        'Dec',
+    ];
+
 }
 
 ?>

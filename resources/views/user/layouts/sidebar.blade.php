@@ -58,6 +58,14 @@
             <span>Sales</span>
         </a>
     </li>
+
+    <!--Leaderboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('leaderboard.index')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Leaderboard</span>
+        </a>
+    </li>
     
 
     <!-- Divider -->

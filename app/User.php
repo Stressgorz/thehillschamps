@@ -51,4 +51,11 @@ class User extends Authenticatable
     public function orders(){
         return $this->hasMany('App\Models\Order');
     }
+
+            /**
+     * The path of the storage folder to store uploaded files.
+     *
+     * @var string
+     */
+    public static $path = 'Profile_Pic';
 }
