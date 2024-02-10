@@ -48,10 +48,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function orders(){
-        return $this->hasMany('App\Models\Order');
+    public function position(){
+        return $this->hasOne('App\Models\Position','id','position_id');
     }
 
+    public function team(){
+        return $this->hasOne('App\Models\Team','id','team_id');
+    }
+
+    public function downlines(){
+        return $this->hasMany('App\User','upline_id','id');
+    }
+
+    public function upline(){
+        return $this->hasOne('App\User','id','upline_id');
+    }
+
+    public function sales(){
+        return $this->hasMany('App\Models\Sale','user_id','id');
+    }
+
+    public function clients(){
+        return $this->hasMany('App\Models\Client','user_id','id');
+    }
             /**
      * The path of the storage folder to store uploaded files.
      *

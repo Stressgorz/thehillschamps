@@ -212,12 +212,20 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         Route::resource('/sales', 'User\SaleController');
 
         // Leaderboard
-        Route::resource('/leaderboard', 'User\LeaderboardController');
+        Route::get('/leaderboard-sale/{data_type}', 'User\LeaderboardController@leaderboardSales')->name('get-leaderboard-sale');
 
+        // Leaderboard
+        Route::get('/leaderboard-ib/{data_type}', 'User\LeaderboardController@leaderboardIb')->name('get-leaderboard-ib');
+
+        // Leaderboard
+        Route::get('/leaderboard-client/{data_type}', 'User\LeaderboardController@leaderboardClient')->name('get-leaderboard-client');
+
+        // Leaderboard
+        Route::get('/road-map-points', 'User\RoadMapPointController@index')->name('road-map-points');
 
         // Profile
         Route::get('/profile', 'HomeController@profile')->name('user-profile'); 
-        Route::get('/profile/update/{id}', 'HomeController@showprofileUpdate')->name('user-profile-update-page');;
+        Route::get('/profile/update/{id}', 'HomeController@showprofileUpdate')->name('user-profile-update-page');
         Route::post('/profile/update/{id}', 'HomeController@profileUpdate')->name('user-profile-update');
         //  Order
         Route::get('/order', "HomeController@orderIndex")->name('user.order.index');

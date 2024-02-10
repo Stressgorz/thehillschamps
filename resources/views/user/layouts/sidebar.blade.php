@@ -47,7 +47,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{route('clients.index')}}">
             <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Create Clients</span>
+            <span>Clients</span>
         </a>
     </li>
 
@@ -61,11 +61,37 @@
 
     <!--Leaderboard -->
     <li class="nav-item">
-        <a class="nav-link" href="{{route('leaderboard.index')}}">
+        <a class="nav-link" href="{{route('get-leaderboard-sale', 'user')}}">
             <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Leaderboard</span>
+            <span>Leaderboard (Sales)</span>
         </a>
     </li>
+
+        <!--Leaderboard -->
+        <li class="nav-item">
+        <a class="nav-link" href="{{route('get-leaderboard-client', 'user')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Leaderboard (Client)</span>
+        </a>
+    </li>
+
+        <!--Leaderboard -->
+        <li class="nav-item">
+        <a class="nav-link" href="{{route('get-leaderboard-ib', 'user')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Leaderboard (Ib)</span>
+        </a>
+    </li>
+
+    @if(Auth::user()->position->name != 'Director' && Auth::user()->position->name != 'Marketer')
+    <!--Road Map Points -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('road-map-points')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Road Map Points</span>
+        </a>
+    </li>
+    @endif
     
 
     <!-- Divider -->

@@ -28,7 +28,7 @@
                     <div class="card-body mt-4 ml-2">
                       <h5 class="card-title text-left"><small>Full Name: {{$profile->firstname.' '.$profile->lastname}}</small></h5>
                       <h5 class="card-title text-left"><small>Tel No: {{$profile->phone}}</small></h5>
-                      <h5 class="card-title text-left"><small>Team / Position: {{$profile->team.' / '. $profile->position}}</small></h5>
+                      <h5 class="card-title text-left"><small>Team / Position: {{$profile->team->name.' / '. $profile->position->name}}</small></h5>
                       <h5 class="card-title text-left"><small>No of Client: {{$total_clients}}</small></h5>
                       <h5 class="card-title text-left"><small>Email: {{$profile->email}}</small></h5>
                       <h5 class="card-title text-left"><small>DOB: {{$profile->dob}}</small></h5>

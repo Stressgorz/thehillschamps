@@ -4,15 +4,20 @@
 <section id="content" class="container pt-0">
         <div class="card one">
             <div class="header d-flex justify-content-between">
-                <h3 class="title text-center">LEADERBOARD_SALES (ALL)</h3>
+                <h3 class="title text-center">LEADERBOARD (CLIENT)</h3>
+                @if($data_type == 'team')
+                <a href="{{route('get-leaderboard-client', 'user')}}" class="btn btn-leader">USER</a>
+                @elseif($data_type == 'user')
+                <a href="{{route('get-leaderboard-client', 'team')}}" class="btn btn-leader">TEAM</a>
+                @endif
             </div>
             <div class="sort">
                 <ul class="nav nav-tabs " role="tablist">
                     <li class="nav-item" role="presentation">
-                    <a class="btn btn-leaderboard" href="{{route('leaderboard.index', 'type=month')}}">Monthly</a>
+                    <a class="btn btn-leaderboard" href="{{route('get-leaderboard-client', $data_type.'?type=month')}}">Monthly</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                    <a class="btn btn-leaderboard" href="{{route('leaderboard.index', 'type=year')}}">Yearly</a>
+                    <a class="btn btn-leaderboard" href="{{route('get-leaderboard-client', $data_type.'?type=year')}}">Yearly</a>
                     </li>
                 </ul>
             </div>
@@ -21,7 +26,7 @@
                 <ul class="nav nav-tabs " role="tablist">
                     @foreach(Helper::$month as $month)
                     <li class="nav-item" role="presentation">
-                    <a class="btn btn-leaderboard" href="{{route('leaderboard.index', 'type=month&month='.$month)}}">{{$month}}</a>    
+                    <a class="btn btn-leaderboard" href="{{route('get-leaderboard-client', $data_type.'?type=month&month='.$month)}}">{{$month}}</a>    
                     </li>
                     @endforeach
                 </ul>
@@ -31,7 +36,7 @@
                 <ul class="nav nav-tabs " role="tablist">
                     @foreach(Helper::$year as $year)
                     <li class="nav-item" role="presentation">
-                    <a class="btn btn-leaderboard" href="{{route('leaderboard.index', 'type=year&year='.$year,)}}">{{$year}}</a>    
+                    <a class="btn btn-leaderboard" href="{{route('get-leaderboard-client', $data_type.'?type=year&year='.$year,)}}">{{$year}}</a>    
                     </li>
                     @endforeach
                 </ul>
@@ -44,8 +49,8 @@
                                 <div class="num">2</div>
                                 <i class="fa fa-caret-square-o-up"></i>
                                 <img src="assets/img/user.png" alt="" class="photo">
-                                <p class="link">{{$leaderboard['second']->firstname ?? ''}} {{$leaderboard['second']->lastname ?? ''}}</p>
-                                <p class="points">{{$leaderboard['second']->total_sales ?? ''}}</p>
+                                <p class="link">{{$leaderboard['second']->name ?? ''}} {{$leaderboard['second']->lastname ?? ''}}</p>
+                                <p class="points">{{$leaderboard['second']->total_amount ?? ''}}</p>
                                 <p class="link">{{$leaderboard['second']->position_name ?? ''}}</p>
                             </div>
 
@@ -53,8 +58,8 @@
                                 <div class="num">1</div>
                                 <i class="fas fa-crown"></i>
                                 <img src="assets/img/user.png" alt="" class="photo">
-                                <p class="link">{{$leaderboard['first']->firstname ?? ''}} {{$leaderboard['first']->lastname ?? ''}}</p>
-                                <p class="points">{{$leaderboard['first']->total_sales ?? ''}}</p>
+                                <p class="link">{{$leaderboard['first']->name ?? ''}} {{$leaderboard['first']->lastname ?? ''}}</p>
+                                <p class="points">{{$leaderboard['first']->total_amount ?? ''}}</p>
                                 <p class="link">{{$leaderboard['first']->position_name ?? ''}}</p>
                             </div>
 
@@ -62,8 +67,8 @@
                                 <div class="num">3</div>
                                 <i class="fa fa-caret-square-o-up"></i>
                                 <img src="assets/img/user.png" alt="" class="photo">
-                                <p class="link">{{$leaderboard['third']->firstname ?? ''}} {{$leaderboard['third']->lastname ?? ''}}</p>
-                                <p class="points">{{$leaderboard['third']->total_sales ?? ''}}</p>
+                                <p class="link">{{$leaderboard['third']->name ?? ''}} {{$leaderboard['third']->lastname ?? ''}}</p>
+                                <p class="points">{{$leaderboard['third']->total_amount ?? ''}}</p>
                                 <p class="link">{{$leaderboard['third']->position_name ?? ''}}</p>
                             </div>
                     </div>
@@ -78,8 +83,8 @@
                         </div>
                         <div class="info flex">
                         <img src="assets/img/user.png" alt="" class="p_img">
-                            <p class="link">{{$rest->firstname ?? ''}} {{$rest->lastname ?? ''}}</p>
-                            <p class="points">{{$rest->total_sales ?? ''}}</p>
+                            <p class="link">{{$rest->name ?? ''}} {{$rest->lastname ?? ''}}</p>
+                            <p class="points">{{$rest->total_amount ?? ''}}</p>
                             <p class="link">{{$rest->position_name ?? ''}}</p>
                         </div>
                     </div>

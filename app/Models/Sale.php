@@ -44,4 +44,9 @@ class Sale extends Model
         'month' => 'month',
         'year' => 'year',
     ];
+
+    public static $leaderboard_data_type = [
+        'team' => 'team',
+        'user' => 'user',
+    ];
 }
