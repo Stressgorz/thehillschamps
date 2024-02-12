@@ -9,7 +9,7 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Sales Lists</h6>
+      <h6 class="m-0 font-weight-bold text-primary float-left">Positions Lists</h6>
     </div>
     <div class="card-header py-3">
       <form class="form-horizontal">
@@ -17,41 +17,14 @@
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">Status</label>
                 <div class="form-group">
-                  <select name="sales_status" class="form-control">
+                  <select name="status" class="form-control">
                   <option value=''>Select Status</option>
-                      @foreach($sales_status as $status)
-                          <option value='{{$status}}' {{(($status==Request::get('sales_status')) ? 'selected' : '')}}>{{$status}}</option>
+                      @foreach($position_status as $status)
+                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{$status}}</option>
                       @endforeach
                   </select>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <label class="control-label">Broker</label>
-                <div class="form-group">
-                  <select name="broker_type" class="form-control">
-                  <option value=''>Select Broker</option>
-                      @foreach($brokers as $broker)
-                          <option value='{{$broker}}' {{(($broker==Request::get('broker_type')) ? 'selected' : '')}}>{{$broker}}</option>
-                      @endforeach
-                  </select>
-                </div>
-            </div>
-
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label class="control-label">From Date</label>
-                <div class='input-group date datepicker'>
-                    </span>
-                    <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label class="control-label">To Date</label>
-                <div class='input-group date datepicker'>
-                    </span>
-                    <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
-                </div>
-            </div>
-
         </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -67,16 +40,7 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>Sales Status</th>
-              <th>Broker</th>
-              <th>Amounts</th>
-              <th>Client Name</th>
-              <th>Phone</th>
-              <th>Client Email</th>
-              <th>MT4 ID</th>
-              <th>IB</th>
-              <th>Sales Date</th>
-              <th>Submission Date</th>
+              <th>Name</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -86,31 +50,16 @@
               @php
               @endphp
                 <tr>
-                    <td>{{$data->sales_status}}</td>
-                    <td>{{$data->broker_type}}</td>
-                    <td>{{$data->amount}}</td>
-                    <td>{{$data->client_name}}</td>
-                    <td>{{$data->client_contact}}</td>
-                    <td>{{$data->client_email}}</td>
-                    <td>{{$data->mt4_id}}</td>
-                    <td>{{$data->user_firstname .' '.$data->user_lastname}}</td>
-                    <td>{{$data->date}}</td>
-                    <td>{{$data->updated_at}}</td>
+                    <td>{{$data->name}}</td>
                     <td>
-                    <a href="{{route('sales-admin.show',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
-                    <a href="{{route('sales-admin.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-                    <form method="POST" action="{{route('sales-admin.destroy',[$data->id])}}">
-                      @csrf
-                      @method('delete')
-                          <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                        </form>
+                    <a href="{{route('positions.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
                     </td>
                 </tr>
             @endforeach
           </tbody>
         </table>
         @else
-          <h6 class="text-center">No Sales found!!! Please create Sales</h6>
+          <h6 class="text-center">No Positions found!!! Please create Positions</h6>
         @endif
       </div>
     </div>

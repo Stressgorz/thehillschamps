@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Wishlist;
 use App\Models\Shipping;
 use App\Models\Cart;
+
 // use Auth;
 class Helper{
     public static function messageList()
@@ -225,6 +226,162 @@ class Helper{
         'Dec',
     ];
 
+
+    public static $country = [
+        'AU' => 'AU',
+        'BD' => 'BD',
+        'BN' => 'BN',
+        'KH' => 'KH',
+        'CN' => 'CN',
+        'HK' => 'HK',
+        'IN' => 'IN',
+        'ID' => 'ID',
+        'JP' => 'JP',
+        'LA' => 'LA',
+        'MY' => 'MY',
+        'MV' => 'MV',
+        'MN' => 'MN',
+        'NP' => 'NP',
+        'NZ' => 'NZ',
+        'PK' => 'PK',
+        'PH' => 'PH',
+        'SG' => 'SG',
+        'KR' => 'KR',
+        'LK' => 'LK',
+        'TW' => 'TW',
+        'TH' => 'TH',
+        'VN' => 'VN',
+        'US' => 'US',
+        'UK' => 'UK',
+        'DK' => 'DK',
+        'ES' => 'ES',
+    ];
+
+    public static $country_name = [
+        'AU' => 'Australia',
+        'BD' => 'Bangladesh',
+        'BN' => 'Brunei',
+        'KH' => 'Cambodia',
+        'CN' => 'China',
+        'HK' => 'Hong Kong',
+        'IN' => 'India',
+        'ID' => 'Indonesia',
+        'JP' => 'Japan',
+        'LA' => 'Laos',
+        'MY' => 'Malaysia',
+        'MV' => 'Maldives',
+        'MN' => 'Mangolia',
+        'NP' => 'Nepal',
+        'NZ' => 'New Zealand',
+        'PK' => 'Pakistan',
+        'PH' => 'Philippines',
+        'SG' => 'Singapore',
+        'KR' => 'South Korea',
+        'LK' => 'Sri Lanka',
+        'TW' => 'Taiwan',
+        'TH' => 'Thailand',
+        'VN' => 'Vietnam',
+        'US' => 'United States',
+        'UK' => 'United Kingdom',
+        'DK' => 'Denmark',
+        'ES' => 'Spain',
+    ];
+
+    public static $state = [
+        'AU' => [
+            'Others',
+        ],
+        'BD' => [
+            'Others',
+        ],
+        'BN' => [
+            'Others',
+        ],
+        'KH' => [
+            'Others',
+        ],
+        'CN' => [
+            'Others',
+        ],
+        'HK' => [
+            'Others',
+        ],
+        'IN' => [
+            'Others',
+        ],
+        'ID' => [
+            'Others',
+        ],
+        'JP' => [
+            'Others',
+        ],
+        'LA' => [
+            'Others',
+        ],
+        'MY' => [
+            'Kedah',
+            'Sabah',
+            'Kelantan',
+            'Perak',
+            'Selangor',
+            'Pahang',
+            'Sarawak',
+            'Johor',
+            'Negeri Sembilan',
+            'Terangganu',
+            'Penang',
+            'Perlis',
+            'Malacca',
+        ],
+        'MV' => [
+            'Others',
+        ],
+        'MN' => [
+            'Others',
+        ],
+        'NP' => [
+            'Others',
+        ],
+        'NZ' => [
+            'Others',
+        ],
+        'PK' => [
+            'Others',
+        ],
+        'PH' => [
+            'Others',
+        ],
+        'SG' => [
+            'Others',
+        ],
+        'KR' => [
+            'Others',
+        ],
+        'LK' => [
+            'Others',
+        ],
+        'TW' => [
+            'Others',
+        ],
+        'TH' => [
+            'Others',
+        ],
+        'VN' => [
+            'Others',
+        ],
+        'US' => [
+            'Others',
+        ],
+        'UK' => [
+            'Others',
+        ],
+        'DK' => [
+            'Others',
+        ],
+        'ES' => [
+            'Others',
+        ],
+    ];
 }
 
 ?>

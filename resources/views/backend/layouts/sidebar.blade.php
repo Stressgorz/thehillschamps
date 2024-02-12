@@ -23,117 +23,6 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Banner
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('file-manager')}}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Media Manager</span></a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-image"></i>
-        <span>Banners</span>
-      </a>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Banner Options:</h6>
-          <a class="collapse-item" href="{{route('banner.index')}}">Banners</a>
-          <a class="collapse-item" href="{{route('banner.create')}}">Add Banners</a>
-        </div>
-      </div>
-    </li>
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Shop
-        </div>
-
-    <!-- Categories -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="true" aria-controls="categoryCollapse">
-          <i class="fas fa-sitemap"></i>
-          <span>Category</span>
-        </a>
-        <div id="categoryCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Category Options:</h6>
-            <a class="collapse-item" href="{{route('category.index')}}">Category</a>
-            <a class="collapse-item" href="{{route('category.create')}}">Add Category</a>
-          </div>
-        </div>
-    </li>
-    {{-- Products --}}
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#productCollapse" aria-expanded="true" aria-controls="productCollapse">
-          <i class="fas fa-cubes"></i>
-          <span>Products</span>
-        </a>
-        <div id="productCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Product Options:</h6>
-            <a class="collapse-item" href="{{route('product.index')}}">Products</a>
-            <a class="collapse-item" href="{{route('product.create')}}">Add Product</a>
-          </div>
-        </div>
-    </li>
-
-    {{-- Brands --}}
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#brandCollapse" aria-expanded="true" aria-controls="brandCollapse">
-          <i class="fas fa-table"></i>
-          <span>Brands</span>
-        </a>
-        <div id="brandCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Brand Options:</h6>
-            <a class="collapse-item" href="{{route('brand.index')}}">Brands</a>
-            <a class="collapse-item" href="{{route('brand.create')}}">Add Brand</a>
-          </div>
-        </div>
-    </li>
-
-    {{-- Shipping --}}
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#shippingCollapse" aria-expanded="true" aria-controls="shippingCollapse">
-          <i class="fas fa-truck"></i>
-          <span>Shipping</span>
-        </a>
-        <div id="shippingCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Shipping Options:</h6>
-            <a class="collapse-item" href="{{route('shipping.index')}}">Shipping</a>
-            <a class="collapse-item" href="{{route('shipping.create')}}">Add Shipping</a>
-          </div>
-        </div>
-    </li>
-
-    <!--Orders -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('order.index')}}">
-            <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Orders</span>
-        </a>
-    </li>
-
-    <!-- Reviews -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('review.index')}}">
-            <i class="fas fa-comments"></i>
-            <span>Reviews</span></a>
-    </li>
-    
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
       Information
     </div>
 
@@ -167,6 +56,42 @@
         </div>
     </li>
 
+    {{-- Sales --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#salescollapse" aria-expanded="true" aria-controls="salescollapse">
+          <i class="fas fa-truck"></i>
+          <span>Sales</span>
+        </a>
+        <div id="salescollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales Options:</h6>
+            <a class="collapse-item" href="{{route('sales-admin.index')}}">Sales</a>
+          </div>
+        </div>
+    </li>
+
+    {{-- Client --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientcollapse" aria-expanded="true" aria-controls="clientcollapse">
+          <i class="fas fa-truck"></i>
+          <span>Client</span>
+        </a>
+        <div id="clientcollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Client Options:</h6>
+            <a class="collapse-item" href="{{route('clients-admin.index')}}">Client</a>
+          </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Management
+    </div>
+
     {{-- Team --}}
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#teamCollapse" aria-expanded="true" aria-controls="teamCollapse">
@@ -181,40 +106,26 @@
           </div>
         </div>
     </li>
-    {{-- Sales --}}
+
+    {{-- Position --}}
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#salescollapse" aria-expanded="true" aria-controls="salescollapse">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#positionCollapse" aria-expanded="true" aria-controls="positionCollapse">
           <i class="fas fa-truck"></i>
-          <span>Sales</span>
+          <span>Position</span>
         </a>
-        <div id="salescollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="positionCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Sales Options:</h6>
-            <a class="collapse-item" href="{{route('sales.index')}}">Sales</a>
+            <h6 class="collapse-header">Position Options:</h6>
+            <a class="collapse-item" href="{{route('positions.index')}}">Position</a>
           </div>
         </div>
     </li>
-
-    {{-- Client --}}
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientcollapse" aria-expanded="true" aria-controls="clientcollapse">
-          <i class="fas fa-truck"></i>
-          <span>Client</span>
-        </a>
-        <div id="clientcollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Client Options:</h6>
-            <a class="collapse-item" href="{{route('clients.index')}}">Client</a>
-          </div>
-        </div>
-    </li>
-
         <!-- Divider -->
     <hr class="sidebar-divider">
 
     <!-- Heading -->
     <div class="sidebar-heading">
-      Management
+      Approval
     </div>
 
     {{-- Sales Approval --}}
@@ -236,11 +147,6 @@
     <div class="sidebar-heading">
         General Settings
     </div>
-    <li class="nav-item">
-      <a class="nav-link" href="{{route('coupon.index')}}">
-          <i class="fas fa-table"></i>
-          <span>Coupon</span></a>
-    </li>
      <!-- Users -->
      <li class="nav-item">
         <a class="nav-link" href="{{route('users.index')}}">

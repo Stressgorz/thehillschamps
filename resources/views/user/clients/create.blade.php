@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Add Admin</h5>
+    <h5 class="card-header">Add Clients</h5>
     <div class="card-body">
       <form method="post" action="{{route('clients.store')}}">
         {{csrf_field()}}
@@ -35,6 +35,48 @@
           <label for="inputTitle" class="col-form-label">Address<span class="text-danger">*</span></label>
           <input id="inputTitle" type="text" name="address" placeholder="Enter Address"  class="form-control">
           @error('address')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="country" class="col-form-label">Country <span class="text-danger">*</span></label>
+          <select name="country" class="form-control">
+              @foreach(Helper::$country as $country)
+                  <option value='{{$country}}'>{{Helper::$country_name[$country]}}</option>
+              @endforeach
+          </select>
+          @error('country')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="state" class="col-form-label">State <span class="text-danger">*</span></label>
+          <select name="state" class="form-control">
+              @foreach(Helper::$state as $countries => $states)
+                @foreach($states as $state)
+                  <option class="{{ $countries }}">{{$state}}</option>
+                @endforeach
+              @endforeach
+          </select>
+          @error('state')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">City<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="city" placeholder="Enter City"  class="form-control">
+          @error('city')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Zip Code<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="zip" placeholder="Enter Zip Code"  class="form-control">
+          @error('zip')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
@@ -84,6 +126,9 @@
 </script>
 
 <script>
+
+  var country_state = @json(Helper::$state);
+
   $('#is_parent').change(function(){
     var is_checked=$('#is_parent').prop('checked');
     // alert(is_checked);
@@ -95,5 +140,18 @@
       $('#parent_cat_div').removeClass('d-none');
     }
   })
+
+    $("[name=country]").on('change', function() {
+        populateCountry();
+    });
+
+    populateCountry();
+    function populateCountry() {
+        var country = $("[name=country] :checked").val();
+
+        haha = $("select[name='state']").find('option').prop("hidden", true);
+        haha = $("select[name='state']").find('option.'+country).prop("hidden", false);
+    }
+
 </script>
 @endpush

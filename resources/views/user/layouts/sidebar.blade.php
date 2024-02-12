@@ -15,48 +15,38 @@
     <li class="nav-item active">
       <a class="nav-link" href="{{route('user')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
+        <span>Profile</span></a>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Shop
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientCollapse" aria-expanded="true" aria-controls="clientCollapse">
+          <i class="fas fa-truck"></i>
+          <span>Client</span>
+        </a>
+        <div id="clientCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Client Options:</h6>
+            <a class="collapse-item" href="{{route('clients.index')}}">Clients</a>
+            <a class="collapse-item" href="{{route('clients.create')}}">Add Client</a>
+          </div>
         </div>
-    <!--Orders -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('user.order.index')}}">
-            <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Orders</span>
-        </a>
     </li>
 
-    <!-- Reviews -->
     <li class="nav-item">
-        <a class="nav-link" href="{{route('user.productreview.index')}}">
-            <i class="fas fa-comments"></i>
-            <span>Reviews</span></a>
-    </li>
-
-        <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!--Orders -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('clients.index')}}">
-            <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Clients</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#saleCollapse" aria-expanded="true" aria-controls="saleCollapse">
+          <i class="fas fa-truck"></i>
+          <span>Sales</span>
         </a>
-    </li>
-
-        <!--Orders -->
-        <li class="nav-item">
-        <a class="nav-link" href="{{route('sales.index')}}">
-            <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Sales</span>
-        </a>
+        <div id="saleCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales Options:</h6>
+            <a class="collapse-item" href="{{route('sales.index')}}">Sales</a>
+            <a class="collapse-item" href="{{route('sales.create')}}">Add Sale</a>
+          </div>
+        </div>
     </li>
 
     <!--Leaderboard -->

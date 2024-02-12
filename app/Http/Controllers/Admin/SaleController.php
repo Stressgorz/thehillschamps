@@ -143,7 +143,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
 
-        return redirect()->route('sales.index');
+        return redirect()->route('sales-admin.index');
     }
 
     /**
@@ -243,7 +243,7 @@ class SaleController extends Controller
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('sales.index');
+        return redirect()->route('sales-admin.index');
     }
 
     public static function saleUpdateValidation($request, $id){
@@ -288,7 +288,7 @@ class SaleController extends Controller
         } else {
             request()->session()->flash('error','Error while deleting Sales');
         }
-        return redirect()->route('sales.index');
+        return redirect()->route('sales-admin.index');
     }
 
     /**

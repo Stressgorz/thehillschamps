@@ -12,7 +12,7 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
+use Helper;
 
 class ClientController extends Controller
 {
@@ -89,6 +89,9 @@ class ClientController extends Controller
         $params = [
             'clients' => [
                 'name' => 'name',
+                'country' => 'country',
+                'state' => 'state',
+                'zip' => 'zip',
                 'status' => 'status',
             ],
             'users' => [
@@ -172,7 +175,7 @@ class ClientController extends Controller
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('clients.index');
+        return redirect()->route('clients-admin.index');
     }
 
     public static function clientStoreValidation($request){
@@ -293,6 +296,10 @@ class ClientController extends Controller
             'email' => $data['email'],
             'contact' => $data['contact'],
             'address' => $data['address'],  
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'city' => $data['city'],
+            'zip' => $data['zip'],
             'upline_client_id' => $upline_client_id,
             'upline_user_id' => $upline_user_id,
             'status' => $data['status'],
@@ -307,7 +314,7 @@ class ClientController extends Controller
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('clients.index');
+        return redirect()->route('clients-admin.index');
     }
 
     public static function clientUpdateValidation($request, $id){
@@ -322,7 +329,7 @@ class ClientController extends Controller
                 }
             }
             ],
-            'upline_user_email' => ['required',
+            'upline_user_email' => ['nullable',
             function ($attribute, $value, $fail) {
                 $upline_user_id = User::where('email', $value)->first();
                 if (empty($upline_user_id)) {
@@ -330,7 +337,7 @@ class ClientController extends Controller
                 }
             }
             ],
-            'upline_client_email' => ['required',
+            'upline_client_email' => ['nullable',
             function ($attribute, $value, $fail) {
                 $upline_client_id = Client::where('email', $value)->first();
                 if (empty($upline_client_id)) {
@@ -343,6 +350,23 @@ class ClientController extends Controller
             'contact' => ['required'],
             'address' => ['required'],
             'status' => ['required'],
+            'country' => ['required',
+            function ($attribute, $value, $fail) {
+                if (!in_array($value, Helper::$country)) {
+                    $fail('Country is wrong');
+                }
+            }
+            ],
+            'state' => ['required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $country = $request->country;
+                    if (!in_array($value, Helper::$state[$country])) {
+                        $fail('State is wrong');
+                    }
+                }
+            ],
+            'city' => ['required'],
+            'zip' => ['required'],
         ]);
 
         if($request->email != $client->email){
@@ -386,6 +410,6 @@ class ClientController extends Controller
         } else {
             request()->session()->flash('error','Error while deleting Client');
         }
-        return redirect()->route('clients.index');
+        return redirect()->route('clients-admin.index');
     }
 }

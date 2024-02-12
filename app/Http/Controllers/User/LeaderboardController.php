@@ -29,7 +29,7 @@ class LeaderboardController extends Controller
     {
 
         $leaderboard_data = static::getLeaderboardInfo($request);
-
+        $photo = 'storage/'.User::$path.'/';
         $start_date = $leaderboard_data['start_date'];
         $end_date = $leaderboard_data['end_date'];
         $type = $leaderboard_data['type'];
@@ -38,6 +38,7 @@ class LeaderboardController extends Controller
 
         return view('user.leaderboard.sales', [
             'type' => $type,
+            'photo' => $photo,
             'data_type' => $data_type,          
             'leaderboard' => $leaderboard ?? [],
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
@@ -49,7 +50,7 @@ class LeaderboardController extends Controller
 
         
         $leaderboard_data = static::getLeaderboardInfo($request);
-
+        $photo = 'storage/'.User::$path.'/';
         $start_date = $leaderboard_data['start_date'];
         $end_date = $leaderboard_data['end_date'];
         $type = $leaderboard_data['type'];
@@ -58,6 +59,7 @@ class LeaderboardController extends Controller
 
         return view('user.leaderboard.ib', [
             'type' => $type,
+            'photo' => $photo,
             'data_type' => $data_type,          
             'leaderboard' => $leaderboard ?? [],
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
@@ -67,7 +69,7 @@ class LeaderboardController extends Controller
     public function leaderboardClient(Request $request, $data_type)
     {        
         $leaderboard_data = static::getLeaderboardInfo($request);
-
+        $photo = 'storage/'.User::$path.'/';
         $start_date = $leaderboard_data['start_date'];
         $end_date = $leaderboard_data['end_date'];
         $type = $leaderboard_data['type'];
@@ -76,6 +78,7 @@ class LeaderboardController extends Controller
 
         return view('user.leaderboard.client', [
             'type' => $type,
+            'photo' => $photo,
             'data_type' => $data_type,          
             'leaderboard' => $leaderboard ?? [],
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',

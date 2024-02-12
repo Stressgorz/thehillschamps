@@ -34,7 +34,7 @@
         <div class="row justify-content-center">
             <div class="col-md-3">
                 <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step1_img) }}" style = 'height:300px'  alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Step 1: {{$positions->step1_name}}</h5>
                     <p class="card-text">Points: {{$positions->step1}}</p>
@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-3">
             <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step2_img) }}" style = 'height:300px'  alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Step 2: {{$positions->step2_name}}</h5>
                     <p class="card-text">Points: {{$positions->step2}}</p>
@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-3">
             <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step3_img) }}"  style = 'height:300px' alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Step 3: {{$positions->step3_name}}</h5>
                     <p class="card-text">Points: {{$positions->step3}}</p>
@@ -63,7 +63,7 @@
         <div class="row justify-content-center">
             <div class="col-md-3">
             <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step4_img) }}" style = 'height:300px'  alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Step 4: {{$positions->step4_name}}</h5>
                     <p class="card-text">Points: {{$positions->step4}}</p>
@@ -72,7 +72,7 @@
             </div>
             <div class="col-md-3">
             <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step5_img) }}"  style = 'height:300px' alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Step 5: {{$positions->step5_name}}</h5>
                     <p class="card-text">Points: {{$positions->step5}}</p>

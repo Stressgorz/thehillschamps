@@ -41,6 +41,48 @@
         </div>
 
         <div class="form-group">
+          <label for="country" class="col-form-label">Country <span class="text-danger">*</span></label>
+          <select name="country" class="form-control">
+              @foreach(Helper::$country as $country)
+                  <option value='{{$country}}' {{(($client->country==$country) ? 'selected' : '')}}>{{Helper::$country_name[$country]}}</option>
+              @endforeach
+          </select>
+          @error('country')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="state" class="col-form-label">State <span class="text-danger">*</span></label>
+          <select name="state" class="form-control">
+              @foreach(Helper::$state as $countries => $states)
+                @foreach($states as $state)
+                  <option class="{{ $countries }}" {{(($client->state==$state) ? 'selected' : '')}}>{{$state}}</option>
+                @endforeach
+              @endforeach
+          </select>
+          @error('state')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">City<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="city" placeholder="Enter City" value = '{{$client->city}}' class="form-control">
+          @error('city')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Zip Code<span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="zip" placeholder="Enter Zip Code" value = '{{$client->zip}}'  class="form-control">
+          @error('zip')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
           <label for="inputTitle" class="col-form-label">IB Email <span class="text-danger">*</span></label>
           <input id="inputTitle" type="text" name="user_email" placeholder="Enter IB Email"  value="{{$client->user_email}}" class="form-control">
           @error('user_email')
@@ -104,6 +146,8 @@
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 <script src="{{asset('backend/summernote/summernote.min.js')}}"></script>
 <script>
+
+var country_state = @json(Helper::$state);
     $('#lfm').filemanager('image');
 
     $(document).ready(function() {
@@ -113,6 +157,19 @@
         height: 150
     });
     });
+
+    $("[name=country]").on('change', function() {
+        populateCountry();
+    });
+
+    populateCountry();
+    function populateCountry() {
+        var country = $("[name=country] :checked").val();
+
+        haha = $("select[name='state']").find('option').prop("hidden", true);
+        haha = $("select[name='state']").find('option.'+country).prop("hidden", false);
+    }
+
 </script>
 
 @endpush

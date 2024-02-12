@@ -12,7 +12,7 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
+use Helper;
 
 class ClientController extends Controller
 {
@@ -163,6 +163,10 @@ class ClientController extends Controller
             'email' => $data['email'],
             'contact' => $data['contact'],
             'address' => $data['address'],
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'city' => $data['city'],
+            'zip' => $data['zip'],
             'upline_client_id' => $upline_client_id ??0,
             'upline_user_id' => $upline_user_id??0,
             'status' => Client::$status['active'],
@@ -179,6 +183,7 @@ class ClientController extends Controller
 
     public static function clientStoreValidation($request){
 
+        $country = $request->country;
         $data[] = $request->validate([
             'email' => ['required',
             function ($attribute, $value, $fail) {
@@ -207,6 +212,23 @@ class ClientController extends Controller
             'name' => ['required'],
             'contact' => ['required'],
             'address' => ['required'],
+            'country' => ['required',
+                function ($attribute, $value, $fail) {
+                    if (!in_array($value, Helper::$country)) {
+                        $fail('Country is wrong');
+                    }
+                }
+            ],
+            'state' => ['required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $country = $request->country;
+                    if (!in_array($value, Helper::$state[$country])) {
+                        $fail('State is wrong');
+                    }
+                }
+            ],
+            'city' => ['required'],
+            'zip' => ['required'],
         ]);
 
         $validated = [];
@@ -286,6 +308,10 @@ class ClientController extends Controller
             'email' => $data['email'],
             'contact' => $data['contact'],
             'address' => $data['address'],  
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'city' => $data['city'],
+            'zip' => $data['zip'],
             'upline_client_id' => $upline_client_id,
             'upline_user_id' => $upline_user_id,
             'status' => $data['status'],
@@ -336,6 +362,23 @@ class ClientController extends Controller
             'contact' => ['required'],
             'address' => ['required'],
             'status' => ['required'],
+            'country' => ['required',
+            function ($attribute, $value, $fail) {
+                if (!in_array($value, Helper::$country)) {
+                    $fail('Country is wrong');
+                }
+            }
+            ],
+            'state' => ['required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $country = $request->country;
+                    if (!in_array($value, Helper::$state[$country])) {
+                        $fail('State is wrong');
+                    }
+                }
+            ],
+            'city' => ['required'],
+            'zip' => ['required'],
         ]);
 
         if($request->email != $client->email){

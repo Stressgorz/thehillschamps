@@ -132,9 +132,12 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         // teams
         Route::resource('/teams', 'Admin\TeamController');
 
+        // positions
+        Route::resource('/positions', 'Admin\PositionController');
+
         // sales
-        Route::get('/sales/export', 'Admin\SaleController@export');
-        Route::resource('/sales', 'Admin\SaleController');
+        Route::get('/sales-admin/export', 'Admin\SaleController@export');
+        Route::resource('/sales-admin', 'Admin\SaleController');
 
         // Ads
         Route::get('/ads/export', 'Admin\AdsController@export');
@@ -145,7 +148,7 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         Route::resource('/mar', 'Admin\MarController');
 
         // Client
-        Route::resource('/clients', 'Admin\ClientController');
+        Route::resource('/clients-admin', 'Admin\ClientController');
 
         // Client   
         Route::resource('/sales-approval', 'Admin\SaleApprovalController');

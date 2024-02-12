@@ -48,7 +48,11 @@
                             <div class="person second">
                                 <div class="num">2</div>
                                 <i class="fa fa-caret-square-o-up"></i>
-                                <img src="assets/img/user.png" alt="" class="photo">
+                                @if(isset($leaderboard['second']->photo))
+                                <img src="{{asset($photo.$leaderboard['second']->photo)}}" alt="" class="photo">
+                                @else
+                                <img src="{{asset('storage/avatar/avatar.png')}}" alt="" class="photo">
+                                @endif
                                 <p class="link">{{$leaderboard['second']->name ?? ''}} {{$leaderboard['second']->lastname ?? ''}}</p>
                                 <p class="points">{{$leaderboard['second']->total_amount ?? ''}}</p>
                                 <p class="link">{{$leaderboard['second']->position_name ?? ''}}</p>
@@ -57,7 +61,11 @@
                             <div class="person first">
                                 <div class="num">1</div>
                                 <i class="fas fa-crown"></i>
-                                <img src="assets/img/user.png" alt="" class="photo">
+                                @if(isset($leaderboard['first']->photo))
+                                <img src="{{asset($photo.$leaderboard['first']->photo)}}" alt="" class="photo">
+                                @else
+                                <img src="{{asset('storage/avatar/avatar.png')}}" alt="" class="photo">
+                                @endif
                                 <p class="link">{{$leaderboard['first']->name ?? ''}} {{$leaderboard['first']->lastname ?? ''}}</p>
                                 <p class="points">{{$leaderboard['first']->total_amount ?? ''}}</p>
                                 <p class="link">{{$leaderboard['first']->position_name ?? ''}}</p>
@@ -66,7 +74,11 @@
                             <div class="person third">
                                 <div class="num">3</div>
                                 <i class="fa fa-caret-square-o-up"></i>
-                                <img src="assets/img/user.png" alt="" class="photo">
+                                @if(isset($leaderboard['third']->photo))
+                                <img src="{{asset($photo.$leaderboard['third']->photo)}}" alt="" class="photo">
+                                @else
+                                <img src="{{asset('storage/avatar/avatar.png')}}" alt="" class="photo">
+                                @endif
                                 <p class="link">{{$leaderboard['third']->name ?? ''}} {{$leaderboard['third']->lastname ?? ''}}</p>
                                 <p class="points">{{$leaderboard['third']->total_amount ?? ''}}</p>
                                 <p class="link">{{$leaderboard['third']->position_name ?? ''}}</p>
@@ -82,7 +94,11 @@
                             <p class="num">{{$count ++}}</p>
                         </div>
                         <div class="info flex">
-                        <img src="assets/img/user.png" alt="" class="p_img">
+                        @if(isset($rest->photo))
+                                <img src="{{asset($photo.$rest->photo)}}" alt="" class="p_img" style='height:50px;width:50px'>
+                                @else
+                                <img src="{{asset('storage/avatar/avatar.png')}}" alt="" class="p_img" style='height:50px;width:50px'>
+                                @endif
                             <p class="link">{{$rest->name ?? ''}} {{$rest->lastname ?? ''}}</p>
                             <p class="points">{{$rest->total_amount ?? ''}}</p>
                             <p class="link">{{$rest->position_name ?? ''}}</p>

@@ -24,6 +24,7 @@ class RoadMapPointController extends Controller
     public function index(Request $request)
     {
         $data = [];
+        $path = Position::$path;
         if($request->user()->position){
             $positions = $request->user()->position;
             $kpi = [
@@ -64,6 +65,7 @@ class RoadMapPointController extends Controller
 
         return view('user.roadmappoints.index', [
             'data' => $data,
+            'path' => $path,
             'positions' => $positions,
             'user_point' => $user_point,
         ]);
