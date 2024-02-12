@@ -3,27 +3,23 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Add Team</h5>
+    <h5 class="card-header">Add Calendar</h5>
     <div class="card-body">
-      <form method="post" action="{{route('teams.store')}}">
+      <form method="post" action="{{route('calendars.store')}}">
         {{csrf_field()}}
 
         <div class="form-group">
-          <label for="inputUsername" class="col-form-label">Team Name <span class="text-danger">*</span></label>
-          <input id="inputUsername" type="text" name="name" placeholder="Enter team name"  value="{{old('name')}}" class="form-control">
-          @error('name')
+          <label for="inputUsername" class="col-form-label"> Title <span class="text-danger">*</span></label>
+          <input id="inputUsername" type="text" name="title" placeholder="Enter title"  value="{{old('title')}}" class="form-control">
+          @error('title')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
- 
+
         <div class="form-group">
-          <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
-          <select name="status" class="form-control">
-              @foreach($team_status as $status)
-                  <option value='{{$status}}'>{{Helper::$general_status[$status]}}</option>
-              @endforeach
-          </select>
-          @error('status')
+          <label for="inputUsername" class="col-form-label"> Date <span class="text-danger">*</span></label>
+          <input id="inputUsername" type="date" name="start_time" placeholder="Enter Date"  value="{{old('start_time')}}" class="form-control">
+          @error('start_time')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
@@ -54,19 +50,5 @@
           height: 120
       });
     });
-</script>
-
-<script>
-  $('#is_parent').change(function(){
-    var is_checked=$('#is_parent').prop('checked');
-    // alert(is_checked);
-    if(is_checked){
-      $('#parent_cat_div').addClass('d-none');
-      $('#parent_cat_div').val('');
-    }
-    else{
-      $('#parent_cat_div').removeClass('d-none');
-    }
-  })
 </script>
 @endpush

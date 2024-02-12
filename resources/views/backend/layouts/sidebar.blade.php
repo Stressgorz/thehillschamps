@@ -120,6 +120,37 @@
           </div>
         </div>
     </li>
+
+    {{-- Announcement --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#annoucementCollapse" aria-expanded="true" aria-controls="annoucementCollapse">
+          <i class="fas fa-truck"></i>
+          <span>Announcement</span>
+        </a>
+        <div id="annoucementCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Announcement Options:</h6>
+            <a class="collapse-item" href="{{route('announcements.index')}}">Announcement</a>
+            <a class="collapse-item" href="{{route('announcements.create')}}">Add Announcement</a>
+          </div>
+        </div>
+    </li>
+
+    {{-- Calendar --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#calendarCollapse" aria-expanded="true" aria-controls="calendarCollapse">
+          <i class="fas fa-truck"></i>
+          <span>Calendar</span>
+        </a>
+        <div id="calendarCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Calendar Options:</h6>
+            <a class="collapse-item" href="{{route('calendars.index')}}">Calendar</a>
+            <a class="collapse-item" href="{{route('calendars.create')}}">Add Calendar</a>
+          </div>
+        </div>
+    </li>
+
         <!-- Divider -->
     <hr class="sidebar-divider">
 

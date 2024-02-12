@@ -150,6 +150,12 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         // Client
         Route::resource('/clients-admin', 'Admin\ClientController');
 
+        // Client
+        Route::resource('/announcements', 'Admin\AnnouncementController');
+
+        // Client
+        Route::resource('/calendars', 'Admin\CalendarController');
+
         // Client   
         Route::resource('/sales-approval', 'Admin\SaleApprovalController');
         Route::post('/sales-approval/{id}/approve', 'Admin\SaleApprovalController@approve')->name('sales.approve');
@@ -225,6 +231,9 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
 
         // Leaderboard
         Route::get('/road-map-points', 'User\RoadMapPointController@index')->name('road-map-points');
+
+        // Client
+        Route::get('/announcement', 'User\AnnouncementController@index')->name('announcement-data');
 
         // Profile
         Route::get('/profile', 'HomeController@profile')->name('user-profile'); 

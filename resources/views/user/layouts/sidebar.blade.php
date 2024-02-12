@@ -82,6 +82,14 @@
         </a>
     </li>
     @endif
+
+        <!--Road Map Points -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('announcement-data')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Announcement</span>
+        </a>
+    </li>
     
 
     <!-- Divider -->

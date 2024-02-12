@@ -9,9 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Position;
 use App\Models\Team;
+use App\Models\Announcement;
 use Carbon\Carbon;
 
-class TeamController extends Controller
+class AnnouncementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,23 +30,23 @@ class TeamController extends Controller
         
         $table_data = $this->filter($request);
 
-        return view('backend.teams.index', [
+        return view('backend.announcements.index', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
             'table_data' => $table_data,
-            'team_status' => Team::$status,
+            'announcements_status' => Announcement::$status,
         ]);
     }
 
     
     public static function filter(Request $filters)
     {
-        $query = DB::table('teams')
+        $query = DB::table('Announcements')
 		        	->select('*'
                     )
-                    ->orderBy('id','ASC');
+                    ->orderBy('id','DESC');
 
         $params = [
-            'teams' => [
+            'announcements' => [
                 'status' => 'status',
             ]
         ];
@@ -82,10 +83,10 @@ class TeamController extends Controller
      */
     public function create()
     {
-        $team_status = Team::$status;
+        $announcements_status = Announcement::$status;
 
-        return view('backend.teams.create', [
-            'team_status' => $team_status,  
+        return view('backend.announcements.create', [
+            'announcements_status' => $announcements_status,  
         ]);
     }
 
@@ -97,32 +98,31 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $data = static::teamStoreValidation($request);
-
-        $team = Team::create([
-        	'name' => $data['name'],
+        $data = static::announcementStoreValidation($request);
+        $annoucement = Announcement::create([
+        	'title' => $data['title'],
+            'description' => $data['description'],
+            'content' => $data['content'],
+            'date' => $data['date'],
             'status' => $data['status'],
         ]);
 
-        if($team){
-            request()->session()->flash('success','Team successfully added');
+        if($annoucement){
+            request()->session()->flash('success','Annoucement successfully added');
         } else{
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('teams.index');
+        return redirect()->route('announcements.index');
     }
 
-    public static function teamStoreValidation($request){
+    public static function announcementStoreValidation($request){
 
         $data[] = $request->validate([
-            'name' => ['required',
-                function ($attribute, $value, $fail) {
-                    $team_name = Team::where('name', $value)->first();
-                    if ($team_name) {
-                        $fail('Team Name is exists');
-                    }
-                }],
+            'title' => ['required'],
+            'description' => ['nullable'],
+            'content' => ['nullable'],
+            'date' => ['required'],
             'status' => ['required'],
         ]);
 
@@ -153,11 +153,11 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
-        $team = Team::findOrFail($id);
+        $data = Announcement::findOrFail($id);
 
-        return view('backend.teams.edit', [
-            'team' => $team,
-            'team_status' => Team::$status,
+        return view('backend.announcements.edit', [
+            'data' => $data,
+            'data_status' => Announcement::$status,
         ]);
     }
 
@@ -172,30 +172,36 @@ class TeamController extends Controller
     {
         
         // return $request->all();
-        $data = static::teamUpdateValidation($request, $id);
+        $data = static::announcementUpdateValidation($request, $id);
 
         $updateData = [
-            'name' => $data['name'],
+        	'title' => $data['title'],
+            'description' => $data['description'],
+            'content' => $data['content'],
+            'date' => $data['date'],
             'status' => $data['status'],
         ];
 
-        $team=Team::findOrFail($id);
+        $data=Announcement::findOrFail($id);
 
-        if($team){
-            $team->fill($updateData)->save();
-            request()->session()->flash('success','Team successfully updated');
+        if($data){
+            $data->fill($updateData)->save();
+            request()->session()->flash('success','Announcement successfully updated');
         }else {
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('teams.index');
+        return redirect()->route('announcements.index');
     }
 
-    public static function teamUpdateValidation($request, $id){
+    public static function announcementUpdateValidation($request, $id){
 
 
         $data[] = $request->validate([
-            'name' => ['required'],
+            'title' => ['required'],
+            'description' => ['nullable'],
+            'content' => ['nullable'],
+            'date' => ['required'],
             'status' => ['required'],
         ]);
 
@@ -221,13 +227,13 @@ class TeamController extends Controller
         if($team){
             // return $child_cat_id;
             $team = Team::where('id', $id)->update([
-                'status' => Team::$status['removed'],
+                'status' => Team::$status['inactive'],
             ]);
 
             request()->session()->flash('success','Team successfully deleted');
         } else {
             request()->session()->flash('error','Error while deleting Team');
         }
-        return redirect()->route('teams.index');
+        return redirect()->route('announcements.index');
     }
 }

@@ -9,8 +9,8 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Team Lists</h6>
-      <a href="{{route('teams.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add Team"><i class="fas fa-plus"></i> Add Team</a>
+      <h6 class="m-0 font-weight-bold text-primary float-left">Announcements Lists</h6>
+      <a href="{{route('announcements.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add Team"><i class="fas fa-plus"></i> Add Announcements</a>
     </div>
     <div class="card-header py-3">
       <form class="form-horizontal">
@@ -20,7 +20,7 @@
                 <div class="form-group">
                   <select name="status" class="form-control">
                   <option value=''>Select Status</option>
-                      @foreach($team_status as $status)
+                      @foreach($announcements_status as $status)
                           <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$general_status[$status]}}</option>
                       @endforeach
                   </select>
@@ -41,8 +41,9 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Created At</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Date</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -53,12 +54,13 @@
               @php
               @endphp
                 <tr>
-                    <td>{{$data->name}}</td>
-                    <td>{{$data->created_at}}</td>
+                    <td>{{$data->title}}</td>
+                    <td>{{$data->description}}</td>
+                    <td>{{$data->date}}</td>
                     <td>{{Helper::$general_status[$data->status]}}</td>
                     <td>
-                    <a href="{{route('teams.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-                    <form method="POST" action="{{route('teams.destroy',[$data->id])}}">
+                    <a href="{{route('announcements.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                    <form method="POST" action="{{route('announcements.destroy',[$data->id])}}">
                       @csrf
                       @method('delete')
                           <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
@@ -69,7 +71,7 @@
           </tbody>
         </table>
         @else
-          <h6 class="text-center">No Teams found!!! Please create Teams</h6>
+          <h6 class="text-center">No Annoucement found!!! Please create Annoucement</h6>
         @endif
       </div>
     </div>

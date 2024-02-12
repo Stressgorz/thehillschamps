@@ -9,9 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Position;
 use App\Models\Team;
+use App\Models\Calendar;
 use Carbon\Carbon;
 
-class TeamController extends Controller
+class CalendarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,29 +30,28 @@ class TeamController extends Controller
         
         $table_data = $this->filter($request);
 
-        return view('backend.teams.index', [
+        return view('backend.calendars.index', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
             'table_data' => $table_data,
-            'team_status' => Team::$status,
         ]);
     }
 
     
     public static function filter(Request $filters)
     {
-        $query = DB::table('teams')
+        $query = DB::table('Calendars')
 		        	->select('*'
                     )
-                    ->orderBy('id','ASC');
+                    ->orderBy('id','DESC');
 
         $params = [
-            'teams' => [
-                'status' => 'status',
+            'Calendars' => [
+                'start_time' => 'start_time',
             ]
         ];
         foreach ($params as $table => $columns) {
         	foreach ($columns as $field => $param) {
-	            if ($field == 'created_at') {
+	            if ($field == 'start_time') {
 	                if ($filters->query('fdate')) {
 	                    $query->where($table.'.'.$param, '>=',  $filters->query('fdate'));
 	                }
@@ -82,11 +82,8 @@ class TeamController extends Controller
      */
     public function create()
     {
-        $team_status = Team::$status;
 
-        return view('backend.teams.create', [
-            'team_status' => $team_status,  
-        ]);
+        return view('backend.calendars.create');
     }
 
     /**
@@ -97,33 +94,26 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $data = static::teamStoreValidation($request);
-
-        $team = Team::create([
-        	'name' => $data['name'],
-            'status' => $data['status'],
+        $data = static::calendarStoreValidation($request);
+        $calendar = Calendar::create([
+        	'title' => $data['title'],
+            'start_time' => $data['start_time'],
         ]);
 
-        if($team){
-            request()->session()->flash('success','Team successfully added');
+        if($calendar){
+            request()->session()->flash('success','calendar successfully added');
         } else{
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('teams.index');
+        return redirect()->route('calendars.index');
     }
 
-    public static function teamStoreValidation($request){
+    public static function calendarStoreValidation($request){
 
         $data[] = $request->validate([
-            'name' => ['required',
-                function ($attribute, $value, $fail) {
-                    $team_name = Team::where('name', $value)->first();
-                    if ($team_name) {
-                        $fail('Team Name is exists');
-                    }
-                }],
-            'status' => ['required'],
+            'title' => ['required'],
+            'start_time' => ['required'],
         ]);
 
         $validated = [];
@@ -153,11 +143,10 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
-        $team = Team::findOrFail($id);
+        $data = Calendar::findOrFail($id);
 
-        return view('backend.teams.edit', [
-            'team' => $team,
-            'team_status' => Team::$status,
+        return view('backend.calendars.edit', [
+            'data' => $data,
         ]);
     }
 
@@ -172,31 +161,31 @@ class TeamController extends Controller
     {
         
         // return $request->all();
-        $data = static::teamUpdateValidation($request, $id);
+        $data = static::calendarUpdateValidation($request, $id);
 
         $updateData = [
-            'name' => $data['name'],
-            'status' => $data['status'],
+            'title' => $data['title'],
+            'start_time' => $data['start_time'],
         ];
 
-        $team=Team::findOrFail($id);
+        $calendar=Calendar::findOrFail($id);
 
-        if($team){
-            $team->fill($updateData)->save();
-            request()->session()->flash('success','Team successfully updated');
+        if($calendar){
+            $calendar->fill($updateData)->save();
+            request()->session()->flash('success','calendar successfully updated');
         }else {
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('teams.index');
+        return redirect()->route('calendars.index');
     }
 
-    public static function teamUpdateValidation($request, $id){
+    public static function calendarUpdateValidation($request, $id){
 
 
         $data[] = $request->validate([
-            'name' => ['required'],
-            'status' => ['required'],
+            'title' => ['required'],
+            'start_time' => ['required'],
         ]);
 
         $validated = [];
@@ -216,18 +205,16 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        $team=Team::findOrFail($id);
+        $calendar=Calendar::findOrFail($id);
 
-        if($team){
+        if($calendar){
             // return $child_cat_id;
-            $team = Team::where('id', $id)->update([
-                'status' => Team::$status['removed'],
-            ]);
+            $calendar = Calendar::where('id', $id)->delete();
 
-            request()->session()->flash('success','Team successfully deleted');
+            request()->session()->flash('success','Calendar successfully deleted');
         } else {
-            request()->session()->flash('error','Error while deleting Team');
+            request()->session()->flash('error','Error while deleting Calendar');
         }
-        return redirect()->route('teams.index');
+        return redirect()->route('calendars.index');
     }
 }

@@ -5,24 +5,23 @@
 <div class="card">
     <h5 class="card-header">Edit Team</h5>
     <div class="card-body">
-      <form method="post" action="{{route('teams.update',$team->id)}}">
+      <form method="post" action="{{route('calendars.update',$data->id)}}">
         @csrf 
         @method('PATCH')
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Team Name <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="name" placeholder="Enter name"  value="{{$team->name}}" class="form-control">
+          <label for="inputTitle" class="col-form-label"> Title <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{$data->title}}" class="form-control">
           @error('name')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
 
         <div class="form-group">
-          <label for="status">Status</label>
-          <select name="status" class="form-control">
-              @foreach($team_status as $status)
-                  <option value='{{$status}}' {{(($team->status==$status) ? 'selected' : '')}}>{{Helper::$general_status[$status]}}</option>
-              @endforeach
-          </select>
+          <label for="inputTitle" class="col-form-label"> Date <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="date" name="start_time" placeholder="Enter date"  value="{{$data->start_time}}" class="form-control">
+          @error('start_time')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
         </div>
 
         <div class="form-group mb-3">
