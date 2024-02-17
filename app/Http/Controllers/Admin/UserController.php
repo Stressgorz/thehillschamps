@@ -12,6 +12,7 @@ use App\Models\Position;
 use App\Models\Team;
 use App\Models\Sale;
 use App\Models\Client;
+use App\Models\UserTarget;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembersExport;
 use Carbon\Carbon;
@@ -468,6 +469,17 @@ class UserController extends Controller
         return view('backend.users.downline-marketer', [
             'user' => $user,
             'data' => $downline,
+        ]);
+    }
+
+    public static function getUserTarget($user_id){
+
+        $targets = UserTarget::where('user_id', $user_id)
+                            ->where('status', UserTarget::$status['active'])
+                            ->get();
+
+        return view('backend.users.targets', [
+            'targets' => $targets,
         ]);
     }
 }

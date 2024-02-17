@@ -131,6 +131,7 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         Route::get('/ib-downline/{user_id}', 'Admin\UserController@getIbDownline')->name('get-ib-downline');
         Route::get('/client-downline/{user_id}', 'Admin\UserController@getClientDownline')->name('get-client-downline');
         Route::get('/marketer-downline/{user_id}', 'Admin\UserController@getMarketerDownline')->name('get-marketer-downline');
+        Route::get('/users-targets/{user_id}', 'Admin\UserController@getUserTarget')->name('get-users-target');
 
         // teams
         Route::resource('/teams', 'Admin\TeamController');
@@ -216,7 +217,10 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
 
 // User section start
     Route::group(['prefix' => '/user', 'middleware' => ['user']], function () {
-        Route::get('/', 'HomeController@index')->name('user');
+        Route::get('/', 'HomeController@profile')->name('user');
+
+        // Client
+        Route::resource('/targets', 'User\TargetController');
 
         // Client
         Route::resource('/clients', 'User\ClientController');

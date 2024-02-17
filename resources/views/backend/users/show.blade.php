@@ -3,7 +3,10 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">View User</h5>
+    <div class="card-header py-3">
+      <h5>View User</h5>
+      <a href="{{route('get-users-target', $user->id)}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="edit Profile"> User Target </a>
+    </div>
     <div class="card-body">
         @csrf 
         @method('PATCH')

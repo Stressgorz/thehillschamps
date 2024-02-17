@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\PostComment;
 use App\Models\Client;
+use App\Models\UserTarget;
 use App\Rules\MatchOldPassword;
 use Hash;
 
@@ -40,9 +41,20 @@ class HomeController extends Controller
                                 ->where('status', Client::$status['active'])
                                 ->count();
 
+        $path = User::$path.'/';
+
+        $target = UserTarget::where('user_id', $request->user()->id)
+                            ->where('status', UserTarget::$status['active'])
+                            ->select('target')
+                            ->orderBy('created_at', 'DESC')
+                            ->limit(3)
+                            ->get();
+
         // return $profile;
         return view('user.users.profile', [
             'profile' => $profile,
+            'path' => $path,
+            'user_target' => $target,
             'total_clients' => $total_clients,
         ]);
     }
@@ -66,7 +78,7 @@ class HomeController extends Controller
                 $upline = User::where('email', $data['upline_email'])->select('id')->first();
             }
 
-            $path = User::$path.'/'.$id;
+            $path = User::$path.'/';
             $image = '';
 
             if (isset($data['photo'])) {

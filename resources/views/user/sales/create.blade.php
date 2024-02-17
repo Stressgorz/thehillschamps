@@ -5,7 +5,7 @@
 <div class="card">
     <h5 class="card-header">Add Team</h5>
     <div class="card-body">
-      <form method="post" action="{{route('sales.store')}}">
+      <form method="post" action="{{route('sales.store')}}" enctype="multipart/form-data">
         {{csrf_field()}}
 
         <div class="form-group">
