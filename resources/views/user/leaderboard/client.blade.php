@@ -86,7 +86,9 @@
                     </div>
                 </div>
             </div>
-            {{$count = 4}}
+            @php
+            $count = 4
+            @endphp
             @foreach($leaderboard['rest'] as $rest)
                 <div class="rest">
                     <div class="others flex">
