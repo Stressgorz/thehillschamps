@@ -21,4 +21,52 @@ class Client extends Model
         'pending' => '9',
         'inactive' => '999',
     ];
+
+    public function uplineIb(){
+        return $this->hasOne('App\User','id','upline_user_id');
+    }
+
+    public function IB(){
+        return $this->hasOne('App\User','id','user_id');
+    }
+
+    public function uplineClient(){
+        return $this->hasOne('App\Models\Client','id','upline_client_id');
+    }
+
+    public static function searchClientDownline($user_id){
+        
+        $users = Client::select('id', 'name')->where('upline_user_id', $user_id)
+                        ->where('status', Static::$status['active'])
+                        ->get();
+        $downline = [];
+
+        foreach ($users as $user) {
+            $downline[] = [
+                'id' => $user->id,
+                'user' => $user->name,
+                'downline' => static::clientDownline($user->id)
+            ];
+        }
+
+        return $downline;
+    }
+
+    public static function clientDownline($user_id){
+        
+        $users = Client::select('id', 'name')->where('upline_client_id', $user_id)
+                        ->where('status', Static::$status['active'])
+                        ->get();
+        $downline = [];
+
+        foreach ($users as $user) {
+            $downline[] = [
+                'id' => $user->id,
+                'user' => $user->name,
+                'downline' => static::clientDownline($user->id)
+            ];
+        }
+
+        return $downline;
+    }
 }

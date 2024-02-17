@@ -235,7 +235,10 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+         $client = Client::findOrFail($id);
+        return view('backend.clients.show', [
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -411,5 +414,16 @@ class ClientController extends Controller
             request()->session()->flash('error','Error while deleting Client');
         }
         return redirect()->route('clients-admin.index');
+    }
+
+    public static function getClientDownline($user_id){
+
+        $user = Client::findOrFail($user_id);
+        $downline = Client::clientDownline($user->id);
+
+        return view('backend.clients.downline-client', [
+            'user' => $user,
+            'data' => $downline,
+        ]);
     }
 }

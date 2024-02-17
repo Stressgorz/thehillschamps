@@ -80,6 +80,14 @@
               <th>Action</th>
             </tr>
           </thead>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th>Total Amount</th>
+              <th>{{$total_amount}}</th>
+              <th></th>
+              </tr>
+          </tfoot>
           <tbody>
 
             @foreach($table_data as $data)

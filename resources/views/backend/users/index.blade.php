@@ -89,23 +89,28 @@
                     <td>{{Helper::$general_status[$data->status]}}</td>
                     <td>{{$data->ib_code}}</td>
                     <td>
-                        {{$data->username}}
+                        {{$data->firstname.' '.$data->lastname}}
                     </td>
                     <td>{{$data->phone}}</td>
                     <td>{{$data->position_name}}</td>
                     <td>{{$data->team_name}}</td>
+                    <td>{{$data->points}}</td>
+                    <td>{{$data->dob}}</td>
                     <td>{{$data->email}}</td>
-                    <td>{{$data->created_at}}</td>
-                    <td>{{$data->email}}</td>
-                    <td>{{$data->created_at}}</td>
+                    <td>{{$data->date_created}}</td>
                     <td>{{$data->upline_firstname}}</td>
-                    <td>{{$data->created_at}}</td>
                     <td>
-                    <a href="{{route('users.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('get-ib-downline',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">IB</a>
+                    <a href="{{route('get-client-downline',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">Client</a>
+                    <a href="{{route('get-marketer-downline',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">Marketer</a>
+                    </td>
+                    <td>
+                    <a href="{{route('users.show',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="view" data-placement="bottom">show</a>
+                    <a href="{{route('users.edit',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="edit" data-placement="bottom">edit</a>
                     <form method="POST" action="{{route('users.destroy',[$data->id])}}">
                       @csrf
                       @method('delete')
-                          <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                          <button class="btn btn-danger btn-sm float-left m-1" data-id={{$data->id}} data-toggle="tooltip" data-placement="bottom" title="Delete">delete</button>
                         </form>
                     </td>
                 </tr>

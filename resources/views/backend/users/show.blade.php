@@ -1,0 +1,110 @@
+@extends('backend.layouts.master')
+
+@section('main-content')
+
+<div class="card">
+    <h5 class="card-header">View User</h5>
+    <div class="card-body">
+        @csrf 
+        @method('PATCH')
+      <div class='row'>
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Email</label>
+          <input id="inputTitle" type="text" value="{{$user->email}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Username</label>
+          <input id="inputTitle" type="number" value="{{$user->username}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">First Name</label>
+          <input id="inputTitle" type="text" value="{{$user->firstname}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Last Name</label>
+          <input id="inputTitle" type="text"  value="{{$user->lastname}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Code</label>
+          <input id="inputTitle" type="text"  value="{{$user->code}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">IB Code</label>
+          <input id="inputTitle" type="text"  value="{{$user->ib_code}}" class="form-control" readonly>
+        </div>
+      </div>
+      <div class='row'>
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Phone</label>
+          <input id="inputTitle" type="text"  value="{{$user->phone}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">DOB</label>
+          <input id="inputTitle" type="text" value="{{$user->dob}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Team</label>
+          <input id="inputTitle" type="text" value="{{$user->team->name}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Position</label>
+          <input id="inputTitle" type="text"  value="{{$user->position->name}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Upline</label>
+          @if($user->upline)
+          <input id="inputTitle" type="text"  value="{{$user->upline->firstname.' '.$user->upline->firstname}}" class="form-control" readonly>
+          @else
+          <input id="inputTitle" type="text"  value="" class="form-control" readonly>
+          @endif
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Status</label>
+          <input id="inputTitle" type="text"  value="{{Helper::$general_status[$user->status]}}" class="form-control" readonly>
+        </div>
+        
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Group Sales</label>
+          <input id="inputTitle" type="text"  value="{{$direct_ib_sales}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Team Sales</label>
+          <input id="inputTitle" type="text"  value="{{$all_downline_sales}}" class="form-control" readonly>
+        </div>
+
+      </div>
+    </div>
+</div>
+
+@endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{asset('backend/summernote/summernote.min.css')}}">
+@endpush
+@push('scripts')
+<script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+<script src="{{asset('backend/summernote/summernote.min.js')}}"></script>
+<script>
+    $('#lfm').filemanager('image');
+
+    $(document).ready(function() {
+    $('#summary').summernote({
+      placeholder: "Write short description.....",
+        tabsize: 2,
+        height: 150
+    });
+    });
+</script>
+
+@endpush

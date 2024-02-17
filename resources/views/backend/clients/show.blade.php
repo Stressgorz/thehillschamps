@@ -3,56 +3,81 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">View Ads</h5>
+    <h5 class="card-header">View Client</h5>
     <div class="card-body">
         @csrf 
         @method('PATCH')
-
+      <div class='row'>
         <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Ib Name</label>
-          <input id="inputTitle" type="text"  value="{{$user->firstname .' '.$user->lastname ?? ''}}" class="form-control" readonly>
+          <label for="inputTitle" class="col-form-label">Email</label>
+          <input id="inputTitle" type="text" value="{{$client->email}}" class="form-control" readonly>
         </div>
 
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Name</label>
-          <input id="inputTitle" type="text" value="{{$ads->name}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Email</label>
-          <input id="inputTitle" type="text" value="{{$ads->email}}" class="form-control" readonly>
+          <input id="inputTitle" type="text" value="{{$client->name}}" class="form-control" readonly>
         </div>
 
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Contact</label>
-          <input id="inputTitle" type="text" value="{{$ads->contact}}" class="form-control" readonly>
+          <input id="inputTitle" type="text" value="{{$client->contact}}" class="form-control" readonly>
         </div>
 
         <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Bank Name</label>
-          <input id="inputTitle" type="text"  value="{{$ads->bank_acc}}" class="form-control" readonly>
+          <label for="inputTitle" class="col-form-label">Address</label>
+          <input id="inputTitle" type="text"  value="{{$client->address}}" class="form-control" readonly>
         </div>
 
         <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Bank Account Number</label>
-          <input id="inputTitle" type="text"  value="{{$ads->bank_num}}" class="form-control" readonly>
+          <label for="inputTitle" class="col-form-label">Country</label>
+          <input id="inputTitle" type="text"  value="{{$client->country}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">State</label>
+          <input id="inputTitle" type="text"  value="{{$client->state}}" class="form-control" readonly>
+        </div>
+      </div>
+      <div class='row'>
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">City</label>
+          <input id="inputTitle" type="text"  value="{{$client->city}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Zip</label>
+          <input id="inputTitle" type="text" value="{{$client->zip}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Ib</label>
+          <input id="inputTitle" type="text" value="{{$client->IB->firstname.' '.$client->IB->lastname}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Upline (IB)</label>
+          @if($client->uplineIb)
+          <input id="inputTitle" type="text"  value="{{$client->uplineIb->firstname.' '.$client->uplineIb->lastname}}" class="form-control" readonly>
+          @else
+          <input id="inputTitle" type="text"  value="" class="form-control" readonly>
+          @endif
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Upline (client)</label>
+          @if($client->uplineClient)
+          <input id="inputTitle" type="text"  value="{{$client->uplineClient->name}}" class="form-control" readonly>
+          @else
+          <input id="inputTitle" type="text"  value="" class="form-control" readonly>
+          @endif
         </div>
 
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Status</label>
-          <input id="inputTitle" type="text" value="{{Helper::$approval_status[$ads->status]}}" class="form-control" readonly>
+          <input id="inputTitle" type="text"  value="{{Helper::$general_status[$client->status]}}" class="form-control" readonly>
         </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Date</label>
-          <input id="inputTitle" type="date" value="{{$ads->date}}" class="form-control" readonly>
-        </div>
-      
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">File</label>
-          <input id="inputTitle" type="text" value="{{$ads->file}}" class="form-control" readonly>
-        </div>
-
+        
+      </div>
     </div>
 </div>
 

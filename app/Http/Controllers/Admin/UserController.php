@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Position;
 use App\Models\Team;
+use App\Models\Sale;
+use App\Models\Client;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembersExport;
 use Carbon\Carbon;
@@ -242,7 +244,36 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $direct_ib = User::where('upline_id', $id)
+                            ->where('status', User::$status['active'])
+                            ->where('position_id', '!=', 5)
+                            ->select('id')
+                            ->pluck('id')
+                            ->toArray();
+
+        
+
+        $direct_ib_sales = Sale::whereIn('user_id', $direct_ib)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active'])
+                                ->sum('amount');
+
+
+        $all_downline = User::getAllIbDownline($id);
+
+        $all_downline_sales = Sale::whereIn('user_id', $all_downline)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active'])
+                                ->sum('amount');
+
+        return view('backend.users.show', [
+            'user' => $user,
+            'direct_ib_sales' => $direct_ib_sales,
+            'all_downline_sales' => $all_downline_sales,
+            'user_status' => User::$status,
+        ]);
     }
 
     /**
@@ -407,4 +438,36 @@ class UserController extends Controller
         return Excel::download(new MembersExport($table_data), 'members-'.Carbon::now()->format('YmdHis').'.xlsx');
     }
     
+    public static function getIbDownline($user_id){
+
+        $user = User::findOrFail($user_id);
+        $downline = User::searchIbDownline($user->id);
+
+        return view('backend.users.downline-ib', [
+            'user' => $user,
+            'data' => $downline,
+        ]);
+    }
+
+    public static function getClientDownline($user_id){
+
+        $user = User::findOrFail($user_id);
+        $downline = Client::searchClientDownline($user->id);
+
+        return view('backend.users.downline-client', [
+            'user' => $user,
+            'data' => $downline,
+        ]);
+    }
+
+    public static function getMarketerDownline($user_id){
+
+        $user = User::findOrFail($user_id);
+        $downline = User::searchMarketerDownline($user->id);
+
+        return view('backend.users.downline-marketer', [
+            'user' => $user,
+            'data' => $downline,
+        ]);
+    }
 }

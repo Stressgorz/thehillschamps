@@ -128,6 +128,9 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
         // ib
         Route::get('/users/export', 'Admin\UserController@export');
         Route::resource('/users', 'Admin\UserController');
+        Route::get('/ib-downline/{user_id}', 'Admin\UserController@getIbDownline')->name('get-ib-downline');
+        Route::get('/client-downline/{user_id}', 'Admin\UserController@getClientDownline')->name('get-client-downline');
+        Route::get('/marketer-downline/{user_id}', 'Admin\UserController@getMarketerDownline')->name('get-marketer-downline');
 
         // teams
         Route::resource('/teams', 'Admin\TeamController');
@@ -149,6 +152,7 @@ Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name(
 
         // Client
         Route::resource('/clients-admin', 'Admin\ClientController');
+        Route::get('/client-admin-downline/{user_id}', 'Admin\ClientController@getClientDownline')->name('client-get-client-downline');
 
         // Client
         Route::resource('/announcements', 'Admin\AnnouncementController');

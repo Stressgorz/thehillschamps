@@ -18,11 +18,14 @@ class TestingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // static::updatePositionImage();
-        static::updateUserImage();
+        // static::updateUserImage();
+        $user_id = 83;
+        $downline = static::searchDownline($user_id);
 
+        dd('done');
 
         // $datas = Sale::all();
 
@@ -97,4 +100,15 @@ class TestingController extends Controller
             $user->fill($update_data)->save();
         }
     }
+
+    public static function downlineGet($user_id){
+
+
+        $user = User::where('upline_id', $user_id)
+                    ->where('status', User::$status['active'])
+                    ->get();
+
+        return $user;
+    }
+
 }

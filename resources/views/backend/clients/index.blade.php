@@ -125,8 +125,11 @@
                     <td>{{$data->address}}</td>
                     <td>{{$data->team_name}}</td>
                     <td>{{$data->created_at}}</td>
-                    <td></td>
                     <td>
+                    <a href="{{route('client-get-client-downline',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">Client</a>
+                    </td>
+                    <td>
+                    <a href="{{route('clients-admin.show',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
                     <a href="{{route('clients-admin.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
                     <form method="POST" action="{{route('clients-admin.destroy',[$data->id])}}">
                       @csrf

@@ -54,10 +54,15 @@ class SaleController extends Controller
         }
 
         $table_data = $this->filter($request);
+        $total_amount = 0;
+        foreach($table_data as $data){
+            $total_amount = $total_amount + $data->amount;
+        }
 
         return view('backend.sales.index', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
             'table_data' => $table_data,
+            'total_amount' => $total_amount,
             'sales_status' => Sale::$sales_status,
             'brokers' => Sale::$broker,
         ]);
