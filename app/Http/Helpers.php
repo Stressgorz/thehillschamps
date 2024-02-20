@@ -194,6 +194,13 @@ class Helper{
         '999' => 'Removed',
     ];
 
+    public static $client_status = [
+        '1' => 'Active',
+        '9' => 'Pending',
+        '999' => 'Inactive',
+    ];
+
+
     public static $approval_status = [
         '1' => 'Approved',
         '9' => 'Pending',

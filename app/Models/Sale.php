@@ -13,12 +13,13 @@ class Sale extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'client_id', 'amount','slip','mt4_id','mt4_password','broker', 'broker2','broker_type', 'remark' ,'type', 'sales_status' ,'status' ,'reason' ,'created_at' ,'updated_at', 'date'
+        'user_id', 'client_id', 'amount','slip','mt4_id','mt4_pass','broker_type', 'remark' ,'type', 'sales_status' ,'status' ,'reason' ,'created_at' ,'updated_at', 'date'
     ];
 
     public static $status = [
         'active' => '1',
         'inactive' => '9',
+        'removed' => '999',
     ];
 
     public static $sales_status = [

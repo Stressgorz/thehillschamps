@@ -34,6 +34,12 @@ class SaleController extends Controller
             ]);
         }
 
+        if (empty($request->query('status'))) {
+            $request->request->add([
+                'status' => $request->query('status'),
+            ]);
+        }
+
         if (empty($request->query('broker_type'))) {
             $request->request->add([
                 'broker_type' => $request->query('broker_type'),
@@ -64,6 +70,7 @@ class SaleController extends Controller
             'table_data' => $table_data,
             'total_amount' => $total_amount,
             'sales_status' => Sale::$sales_status,
+            'status_data' => Sale::$status,
             'brokers' => Sale::$broker,
         ]);
     }
@@ -74,7 +81,6 @@ class SaleController extends Controller
         $query = DB::table('sales')
                     ->leftJoin('users', 'sales.user_id' , '=', 'users.id')
                     ->leftJoin('clients', 'sales.client_id' , '=', 'clients.id')
-                    ->where('sales.status', Sale::$status['active'])
 		        	->select('sales.*',
                     'users.firstname as user_firstname',
                     'users.lastname as user_lastname',
@@ -88,6 +94,7 @@ class SaleController extends Controller
         $params = [
             'sales' => [
                 'sales_status' => 'sales_status',
+                'status' => 'status',
                 'broker_type' => 'broker_type',
                 'created_at' => 'created_at',
             ],
@@ -212,6 +219,7 @@ class SaleController extends Controller
         return view('backend.sales.edit', [
             'sales' => $sale,
             'sales_status' => Sale::$sales_status,
+            'status_data' => Sale::$status,
             'sales_broker' => Sale::$broker,
         ]);
     }
@@ -234,6 +242,7 @@ class SaleController extends Controller
             'mt4_pass' => $data['mt4_pass'],
             'broker_type' => $data['broker_type'],
             'sales_status' => $data['sales_status'],
+            'status' => $data['status'],
             'reason' => $data['reason'],
             'remark' => $data['remark'],
             'date' => $data['date'],
@@ -259,6 +268,7 @@ class SaleController extends Controller
             'mt4_pass' => ['required'],
             'broker_type' => ['required'],
             'sales_status' => ['required'],
+            'status' => ['required'],
             'reason' => ['nullable'],
             'remark' => ['nullable'],
             'date' => ['required'],
@@ -286,7 +296,7 @@ class SaleController extends Controller
         if($sale){
             // return $child_cat_id;
             $sale = Sale::where('id', $id)->update([
-                'status' => Sale::$status['inactive'],
+                'status' => Sale::$status['removed'],
             ]);
 
             request()->session()->flash('success','Sales successfully deleted');

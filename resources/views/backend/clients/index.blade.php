@@ -20,7 +20,7 @@
                   <select name="status" class="form-control">
                   <option value=''>Select Status</option>
                       @foreach($client_status as $status)
-                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$approval_status[$status]}}</option>
+                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$client_status[$status]}}</option>
                       @endforeach
                   </select>
                 </div>

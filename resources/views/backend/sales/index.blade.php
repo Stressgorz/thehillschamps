@@ -15,12 +15,23 @@
       <form class="form-horizontal">
         <div class="form-group row">
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <label class="control-label">Status</label>
+                <label class="control-label">Sales Status</label>
                 <div class="form-group">
                   <select name="sales_status" class="form-control">
-                  <option value=''>Select Status</option>
+                  <option value=''>Select Sales Status</option>
                       @foreach($sales_status as $status)
                           <option value='{{$status}}' {{(($status==Request::get('sales_status')) ? 'selected' : '')}}>{{$status}}</option>
+                      @endforeach
+                  </select>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Status</label>
+                <div class="form-group">
+                  <select name="status" class="form-control">
+                  <option value=''>Select Status</option>
+                      @foreach($status_data as $data)
+                          <option value='{{$data}}' {{(($data==Request::get('status')) ? 'selected' : '')}}>{{Helper::$general_status[$data]}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -36,7 +47,8 @@
                   </select>
                 </div>
             </div>
-
+          </div>
+          <div class="form-group row">
             <div class="col-md-2 col-sm-3 col-xs-12">
                 <label class="control-label">From Date</label>
                 <div class='input-group date datepicker'>
@@ -51,8 +63,8 @@
                     <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
                 </div>
             </div>
+          </div>
 
-        </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <button id="advanced_search" type="submit" class="btn btn-success">Search</button>

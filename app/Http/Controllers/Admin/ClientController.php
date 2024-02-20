@@ -349,7 +349,7 @@ class ClientController extends Controller
             }
             ],
             'name' => ['required'],
-            'email' => ['required'],
+            'email' => ['email', 'required'],
             'contact' => ['required'],
             'address' => ['required'],
             'status' => ['required'],
@@ -374,7 +374,7 @@ class ClientController extends Controller
 
         if($request->email != $client->email){
             $data[] = $request->validate([
-                'email' => ['required',
+                'email' => ['email', 'required',
                 function ($attribute, $value, $fail) {
                     $email = Client::where('email', $value)->first();
                     if ($email) {
@@ -389,7 +389,6 @@ class ClientController extends Controller
         foreach ($data as $value) {
             $validated = array_merge($validated, $value);
         }
-        
         return $validated;
     }
 

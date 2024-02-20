@@ -21,7 +21,7 @@
                   <select name="status" class="form-control">
                   <option value=''>Select Status</option>
                       @foreach($client_status as $status)
-                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$approval_status[$status]}}</option>
+                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$client_status[$status]}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -85,6 +85,8 @@
               <th>Email</th>
               <th>Contact</th>
               <th>Address</th>
+              <th>State</th>
+              <th>Country</th>
               <th>Team Of IB</th>
               <th>Created At</th>
               <th>Downline</th>
@@ -104,6 +106,8 @@
                     <td>{{$data->email}}</td>
                     <td>{{$data->contact}}</td>
                     <td>{{$data->address}}</td>
+                    <td>{{$data->state}}</td>
+                    <td>{{$data->country}}</td>
                     <td>{{$data->team_name}}</td>
                     <td>{{$data->created_at}}</td>
                     <td></td>

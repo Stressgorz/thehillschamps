@@ -3,14 +3,48 @@
 @section('main-content')
 
 <div class="card">
+<form class="form-horizontal">
     <div class="card-header py-3">
       <h5>View User</h5>
+      <div class="form-group row">
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <label class="control-label">From Date</label>
+                <div class='input-group date datepicker'>
+                    </span>
+                    <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <label class="control-label">To Date</label>
+                <div class='input-group date datepicker'>
+                    </span>
+                    <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
+                  <button id="clear_search" type="submit" class="btn btn-info">Clear Search</button>
+              </div>
+          </div>
       <a href="{{route('get-users-target', $user->id)}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="edit Profile"> User Target </a>
     </div>
+    </form>
     <div class="card-body">
         @csrf 
         @method('PATCH')
       <div class='row'>
+      <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Team Sales</label>
+          <input id="inputTitle" type="text"  value="{{$direct_ib_sales}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Group Sales</label>
+          <input id="inputTitle" type="text"  value="{{$all_downline_sales}}" class="form-control" readonly>
+        </div>
+
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Email</label>
           <input id="inputTitle" type="text" value="{{$user->email}}" class="form-control" readonly>
@@ -75,16 +109,6 @@
           <label for="inputTitle" class="col-form-label">Status</label>
           <input id="inputTitle" type="text"  value="{{Helper::$general_status[$user->status]}}" class="form-control" readonly>
         </div>
-        
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Group Sales</label>
-          <input id="inputTitle" type="text"  value="{{$direct_ib_sales}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Team Sales</label>
-          <input id="inputTitle" type="text"  value="{{$all_downline_sales}}" class="form-control" readonly>
-        </div>
 
       </div>
     </div>
@@ -107,6 +131,12 @@
         tabsize: 2,
         height: 150
     });
+
+    $("#clear_search").on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '{{ Request::url() }}';
+        });
+        
     });
 </script>
 

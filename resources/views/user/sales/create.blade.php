@@ -9,16 +9,71 @@
         {{csrf_field()}}
 
         <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Clients Email</label>
+        <input id="inputTitle" type="email" name="clients_email" placeholder="Enter email"  value="{{old('clients_email')}}" class="form-control">
+        @error('clients_email')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Amount</label>
+        <input id="inputTitle" type="number" name="amount" placeholder="Enter amount"  value="{{old('amount')}}" class="form-control">
+        @error('amount')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Sales Date</label>
+        <input id="inputTitle" type="date" name="date" placeholder="Enter date"  value="{{old('date')}}" class="form-control">
+        @error('date')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">MT4 ID</label>
+        <input id="inputTitle" type="text" name="mt4_id" placeholder="Enter mt4 id"  value="{{old('mt4_id')}}" class="form-control">
+        @error('mt4_id')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>  
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">MT4 Read Only Password</label>
+        <input id="inputTitle" type="text" name="mt4_pass" placeholder="Enter mt4 password"  value="{{old('mt4_pass')}}" class="form-control">
+        @error('mt4_pass')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>  
+
+        <div class="form-group">
+          <label for="status">Broker</label>
+          <select name="broker_type" class="form-control">
+              @foreach($sales_broker as $broker)
+                  <option value='{{$broker}}'>{{$broker}}</option>
+              @endforeach
+          </select>
+        @error('broker')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Remark</label>
+        <input id="inputTitle" type="text" name="remark" placeholder="Enter remark"  value="{{old('remark')}}" class="form-control">
+        @error('remark')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>  
+
+        <div class="form-group">
         <label for="inputPhoto" class="col-form-label">Slip</label>
         <div class="input-group">
-            <span class="input-group-btn">
-                <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                <i class="fa fa-picture-o"></i> Choose
-                </a>
-            </span>
-            <input id="thumbnail" class="form-control" type="text" name="slip">
+          <input type="file" name="slip[]" class="form-control" multiple>
         </div>
-          @error('slip')
+          @error('slip[]')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>

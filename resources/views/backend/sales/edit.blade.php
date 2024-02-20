@@ -42,10 +42,19 @@
         </div>
 
         <div class="form-group">
-          <label for="status">Status</label>
+          <label for="status">Sales Status</label>
           <select name="sales_status" class="form-control">
               @foreach($sales_status as $status)
                   <option value='{{$status}}' {{(($sales->sales_status==$status) ? 'selected' : '')}}>{{$status}}</option>
+              @endforeach
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select name="status" class="form-control">
+              @foreach($status_data as $data)
+                  <option value='{{$data}}' {{(($sales->status==$data) ? 'selected' : '')}}>{{Helper::$general_status[$data]}}</option>
               @endforeach
           </select>
         </div>

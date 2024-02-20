@@ -243,9 +243,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
+        if(isset($request->fdate)){
+            $fdate = $request->fdate;
+        }
+
+        if(isset($request->edate)){
+            $edate = $request->edate;
+        }
 
         $direct_ib = User::where('upline_id', $id)
                             ->where('status', User::$status['active'])
@@ -254,25 +262,40 @@ class UserController extends Controller
                             ->pluck('id')
                             ->toArray();
 
-        
-
         $direct_ib_sales = Sale::whereIn('user_id', $direct_ib)
                                 ->where('sales_status', Sale::$sales_status['approved'])
-                                ->where('status', Sale::$status['active'])
-                                ->sum('amount');
+                                ->where('status', Sale::$status['active']);
 
+                                if(isset($fdate) && $fdate){
+                                    $direct_ib_sales->where('date', '>=', $fdate);
+                                }
+
+                                if(isset($edate) && $edate){
+                                    $direct_ib_sales->where('date', '>=', $edate);
+                                }
+
+                                $direct_ib_sales_amount = $direct_ib_sales->sum('amount');
 
         $all_downline = User::getAllIbDownline($id);
 
         $all_downline_sales = Sale::whereIn('user_id', $all_downline)
                                 ->where('sales_status', Sale::$sales_status['approved'])
-                                ->where('status', Sale::$status['active'])
-                                ->sum('amount');
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $all_downline_sales->where('date', '>=', $fdate);
+                                }
+                        
+                                if(isset($edate) && $edate){
+                                    $all_downline_sales->where('date', '>=', $edate);
+                                }
+
+                                $all_downline_sales_amount = $all_downline_sales->sum('amount');
 
         return view('backend.users.show', [
             'user' => $user,
-            'direct_ib_sales' => $direct_ib_sales,
-            'all_downline_sales' => $all_downline_sales,
+            'direct_ib_sales' => $direct_ib_sales_amount,
+            'all_downline_sales' => $all_downline_sales_amount,
             'user_status' => User::$status,
         ]);
     }

@@ -131,10 +131,11 @@ class SaleController extends Controller
      */
     public function create()
     {
-        $team_status = Team::$status;
 
         return view('user.sales.create', [
-            'team_status' => $team_status,  
+            'sales_status' => Sale::$sales_status,
+            'status_data' => Sale::$status,
+            'sales_broker' => Sale::$broker,
         ]);
     }
 
@@ -147,9 +148,72 @@ class SaleController extends Controller
     public function store(Request $request)
     {
 
+        $data = static::saleStoreValidation($request);
+
+        foreach ($data['slip'] as $slip) {
+            $path = Sale::$path.'/';
+            if (isset($slip)) {
+                $filename = $slip->getClientOriginalName();
+                $slip->storeAs($path, $filename, 'public');
+                $image[] = $filename;
+            }
+    	}   
+
+        $client = Client::where('email', $data['clients_email'])->first();
+
+        $sales = Sale::create([
+            'client_id' => $client->id,
+            'user_id' => $request->user()->id,
+            'amount' => $data['amount'],
+            'mt4_id' => $data['mt4_id'],
+            'mt4_pass' => $data['mt4_pass'],
+            'broker_type' => $data['broker_type'],
+            'slip' => json_encode($image),
+            'remark' => $data['remark'],
+            'date' => $data['date'],
+            'status' => Sale::$status['active'],
+            'sales_status' => Sale::$sales_status['pending'],
+        ]);
+
+        if($sales){
+            request()->session()->flash('success','Sales successfully added');
+        } else{
+            request()->session()->flash('error','Error occurred, Please try again!');
+        }
+
         return redirect()->route('sales.index');
     }
 
+    public static function saleStoreValidation($request){
+
+        $data[] = $request->validate([
+            'clients_email' => ['required',
+            function ($attribute, $value, $fail) use ($request) {
+                $clients_email = Client::where('email', $value)
+                                        ->where('status', Client::$status['active'])
+                                        ->where('user_id', $request->user()->id)
+                                        ->first();
+                if (empty($clients_email)) {
+                    $fail('Client does not exists');
+                }
+            }
+            ],
+            'amount' => ['required'],
+            'mt4_id' => ['required'],
+            'mt4_pass' => ['required'],
+            'broker_type' => ['required'],
+            'slip' => ['required'],
+            'remark' => ['nullable'],
+            'date' => ['required'],
+        ]);
+
+        $validated = [];
+        foreach ($data as $value) {
+            $validated = array_merge($validated, $value);
+        }
+
+        return $validated;
+    }
     /**
      * Display the specified resource.
      *
@@ -189,12 +253,23 @@ class SaleController extends Controller
                                 ->select('name')
                                 ->first();
 
+        if($user_upline){
+            $user_upline->username = $user_upline->firstname.' '.$user_upline->lastname;
+        }
+
+        $slips = json_decode($sale->slip);
+        $slip_image = [];
+        foreach($slips as $index => $slip){
+            $slip_image[$index] = 'storage/'.Sale::$path.'/'.$slip;
+        }
+
         return view('user.sales.show', [
             'sales' => $sale ?? [],
             'user_upline' => $user_upline,
             'client_upline' => $client_upline,
             'sales_status' => Sale::$sales_status,
             'sales_broker' => Sale::$broker,
+            'slip_image' => $slip_image,
         ]);
     }
 
@@ -211,7 +286,7 @@ class SaleController extends Controller
         $slips = json_decode($sale->slip);
         $slip_image = [];
         foreach($slips as $index => $slip){
-            $slip_image[$index] = 'storage/'.Sale::$path.'/'.$id.'/'.$slip;
+            $slip_image[$index] = 'storage/'.Sale::$path.'/'.$slip;
         }
 
         return view('user.sales.edit', [
