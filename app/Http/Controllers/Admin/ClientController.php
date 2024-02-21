@@ -368,7 +368,7 @@ class ClientController extends Controller
                     }
                 }
             ],
-            'city' => ['required'],
+            'city' => ['nullable'],
             'zip' => ['required'],
         ]);
 

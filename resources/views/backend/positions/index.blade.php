@@ -52,7 +52,7 @@
                 <tr>
                     <td>{{$data->name}}</td>
                     <td>
-                    <a href="{{route('positions.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('positions.edit',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">Edit</a>
                     </td>
                 </tr>
             @endforeach

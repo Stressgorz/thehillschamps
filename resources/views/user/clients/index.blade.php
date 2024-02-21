@@ -63,6 +63,26 @@
                     <input type='text' class="form-control" name="upline_user_email" value="{{ Request::get('upline_user_email') }}"/>
                 </div>
             </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <label for="country" class="control-label">Country</label>
+              <select name="country" class="form-control">
+                <option value="">None</option>
+                  @foreach(Helper::$country as $country)
+                      <option value='{{$country}}' {{(($country==Request::get('country')) ? 'selected' : '')}}>{{Helper::$country_name[$country]}}</option>
+                  @endforeach
+              </select>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <label for="state" class="control-label">State</label>
+              <select name="state" class="form-control">
+                <option value="">None</option>
+                  @foreach(Helper::$state as $countries => $states)
+                    @foreach($states as $state)
+                      <option class="{{ $countries }}" {{(($state==Request::get('state')) ? 'selected' : '')}}>{{$state}}</option>
+                    @endforeach
+                  @endforeach
+              </select>
+            </div>
         </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -84,7 +104,6 @@
               <th>Upline (Client)</th>
               <th>Email</th>
               <th>Contact</th>
-              <th>Address</th>
               <th>State</th>
               <th>Country</th>
               <th>Team Of IB</th>
@@ -105,18 +124,17 @@
                     <td>{{$data->upline_client_name}}</td>
                     <td>{{$data->email}}</td>
                     <td>{{$data->contact}}</td>
-                    <td>{{$data->address}}</td>
                     <td>{{$data->state}}</td>
                     <td>{{$data->country}}</td>
                     <td>{{$data->team_name}}</td>
                     <td>{{$data->created_at}}</td>
                     <td></td>
                     <td>
-                    <a href="{{route('clients.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('clients.edit',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">Edit</a>
                     <form method="POST" action="{{route('clients.destroy',[$data->id])}}">
                       @csrf
                       @method('delete')
-                          <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                          <button class="btn btn-danger btn-sm dltBtn m-1" data-id={{$data->id}} data-toggle="tooltip" data-placement="bottom" title="Delete">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -197,6 +215,18 @@
                     }
                 });
           })
+        $("[name=country]").on('change', function() {
+            populateCountry();
+        });
+
+        populateCountry();
+        function populateCountry() {
+            var country = $("[name=country] :checked").val();
+
+            $("select[name='state']").find('option').prop("hidden", true);
+            $("select[name='state']").find('option.'+country).prop("hidden", false);
+            $("select[name='state']").find('option=[value=""]').prop("hidden", false);
+        }
       })
   </script>
 @endpush

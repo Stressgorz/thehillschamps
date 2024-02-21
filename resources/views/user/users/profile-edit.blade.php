@@ -59,14 +59,6 @@
                       </div>
 
                       <div class="form-group">
-                          <label for="inputEmail" class="col-form-label">Upline</label>
-                        <input id="inputEmail" name="upline_email" placeholder="Enter upline_email"  value="{{$upline_email ?? ''}}" class="form-control">
-                        @error('upline_email')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                      </div>
-              
-                      <div class="form-group">
                       <label for="inputPhoto" class="col-form-label">Photo</label>  
                       <div class="input-group">
                         <input type="file" name="photo" class="form-control" value = "{{$profile->photo}}">

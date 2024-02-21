@@ -178,12 +178,6 @@
     <div class="sidebar-heading">
         General Settings
     </div>
-     <!-- Users -->
-     <li class="nav-item">
-        <a class="nav-link" href="{{route('users.index')}}">
-            <i class="fas fa-users"></i>
-            <span>Users</span></a>
-    </li>
      <!-- General settings -->
      <li class="nav-item">
         <a class="nav-link" href="{{route('settings')}}">

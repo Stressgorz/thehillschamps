@@ -81,28 +81,6 @@
             </div>
         </div>
         <hr>
-        <div class="card">
-            <div class="card-body">
-                <div class="row justify-content-center">
-                    <h5>Current Rank: {{$data['current_rank']}}</h5>
-                </div>
-                <div class="row justify-content-center">
-                    <div class='col-12 col-md-4'>
-                        <div class='d-flex justify-content-between'>
-                            <p>Current Points: {{$user_point}}</p>
-                            <p>Next Rank points: {{$data['rank_next_points']}}</p>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="{{$data['percentage_to_next_rank']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$data['percentage_to_next_rank'].'%'}}"></div>
-                        </div>
-                            </br>
-                        <div class='d-flex justify-content-center'>
-                            <p>Remaining to next rank: {{$data['points_to_next_rank']}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>  
    </div>
 </div>
 

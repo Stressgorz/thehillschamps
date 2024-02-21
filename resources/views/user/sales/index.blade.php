@@ -53,7 +53,20 @@
                     <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
                 </div>
             </div>
-
+        </div>
+        <div class="form-group row">
+          <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Client Name</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="client_name" value="{{ Request::get('client_name') }}"/>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Client Email</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="client_email" value="{{ Request::get('client_email') }}"/>
+                </div>
+            </div>
         </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -107,7 +120,7 @@
                     <td>{{$data->date}}</td>
                     <td>{{$data->updated_at}}</td>
                     <td>
-                    <a href="{{route('sales.show',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
+                    <a href="{{route('sales.show',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="view" data-placement="bottom">Show</a>
                     </td>
                 </tr>
             @endforeach

@@ -50,6 +50,18 @@ class ClientController extends Controller
             ]);
         }
 
+        if (empty($request->query('state'))) {
+            $request->request->add([
+                'state' => $request->query('state'),
+            ]);
+        }
+
+        if (empty($request->query('country'))) {
+            $request->request->add([
+                'country' => $request->query('country'),
+            ]);
+        }
+
         $teams = Team::all();
 
         $table_data = $this->filter($request);
@@ -89,6 +101,8 @@ class ClientController extends Controller
         $params = [
             'clients' => [
                 'name' => 'name',
+                'state' => 'state',
+                'country' => 'country',
                 'status' => 'status',
             ],
             'users' => [
@@ -298,23 +312,13 @@ class ClientController extends Controller
         // return $request->all();
         $data = static::clientUpdateValidation($request, $id);
 
-        $user_id = User::where('email', $data['user_email'])->pluck('id')->first();
-        $upline_user_id = User::where('email', $data['upline_user_email'])->pluck('id')->first();
-        $upline_client_id = Client::where('email', $data['upline_client_email'])->pluck('id')->first();
-
         $updateData = [
-        	'user_id' => $user_id,
         	'name' => $data['name'],
-            'email' => $data['email'],
-            'contact' => $data['contact'],
             'address' => $data['address'],  
             'country' => $data['country'],
             'state' => $data['state'],
             'city' => $data['city'],
             'zip' => $data['zip'],
-            'upline_client_id' => $upline_client_id,
-            'upline_user_id' => $upline_user_id,
-            'status' => $data['status'],
         ];
 
         $client=Client::findOrFail($id);
@@ -333,35 +337,8 @@ class ClientController extends Controller
 
         $client = Client::find($id);
         $data[] = $request->validate([
-            'user_email' => ['required',
-            function ($attribute, $value, $fail) {
-                $user_id = User::where('email', $value)->first();
-                if (empty($user_id)) {
-                    $fail('User does not exists');
-                }
-            }
-            ],
-            'upline_user_email' => ['nullable',
-            function ($attribute, $value, $fail) {
-                $upline_user_id = User::where('email', $value)->first();
-                if (empty($upline_user_id)) {
-                    $fail('Upline User does not exists');
-                }
-            }
-            ],
-            'upline_client_email' => ['nullable',
-            function ($attribute, $value, $fail) {
-                $upline_client_id = Client::where('email', $value)->first();
-                if (empty($upline_client_id)) {
-                    $fail('Upline Client does not exists');
-                }
-            }
-            ],
             'name' => ['required'],
-            'email' => ['required'],
-            'contact' => ['required'],
             'address' => ['required'],
-            'status' => ['required'],
             'country' => ['required',
             function ($attribute, $value, $fail) {
                 if (!in_array($value, Helper::$country)) {
@@ -377,22 +354,9 @@ class ClientController extends Controller
                     }
                 }
             ],
-            'city' => ['required'],
+            'city' => ['nullable'],
             'zip' => ['required'],
         ]);
-
-        if($request->email != $client->email){
-            $data[] = $request->validate([
-                'email' => ['required',
-                function ($attribute, $value, $fail) {
-                    $email = Client::where('email', $value)->first();
-                    if ($email) {
-                        $fail('Email is exists');
-                    }
-                }
-                ],
-            ]);
-        }
 
         $validated = [];
         foreach ($data as $value) {

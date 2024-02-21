@@ -262,6 +262,7 @@ class Helper{
         'UK' => 'UK',
         'DK' => 'DK',
         'ES' => 'ES',
+        'OO' => 'OO',
     ];
 
     public static $country_name = [
@@ -292,6 +293,7 @@ class Helper{
         'UK' => 'United Kingdom',
         'DK' => 'Denmark',
         'ES' => 'Spain',
+        'OO' => 'Others',
     ];
 
     public static $state = [
@@ -386,6 +388,9 @@ class Helper{
             'Others',
         ],
         'ES' => [
+            'Others',
+        ],
+        'OO' => [
             'Others',
         ],
     ];

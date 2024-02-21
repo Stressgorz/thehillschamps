@@ -59,11 +59,11 @@
                     <td>{{$data->date}}</td>
                     <td>{{Helper::$general_status[$data->status]}}</td>
                     <td>
-                    <a href="{{route('announcements.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('announcements.edit',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="edit" data-placement="bottom">Edit</a>
                     <form method="POST" action="{{route('announcements.destroy',[$data->id])}}">
                       @csrf
                       @method('delete')
-                          <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                          <button class="btn btn-danger btn-sm dltBtn m-1" data-id={{$data->id}} data-toggle="tooltip" data-placement="bottom" title="Delete">Delete</button>
                         </form>
                     </td>
                 </tr>

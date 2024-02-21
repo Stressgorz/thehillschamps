@@ -72,11 +72,6 @@ class HomeController extends Controller
         $user=User::findOrFail($id);
         if($user){
             $data = static::profileUpdateValidation($request, $id);
-            $upline = '';
-            
-            if( isset($data['upline_email']) && $data['upline_email']){
-                $upline = User::where('email', $data['upline_email'])->select('id')->first();
-            }
 
             $path = User::$path.'/';
             $image = '';
@@ -97,10 +92,6 @@ class HomeController extends Controller
                 'photo' => $image,
             ];
 
-            if( isset($data['upline_email']) && $data['upline_email']){
-                $updateData['upline_id'] = $upline->id;
-            }
-
             $user->fill($updateData)->save();
 
             request()->session()->flash('success','Successfully updated your profile');
@@ -120,14 +111,6 @@ class HomeController extends Controller
             'firstname' => ['required'],
             'lastname' => ['required'],
             'phone' => ['required'],
-            'upline_email' => ['nullable',
-                function ($attribute, $value, $fail) {
-                    $upline_email = User::where('email', $value)->first();
-                    if (empty($upline_email)) {
-                        $fail('Upline Email Doesnt Exist');
-                    }
-                }
-            ],
             'photo' => ['nullable'],
         ]);
 
