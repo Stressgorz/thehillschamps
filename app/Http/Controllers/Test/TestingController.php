@@ -10,6 +10,7 @@ use App\Models\Sale;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Models\Position;
+use App\Models\UserPoint;
 
 class TestingController extends Controller
 {
@@ -22,10 +23,14 @@ class TestingController extends Controller
     {
         // static::updatePositionImage();
         // static::updateUserImage();
-        $user_id = 83;
-        $downline = static::searchDownline($user_id);
+        $user_id = 82;
+        $type = 'debit';
+        $transaction_type = 'admin_transfer';
+        $amount = 200;
+        $description = 'hahahaha';
+        $haha = UserPoint::updateUserPoint($user_id, $type, $transaction_type, $amount, $description);
 
-        dd('done');
+        dd($haha);
 
         // $datas = Sale::all();
 
