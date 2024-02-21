@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('type', 20);
             $table->decimal('amount', 20, 2);
             $table->decimal('balance', 20, 2);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

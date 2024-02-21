@@ -28,7 +28,7 @@
                   <button id="clear_search" type="submit" class="btn btn-info">Clear Search</button>
               </div>
           </div>
-      <a href="{{route('get-users-target', $user->id)}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="edit Profile"> User Target </a>
+      <a href="{{route('get-users-history', $user->id)}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="edit Profile"> User Points </a>
     </div>
     </form>
     <div class="card-body">

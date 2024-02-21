@@ -16,7 +16,6 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->string('type', 20);
             $table->decimal('amount', 20, 2);
-            $table->text('description');
             $table->timestamps();
         });
     }

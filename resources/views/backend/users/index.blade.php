@@ -16,9 +16,9 @@
       <form class="form-horizontal">
           <div class="form-group row">
               <div class="col-md-3 col-sm-3 col-xs-12">
-                  <label class="control-label">Username</label>
+                  <label class="control-label">Email</label>
                   <div class="form-group">
-                      <input type='text' class="form-control" name="name" value="{{ Request::get('name') }}"/>
+                      <input type='email' class="form-control" name="email" value="{{ Request::get('email') }}"/>
                   </div>
               </div>
               <div class="col-md-3 col-sm-3 col-xs-12">
@@ -94,7 +94,7 @@
                     <td>{{$data->phone}}</td>
                     <td>{{$data->position_name}}</td>
                     <td>{{$data->team_name}}</td>
-                    <td>{{$data->points}}</td>
+                    <td>{{$data->user_points ?? 0}}</td>
                     <td>{{$data->dob}}</td>
                     <td>{{$data->email}}</td>
                     <td>{{$data->date_created}}</td>
@@ -107,6 +107,7 @@
                     <td>
                     <a href="{{route('users.show',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="view" data-placement="bottom">show</a>
                     <a href="{{route('users.edit',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="edit" data-placement="bottom">edit</a>
+                    <a href="{{route('get-users-points-form',$data->id)}}" class="btn btn-secondary btn-sm float-left m-1" data-toggle="tooltip" title="edit" data-placement="bottom">Update Points</a>
                     <form method="POST" action="{{route('users.destroy',[$data->id])}}">
                       @csrf
                       @method('delete')

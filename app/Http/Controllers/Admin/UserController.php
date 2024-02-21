@@ -16,6 +16,9 @@ use App\Models\UserTarget;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembersExport;
 use Carbon\Carbon;
+use App\Models\UserWallet;
+use App\Models\UserWalletHistory;
+use App\Models\UserPoint;
 
 class UserController extends Controller
 {
@@ -27,10 +30,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
-        if (empty($request->query('name'))) {
+        if (empty($request->query('email'))) {
             $request->request->add([
-                'name' => $request->query('name'),
+                'email' => $request->query('email'),
             ]);
         }
 
@@ -66,6 +68,7 @@ class UserController extends Controller
         $query = DB::table('users')
                     ->leftJoin('teams', 'users.team_id' , '=', 'teams.id')
                     ->leftJoin('positions', 'users.position_id' , '=', 'positions.id')
+                    ->leftJoin('user_wallets', 'users.id' , '=', 'user_wallets.user_id')
                     ->leftJoin('users as upline', function ($join) {
                         $join->on('users.upline_id', '=', 'upline.id');
                     })
@@ -74,12 +77,13 @@ class UserController extends Controller
                     'positions.name as position_name',
                     'upline.firstname as upline_firstname',
                     'upline.lastname as upline_lastname',
+                    'user_wallets.balance as user_points'
                     )
                     ->orderBy('id','ASC');
 
         $params = [
             'users' => [
-                'name' => 'username',
+                'email' => 'email',
             ],
             'positions' => [
                 'position' => 'name',
@@ -495,14 +499,117 @@ class UserController extends Controller
         ]);
     }
 
-    public static function getUserTarget($user_id){
+    public function getUserWalletHistory(Request $request, $user_id){
 
-        $targets = UserTarget::where('user_id', $user_id)
-                            ->where('status', UserTarget::$status['active'])
-                            ->get();
+        if (empty($request->query('fdate'))) {
+            $request->request->add([
+                'fdate' => $request->query('fdate'),
+            ]);
+        }
+        if (empty($request->query('tdate'))) {
+            $request->request->add([
+                'tdate' => $request->query('tdate'),
+            ]);
+        }
 
-        return view('backend.users.targets', [
-            'targets' => $targets,
+        $user_wallet_history = $this->filterUserWallet($request);
+
+        return view('backend.users.history', [
+            'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
+            'user_wallet_history' => $user_wallet_history,
         ]);
+    }
+
+    public static function filterUserWallet(Request $filters)
+    {
+        $query = DB::table('user_wallet_history')
+                    ->where('wallet', UserWallet::$wallet['points'])
+		        	->select('*'
+                    )
+                    ->orderBy('id','DESC');
+
+        $params = [
+            'user_wallet_history' => [
+                'created_at' => 'created_at',
+            ],
+        ];
+        foreach ($params as $table => $columns) {
+        	foreach ($columns as $field => $param) {
+	            if ($field == 'created_at') {
+	                if ($filters->query('fdate')) {
+	                    $query->where($table.'.'.$param, '>=',  $filters->query('fdate'));
+	                }
+	                if ($filters->query('tdate')) {
+	                    $query->where($table.'.'.$param, '<=', ($filters->query('tdate').' 23:59:59'));
+	                }
+	            } elseif (is_array($filters->query($field)) && ! empty($filters->query($field))) { 
+	                // If is array and not empty
+	                $query->whereIn($table.'.'.$param, $filters->query($field));
+	            } else {
+                    if (! empty($filters->query($field))) {
+                        if (in_array($field, ['status', 'type'])) { 
+                            $query->where($table.'.'.$param, '=',  $filters->query($field));
+                        } else {
+                            $query->where($table.'.'.$param, 'LIKE',  '%'.$filters->query($field).'%');
+                        }
+                    }
+	            }
+        	}
+        }
+        return $query->get();
+    }
+
+        /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showUpdateUserPoints($user_id)
+    {
+        $transaction_type = UserPoint::$type;
+        return view('backend.users.add-points', [
+            'transaction_type' => $transaction_type,
+            'user_id' => $user_id,
+        ]);
+    }
+
+    public static function updateUserPoints(Request $request, $user_id){
+
+        // return $request->all();
+        $data = static::pointsUpdateValidation($request, $user_id);
+
+        $transaction_type = UserWalletHistory::$transaction_type['admin_transfer'];
+
+        $is_created = UserPoint::updateUserPoint($user_id, $data['type'], $transaction_type, $data['amount'], $data['description']);
+
+        if($is_created){
+            request()->session()->flash('success','Points successfully added');
+        } else{
+            request()->session()->flash('error','Error occurred, Please try again!');
+        }
+
+        return redirect()->route('users.index');
+    }
+
+    public static function pointsUpdateValidation($request, $id){
+
+        $data[] = $request->validate([
+            'amount' => ['required', 'numeric'],
+            'type' => array_merge(['required'], [
+                function ($attribute, $value, $fail) {
+                    if (! in_array($value, array_keys(UserPoint::$type))) {
+                        $fail(trans('validation.in'));
+                    }
+                }
+            ]),
+            'description' => ['nullable'],
+        ]);
+
+        $validated = [];
+        foreach ($data as $value) {
+            $validated = array_merge($validated, $value);
+        }
+
+        return $validated;
     }
 }

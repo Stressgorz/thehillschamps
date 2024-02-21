@@ -5,7 +5,7 @@
 <div class="card">
     <h5 class="card-header">Add User</h5>
     <div class="card-body">
-      <form method="post" action="{{route('users.store')}}">
+      <form method="post" action="{{route('users.store',$data->id)}}">
         {{csrf_field()}}
 
         <div class="form-group">

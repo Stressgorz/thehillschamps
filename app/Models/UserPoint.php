@@ -14,7 +14,7 @@ class UserPoint extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'type', 'amount','description', 'created_at' ,'updated_at'
+        'user_id', 'type', 'amount', 'created_at' ,'updated_at',
     ];
 
     public static $type = [
@@ -24,7 +24,7 @@ class UserPoint extends Model
     
     public static function updateUserPoint($user_id, $type, $transaction_type, $amount, $description){
 
-        $final_data = '';
+        $data = '';
 
         $wallet = UserWallet::$wallet['points'];
 
@@ -32,11 +32,10 @@ class UserPoint extends Model
             'user_id' => $user_id,
             'type' => $type,
             'amount' => $amount,
-            'description' => $description,
         ]);
 
         if($user_point){
-            $final_data = UserWallet::update_wallet(
+            $data = UserWallet::update_wallet(
                 $user_id,
                 $type,
                 $user_point->id,
@@ -47,6 +46,6 @@ class UserPoint extends Model
             );
         }
 
-        return $final_data;
+        return $data;
     }
 }
