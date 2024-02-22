@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('state')->nullable()->after('country');
             $table->string('city')->nullable()->after('state');
             $table->string('zip')->nullable()->after('city');
+            $table->dateTime('updated_at')->nullable();
         });
     }
 
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->dropColumn('state');
             $table->dropColumn('city');
             $table->dropColumn('zip');
+            $table->dropColumn('updated_at');
         });
     }
 };

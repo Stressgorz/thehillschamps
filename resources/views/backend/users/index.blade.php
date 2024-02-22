@@ -97,7 +97,7 @@
                     <td>{{$data->user_points ?? 0}}</td>
                     <td>{{$data->dob}}</td>
                     <td>{{$data->email}}</td>
-                    <td>{{$data->date_created}}</td>
+                    <td>{{$data->created_at}}</td>
                     <td>{{$data->upline_firstname}}</td>
                     <td>
                     <a href="{{route('get-ib-downline',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">IB</a>

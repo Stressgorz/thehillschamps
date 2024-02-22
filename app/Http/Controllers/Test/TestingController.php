@@ -23,6 +23,8 @@ class TestingController extends Controller
     {
         // static::updatePositionImage();
         // static::updateUserImage();
+        static::addAdmin();
+        dd('done');
         $user_id = 82;
         $type = 'debit';
         $transaction_type = 'admin_transfer';
@@ -106,6 +108,32 @@ class TestingController extends Controller
         }
     }
 
+    public static function updateUserImage2(){
+        $users = User::where('status', User::$status['active'])->get();
+        foreach($users as $user){
+            $update_data = [];
+            if($user->photo){
+                $new_user_photo = str_replace("files/Profile_Pic/", "", $user->photo);
+                $update_data['photo'] = $new_user_photo;
+            }
+            $user->fill($update_data)->save();
+        }
+    }
+
+    public static function addAdmin(){
+
+        $admin = Admin::where('email', 'admin@admin.com')->first();
+
+        if(empty($admin)){
+            Admin::create([
+                'name' => 'Admin',
+                'contact' => '123456789',
+                'email' => 'admin@admin.com',
+                'password' => Hash::make('qwer1234'),
+                'status' => Admin::$status['active'],
+            ]);
+        }
+    }
     public static function downlineGet($user_id){
 
 

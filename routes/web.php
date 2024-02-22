@@ -116,6 +116,7 @@ Route::post('admin/logout', 'Admin\Auth\LoginController@logout');
 // Socialite
 Route::get('login/{provider}/', 'Auth\LoginController@redirect')->name('login.redirect');
 Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name('login.callback');
+Route::get('testing-abcdefg', 'Test\TestingController@index');
 
 // Backend section start
     Route::group(['prefix' => '/admin', 'middleware' => ['auth.admin', 'admin']], function () {
