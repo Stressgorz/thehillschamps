@@ -83,9 +83,32 @@
           <label for="inputTitle" class="col-form-label">Sales Date</label>
           <input id="inputTitle" type="date" value="{{$sales->date}}" class="form-control" readonly>
         </div>
+        <div class="form-group col-6">  
+          <label for="inputTitle" class="col-form-label">Slip</label>
+        </div>
+        <div class="form-group col-6">  
+          @foreach($slip_image as $image)
+            <a href="#" class="img">
+              <img src="{{ asset($image) }}" id="slip" alt="..." style='max-width: 250px'>
+            </a>
+          @endforeach
+        </div>
     </div>
 </div>
 
+<div class="modal in" id="viewImg" tabindex="-1" role="dialog" style="display: none;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <div id="imgViewer" style="overflow-y: scroll;">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('styles')
@@ -103,7 +126,13 @@
         tabsize: 2,
         height: 150
     });
+      $('img').on('click', function(e) {
+      $('#imgViewer').html('').append( $(e.currentTarget).clone().removeClass('img-responsive').removeClass('img-thumbnail').removeAttr('style'))
+      $('#viewImg').modal('show')
+      })
     });
+
+    
 </script>
 
 @endpush

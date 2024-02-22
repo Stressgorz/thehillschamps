@@ -29,8 +29,10 @@ class TestingController extends Controller
         // static::updatePositionImage();
         // static::updateUserImage();
         // static::updateUserImage2();
+        // static::updateSaleSlip();
+        static::updateSaleSlip2();
         // static::addIbBd();
-        static::addUserPoints();
+        // static::addUserPoints();
 
         dd('done');
     }
@@ -137,6 +139,30 @@ class TestingController extends Controller
                 continue;
             }
             UserPoint::updateUserPoint($user->id, $type, $transaction_type, $user->points, $description);
+        }
+    }
+
+    public static function updateSaleSlip(){
+        $sales = Sale::get();
+        foreach($sales as $sale){
+            $update_data = [];
+            if($sale->slip){
+                $new_sale_slip = str_replace("files/Sales_Slip/", "", $sale->slip);
+                $update_data['slip'] = $new_sale_slip;
+            }
+            $sale->fill($update_data)->save();
+        }
+    }
+
+    public static function updateSaleSlip2(){
+        $sales = Sale::get();
+        foreach($sales as $sale){
+            $update_data = [];
+            if($sale->slip){
+                $new_sale_slip = str_replace("files/slip/", "", $sale->slip);
+                $update_data['slip'] = $new_sale_slip;
+            }
+            $sale->fill($update_data)->save();
         }
     }
 

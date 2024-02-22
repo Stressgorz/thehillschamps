@@ -96,7 +96,7 @@ class SaleController extends Controller
                 'sales_status' => 'sales_status',
                 'status' => 'status',
                 'broker_type' => 'broker_type',
-                'created_at' => 'created_at',
+                'date' => 'date',
             ],
             'users' => [
                 'user_email' => 'email',
@@ -108,12 +108,12 @@ class SaleController extends Controller
 
         foreach ($params as $table => $columns) {
         	foreach ($columns as $field => $param) {
-	            if ($field == 'created_at') {
+	            if ($field == 'date') {
 	                if ($filters->get('fdate')) {
 	                    $query->where($table.'.'.$param, '>=',  $filters->get('fdate'));
 	                }
 	                if ($filters->get('tdate')) {
-	                    $query->where($table.'.'.$param, '<=', ($filters->get('tdate').' 23:59:59'));
+	                    $query->where($table.'.'.$param, '<', ($filters->get('tdate')));
 	                }
 	            } elseif (is_array($filters->query($field)) && ! empty($filters->query($field))) { 
 	                // If is array and not empty
@@ -197,12 +197,19 @@ class SaleController extends Controller
                                 ->select('name')
                                 ->first();
 
+        $slips = json_decode($sale->slip);
+        $slip_image = [];
+        foreach($slips as $index => $slip){
+            $slip_image[$index] = 'storage/'.Sale::$path.'/'.$slip;
+        }
+
         return view('backend.sales.show', [
             'sales' => $sale ?? [],
             'user_upline' => $user_upline,
             'client_upline' => $client_upline,
             'sales_status' => Sale::$sales_status,
             'sales_broker' => Sale::$broker,
+            'slip_image' => $slip_image,
         ]);
     }
 
