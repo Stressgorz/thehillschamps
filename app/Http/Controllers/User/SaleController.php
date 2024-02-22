@@ -177,6 +177,7 @@ class SaleController extends Controller
             'client_id' => $client->id,
             'user_id' => $request->user()->id,
             'amount' => $data['amount'],
+            'type' => 1,
             'mt4_id' => $data['mt4_id'],
             'mt4_pass' => $data['mt4_pass'],
             'broker_type' => $data['broker_type'],

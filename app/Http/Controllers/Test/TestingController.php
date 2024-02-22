@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Models\Position;
 use App\Models\UserPoint;
+use App\Models\Calendar;
+use App\Models\UserWalletHistory;
+use App\Models\UserWallet;
+use Carbon\Carbon;
 
 class TestingController extends Controller
 {
@@ -21,50 +25,14 @@ class TestingController extends Controller
      */
     public function index(Request $request)
     {
+        // static::addAdmin();
         // static::updatePositionImage();
         // static::updateUserImage();
-        static::addAdmin();
+        // static::updateUserImage2();
+        // static::addIbBd();
+        static::addUserPoints();
+
         dd('done');
-        $user_id = 82;
-        $type = 'debit';
-        $transaction_type = 'admin_transfer';
-        $amount = 200;
-        $description = 'hahahaha';
-        $haha = UserPoint::updateUserPoint($user_id, $type, $transaction_type, $amount, $description);
-
-        dd($haha);
-
-        // $datas = Sale::all();
-
-        // foreach($datas as $data){
-
-        //     $status = '';
-        //     $is_update =  false;
-        //     if($data->sales_status == 'Approve'){
-        //         $is_update = true;
-        //         $status = Sale::$sales_status['approved'];
-        //     } elseif($data->sales_status == 'Pending') {
-        //         $is_update = true;
-        //         $status = Sale::$sales_status['pending'];    
-        //     } elseif($data->sales_status == 'Reject') {
-        //         $is_update = true;
-        //         $status = Sale::$sales_status['reject'];   
-        //     }
-
-        //     if($is_update == true){
-        //         Sale::where('id', $data->id)->update([
-        //             'sales_status' => $status,
-        //         ]);
-        //     }
-        // }
-        // $admin = Admin::create([
-        //     'username' => 'admin',
-        //     'password'=>Hash::make('admin'),
-        //     'name' => 'admin',
-        //     'contact' => '12321321321',
-        //     'email' => 'admin@admin.com',
-        //     'status' => 'active',
-        // ]);
     }
 
     public static function updatePositionImage(){
@@ -113,7 +81,7 @@ class TestingController extends Controller
         foreach($users as $user){
             $update_data = [];
             if($user->photo){
-                $new_user_photo = str_replace("files/Profile_Pic/", "", $user->photo);
+                $new_user_photo = str_replace("files/profile/", "", $user->photo);
                 $update_data['photo'] = $new_user_photo;
             }
             $user->fill($update_data)->save();
@@ -134,6 +102,20 @@ class TestingController extends Controller
             ]);
         }
     }
+
+    public static function addIbBd(){
+
+        $users = User::where('status', User::$status['active'])->get();
+
+        foreach($users as $user){
+            if($user->id && $user->dob){
+                $dob = Carbon::parse($user->dob)->toDateString();
+                if($dob >= '1500-01-01'){
+                    Calendar::addUserDOB($user->id, $dob);
+                }
+            }
+        }
+    }
     public static function downlineGet($user_id){
 
 
@@ -142,6 +124,20 @@ class TestingController extends Controller
                     ->get();
 
         return $user;
+    }
+
+    public static function addUserPoints(){
+        $users = User::where('status', User::$status['active'])->get();
+        $description = 'script add previous points';
+        $type = UserPoint::$type['credit'];
+        $transaction_type = UserWalletHistory::$transaction_type['admin_transfer'];
+
+        foreach($users as $user){
+            if($user->points == null){
+                continue;
+            }
+            UserPoint::updateUserPoint($user->id, $type, $transaction_type, $user->points, $description);
+        }
     }
 
 }

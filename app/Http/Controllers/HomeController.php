@@ -8,8 +8,11 @@ use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\PostComment;
 use App\Models\Client;
-use App\Models\UserTarget;
+use App\Models\Calendar;
+use App\Models\UserWalletHistory;
+use App\Models\UserWallet;
 use App\Rules\MatchOldPassword;
+use Carbon\Carbon;
 use Hash;
 
 class HomeController extends Controller
@@ -43,18 +46,41 @@ class HomeController extends Controller
 
         $path = User::$path.'/';
 
-        $target = UserTarget::where('user_id', $request->user()->id)
-                            ->where('status', UserTarget::$status['active'])
-                            ->select('target')
-                            ->orderBy('created_at', 'DESC')
-                            ->limit(3)
-                            ->get();
+        $now = Carbon::now();
 
+        if (empty($request->query('fdate'))) {
+            $fdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->subMonths(1)->format('Y-m-d');
+            $request->request->add([
+                'fdate' => $fdate,
+            ]);
+        }
+        if (empty($request->query('tdate'))) {
+            $tdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->addDays(1)->format('Y-m-d');
+            $request->request->add([
+                'tdate' => $tdate,
+            ]);
+        }
+        $point_history = UserWalletHistory::where('user_id', $request->user()->id)
+                            ->where('created_at', '>=', $request->get('fdate'))
+                            ->where('created_at', '<', $request->get('tdate'))
+                            ->orderBy('created_at', 'DESC')
+                            ->get();
+        $user_wallet = UserWallet::where('user_id', $request->user()->id)
+                                    ->where('wallet', UserWallet::$wallet['points'])
+                                    ->pluck('balance')
+                                    ->first();
+                                    
+        $user_points = 0;
+
+        if($user_wallet){
+            $user_points = $user_wallet;
+        }
         // return $profile;
         return view('user.users.profile', [
             'profile' => $profile,
             'path' => $path,
-            'user_target' => $target,
+            'point_history' => $point_history,
+            'user_points' => $user_points,
             'total_clients' => $total_clients,
         ]);
     }
@@ -92,6 +118,12 @@ class HomeController extends Controller
                 'photo' => $image,
             ];
 
+            // add birthday to calendar
+            if(isset($user->id) &&  $user->dob){
+                if($user->dob != $updateData['dob'])
+                Calendar::addUserDOB($user->id, $updateData['dob']);
+            }
+            
             $user->fill($updateData)->save();
 
             request()->session()->flash('success','Successfully updated your profile');
@@ -99,7 +131,7 @@ class HomeController extends Controller
             request()->session()->flash('error','Please try again!');
         }
 
-        return redirect()->back();
+        return redirect()->route('user');
     }
 
     

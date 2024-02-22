@@ -9,14 +9,6 @@
         {{csrf_field()}}
 
         <div class="form-group">
-          <label for="inputUsername" class="col-form-label">Username <span class="text-danger">*</span></label>
-          <input id="inputUsername" type="text" name="username" placeholder="Enter Username"  value="{{old('username')}}" class="form-control">
-          @error('username')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
             <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
             <input id="password" type="password" class="form-control" name="password" autocomplete="current-password">
             @error('password')

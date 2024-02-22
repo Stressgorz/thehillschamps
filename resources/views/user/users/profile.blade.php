@@ -31,10 +31,10 @@
                       <h5 class="card-title text-left"><small>Email: {{$profile->email}}</small></h5>
                       <h5 class="card-title text-left"><small>Tel No: {{$profile->phone}}</small></h5>
                       <h5 class="card-title text-left"><small>DOB: {{$profile->dob}}</small></h5>
+                      <h5 class="card-title text-left"><small>Points : {{$user_points}}</small></h5>
                       <h5 class="card-title text-left"><small>Team: {{$profile->team->name}}</small></h5>
                       <h5 class="card-title text-left"><small>Position: {{$profile->position->name}}</small></h5>
                       <h5 class="card-title text-left"><small>No of Client: {{$total_clients}}</small></h5>
-                      <h5 class="card-title text-left"><small>Remaining to reach Next Rank  : {{$profile->code}}</small></h5>
                     </div>
                   </div>
             </div>
@@ -45,25 +45,63 @@
                             <div class='col-6'>
                             <h2>Personal Target</h2>
                             </div>
-                            <div class='col-6'>
-                            <a href="{{route('targets.create', $profile->id)}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="edit Profile"><i class="fas fa-plus"></i> Add Target</a>
-                                </div>
                         </div>
-                    </div>
-
-                    <div class="card-body mt-4 ml-2">
-                        @php 
-                            $no = 0;
-                        @endphp
-                        @foreach($user_target as $target)
-                            <div class="row justify-content-center">
-                                @php 
-                                    $no++;
-                                @endphp
-                                <h2>{{$no.': '.$target->target}}</h2>
+                        <form class="form-horizontal">
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                <label class="control-label">From Date</label>
+                                <div class='input-group date datepicker'>
+                                    </span>
+                                    <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
+                                </div>
                             </div>
-                        @endforeach
+                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                <label class="control-label">To Date</label>
+                                <div class='input-group date datepicker'>
+                                    </span>
+                                    <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
+                                <button id="clear_search" type="submit" class="btn btn-info">Clear Search</button>
+                            </div>
+                        </div>
+                        </form>
                     </div>
+                    <div class="card-body mt-4 ml-2">
+                        <div class="table-responsive">
+                            @if(count($point_history)>0)
+                            <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                <th>Previous Amount</th>
+                                <th>Amounts</th>
+                                <th>Balance</th>
+                                <th>Created Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach($point_history as $data)
+                                @php
+                                @endphp
+                                    <tr>
+                                        <td>{{$data->prev_balance}}</td>
+                                        <td>{{$data->amount}}</td>
+                                        <td>{{$data->balance}}</td>
+                                        <td>{{$data->created_at}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            </table>
+                            @else
+                            <h6 class="text-center">No Points History found!!!</h6>
+                            @endif
+                        </div>
+                        </div>
             </div>
         </div>
    </div>
@@ -110,6 +148,14 @@
 @push('scripts')
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 <script>
+      $(document).ready(function(){
+
+        $("#clear_search").on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '{{ Request::url() }}';
+        });
+
+    })
     $('#lfm').filemanager('image');
 </script>
 @endpush

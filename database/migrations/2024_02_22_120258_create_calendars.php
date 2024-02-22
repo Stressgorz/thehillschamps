@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->string('title', 191);
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->bigInteger('user_id')->nullable();
+            $table->string('type', 20)->nullable();
+            $table->string('title', 191)->nullable();
+            $table->date('start_time')->nullable();
+            $table->date('end_time')->nullable();
             $table->timestamps();
         });
     }

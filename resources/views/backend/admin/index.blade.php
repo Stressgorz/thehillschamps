@@ -18,7 +18,6 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>Username</th>
               <th>FullName</th>
               <th>Contact</th>
               <th>Role</th>
@@ -32,7 +31,6 @@
               @php
               @endphp
                 <tr>
-                    <td>{{$admin->username}}</td>
                     <td>{{$admin->name}}</td>
                     <td>
                         {{$admin->contact}}<br>
@@ -45,7 +43,7 @@
                     <form method="POST" action="{{route('admin-setting.destroy',[$admin->id])}}">
                       @csrf
                       @method('delete')
-                          <button class="btn btn-danger btn-sm dltBtn" data-id={{$admin->id}} data-toggle="tooltip" data-placement="bottom" title="Delete">Delete</button>
+                          <button class="btn btn-danger btn-sm dltBtn m-1" data-id={{$admin->id}} data-toggle="tooltip" data-placement="bottom" title="Delete">Delete</button>
                         </form>
                     </td>
                 </tr>

@@ -8,13 +8,6 @@
       <form method="post" action="{{route('admin-setting.update',$admin->id)}}">
         @csrf 
         @method('PATCH')
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Username <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="username" placeholder="Enter username"  value="{{$admin->username}}" class="form-control">
-          @error('username')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
 
         <div class="form-group">
           <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>

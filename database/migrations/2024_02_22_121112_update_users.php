@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dropColumn('volume_daily');
             $table->dropColumn('volume_monthly');
             $table->dropColumn('volume_yearly');
-            $table->dateTime('updated_at')->nullable();
+
         });
     }
 
@@ -30,14 +30,14 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('avatar')->nullable();
-            $table->string('lack')->nullable();
-            $table->string('target1')->nullable();
-            $table->string('target2')->nullable();
-            $table->string('target3')->nullable();
-            $table->integer('volume_daily')->nullable();
-            $table->integer('volume_monthly')->nullable();
-            $table->integer('volume_yearly')->nullable();
+            $table->string('avatar', 50)->nullable();
+            $table->string('lack', 50)->nullable();
+            $table->string('target1', 50)->nullable();
+            $table->string('target2', 50)->nullable();
+            $table->string('target3', 50)->nullable();
+            $table->integer('volume_daily', 50)->nullable();
+            $table->integer('volume_monthly', 50)->nullable();
+            $table->integer('volume_yearly', 50)->nullable();
             $table->dropColumn('updated_at');
         });
     }

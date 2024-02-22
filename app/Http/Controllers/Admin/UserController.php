@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembersExport;
 use Carbon\Carbon;
 use App\Models\UserWallet;
+use App\Models\Calendar;
 use App\Models\UserWalletHistory;
 use App\Models\UserPoint;
 
@@ -167,6 +168,11 @@ class UserController extends Controller
             'upline_id' => $data['upline_id'],
             'status' => $data['status'],
         ]);
+
+        // add birthday to calendar
+        if(isset($user->id) &&  $user->dob){
+            Calendar::addUserDOB($user->id, $user->dob);
+        }
 
         if($user){
             request()->session()->flash('success','User successfully added');
@@ -364,6 +370,12 @@ class UserController extends Controller
         }
 
         $user=User::findOrFail($id);
+
+        // add birthday to calendar
+        if(isset($user->id) &&  $user->dob){
+            if($user->dob != $updateData['dob'])
+            Calendar::addUserDOB($user->id, $updateData['dob']);
+        }
 
         if($user){
             $user->fill($updateData)->save();

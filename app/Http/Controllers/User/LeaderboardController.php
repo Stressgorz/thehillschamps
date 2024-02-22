@@ -256,8 +256,8 @@ class LeaderboardController extends Controller
                     ->leftJoin('teams', 'users.team_id' , '=', 'teams.id')
                     ->where('downline.status', User::$status['active'])
                     ->where('users.status', User::$status['active'])
-                    ->where('downline.date_created', '>=', $start_date)
-                    ->where('downline.date_created', '<', $end_date);
+                    ->where('downline.created_at', '>=', $start_date)
+                    ->where('downline.created_at', '<', $end_date);
 
         if($data_type == Sale::$leaderboard_data_type['user']){
             $queries = $queries->selectRaw('count(downline.id) as total_amount

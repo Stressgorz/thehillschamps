@@ -53,7 +53,6 @@ class AdminSettingController extends Controller
         $data = static::adminStoreValidation($request);
 
         $admin = Admin::create([
-        	'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'name' => $data['name'],
             'contact' => $data['contact'],
@@ -75,11 +74,11 @@ class AdminSettingController extends Controller
     public static function adminStoreValidation($request){
 
         $data[] = $request->validate([
-            'username' => ['required',
+            'email' => ['required',
             function ($attribute, $value, $fail) {
-                $admin_name = Admin::where('username', $value)->first();
+                $admin_name = Admin::where('email', $value)->first();
                 if ($admin_name) {
-                    $fail('username is exists');
+                    $fail('email is exists');
                 }
             }
             ],
@@ -87,7 +86,6 @@ class AdminSettingController extends Controller
             'confirm_password' => ['same:password'],
             'name' => ['required'],
             'contact' => ['required'],
-            'email' => ['required'],
             'status' => ['required'],
             'role' => ['required'],
         ]);
@@ -144,14 +142,13 @@ class AdminSettingController extends Controller
         $updateData = [
             'name' => $data['name'],
             'contact' => $data['contact'],
-            'email' => $data['email'],
             'role' => $data['role'],
             'status' => $data['status'],
         ];
 
-        if(isset($data['username'])){
+        if(isset($data['email'])){
             $updateData = [
-                'username' => $data['username'],
+                'email' => $data['email'],
             ];
         }
 
@@ -183,17 +180,17 @@ class AdminSettingController extends Controller
             'role' => ['required'],
         ]);
 
-        $admin = Admin::select('username')
+        $admin = Admin::select('email')
                         ->where('id', $id)
                         ->first();
 
-        if($request->username != $admin->username){
+        if($request->email != $admin->email){
             $data[] = $request->validate([
-                'username' => ['required',
+                'email' => ['required',
                 function ($attribute, $value, $fail) {
-                    $admin_name = Admin::where('username', $value)->first();
+                    $admin_name = Admin::where('email', $value)->first();
                     if ($admin_name) {
-                        $fail('username has exist');
+                        $fail('email has exist');
                     }
                 }
                 ],

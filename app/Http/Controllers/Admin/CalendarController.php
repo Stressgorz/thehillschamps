@@ -40,6 +40,7 @@ class CalendarController extends Controller
     public static function filter(Request $filters)
     {
         $query = DB::table('Calendars')
+                    ->where('type', Calendar::$type['content'])
 		        	->select('*'
                     )
                     ->orderBy('id','DESC');
@@ -97,6 +98,7 @@ class CalendarController extends Controller
         $data = static::calendarStoreValidation($request);
         $calendar = Calendar::create([
         	'title' => $data['title'],
+            'type' => Calendar::$type['content'],
             'start_time' => $data['start_time'],
         ]);
 

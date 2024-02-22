@@ -40,7 +40,7 @@ class AnnouncementController extends Controller
     
     public static function filter(Request $filters)
     {
-        $query = DB::table('Announcements')
+        $query = DB::table('announcements')
 		        	->select('*'
                     )
                     ->orderBy('id','DESC');
