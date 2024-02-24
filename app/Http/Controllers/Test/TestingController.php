@@ -14,7 +14,9 @@ use App\Models\UserPoint;
 use App\Models\Calendar;
 use App\Models\UserWalletHistory;
 use App\Models\UserWallet;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use App\Mail\ClientPending;
 
 class TestingController extends Controller
 {
@@ -30,11 +32,30 @@ class TestingController extends Controller
         // static::updateUserImage();
         // static::updateUserImage2();
         // static::updateSaleSlip();
-        static::updateSaleSlip2();
+        // static::updateSaleSlip2();
         // static::addIbBd();
         // static::addUserPoints();
+        static::emailClient();
 
         dd('done');
+    }
+
+    public static function emailClient(){
+
+        $tomail=['tester1@hotmail.com'];
+        $data = [
+            'email' => 'tester1@hotmail.com',
+            'client_email' => 'client@hotmail.com',
+            'ib_name' => 'Tan Sohai',
+            'url' => 'https://www.google.com/',
+        ];
+
+        try{
+            Mail::to($data['email'])->send(new ClientPending($data));
+        }catch(\Exception $e){
+            dd($e->getMessage());
+            // Log::error('message :'.$e->getMessage());
+        }
     }
 
     public static function updatePositionImage(){

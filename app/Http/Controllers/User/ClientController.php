@@ -12,6 +12,7 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Helper;
 
 class ClientController extends Controller
@@ -187,6 +188,9 @@ class ClientController extends Controller
         ]);
 
         if($client){
+            $ib_name = $request->user()->firstname.' '.$request->user()->firstname;
+
+            $this->emailClient($data, $ib_name);
             request()->session()->flash('success','client successfully added');
         } else{
             request()->session()->flash('error','Error occurred, Please try again!');
@@ -387,5 +391,20 @@ class ClientController extends Controller
             request()->session()->flash('error','Error while deleting Client');
         }
         return redirect()->route('clients.index');
+    }
+
+    protected function emailClient($data, $ib_name){
+
+        $tomail=[$data['email']];
+        $data['ib_name'] = $ib_name;
+        try{
+            //Mail::to($tomail)->send(new OrderConfirmMail($checkout_data, $invoice_id));
+            Mail::send('mail.client-pending', $data, function($message)use($data, $tomail) {
+                $message->to($tomail)
+                        ->subject('Client: '.$data["name"]);
+            }); 
+        }catch(\Exception $e){
+            // Log::error('message :'.$e->getMessage());
+        }
     }
 }
