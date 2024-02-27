@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class LeaderboardController extends Controller
 
         $leaderboard = static::getSaleLeaderboard($request, $start_date, $end_date, $data_type);
 
-        return view('user.leaderboard.sales', [
+        return view('backend.leaderboard.sales', [
             'type' => $type,
             'photo' => $photo,
             'data_type' => $data_type,          
@@ -57,7 +57,7 @@ class LeaderboardController extends Controller
 
         $leaderboard = static::getIbLeaderboard($request, $start_date, $end_date, $data_type);
 
-        return view('user.leaderboard.ib', [
+        return view('backend.leaderboard.ib', [
             'type' => $type,
             'photo' => $photo,
             'data_type' => $data_type,          
@@ -76,7 +76,7 @@ class LeaderboardController extends Controller
 
         $leaderboard = static::getClientLeaderboard($request, $start_date, $end_date, $data_type);
 
-        return view('user.leaderboard.client', [
+        return view('backend.leaderboard.client', [
             'type' => $type,
             'photo' => $photo,
             'data_type' => $data_type,          

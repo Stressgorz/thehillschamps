@@ -166,6 +166,14 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         // Client
         Route::resource('/calendars', 'Admin\CalendarController');
 
+        // Leaderboard
+        Route::get('/leaderboard-sale/{data_type}', 'Admin\LeaderboardController@leaderboardSales')->name('admin-get-leaderboard-sale');
+        // Leaderboard
+        Route::get('/leaderboard-ib/{data_type}', 'Admin\LeaderboardController@leaderboardIb')->name('admin-get-leaderboard-ib');
+
+        // Leaderboard
+        Route::get('/leaderboard-client/{data_type}', 'Admin\LeaderboardController@leaderboardClient')->name('admin-get-leaderboard-client');
+        
         // Client   
         Route::resource('/sales-approval', 'Admin\SaleApprovalController');
         Route::post('/sales-approval/{id}/approve', 'Admin\SaleApprovalController@approve')->name('sales.approve');
