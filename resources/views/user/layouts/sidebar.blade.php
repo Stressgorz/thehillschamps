@@ -18,6 +18,14 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!--Leaderboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('user-point-history')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Point History</span>
+        </a>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientCollapse" aria-expanded="true" aria-controls="clientCollapse">
           <i class="fas fa-truck"></i>

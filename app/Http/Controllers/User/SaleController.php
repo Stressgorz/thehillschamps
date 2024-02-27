@@ -203,11 +203,14 @@ class SaleController extends Controller
             'clients_email' => ['required',
             function ($attribute, $value, $fail) use ($request) {
                 $clients_email = Client::where('email', $value)
-                                        ->where('status', Client::$status['active'])
                                         ->where('user_id', $request->user()->id)
                                         ->first();
                 if (empty($clients_email)) {
                     $fail('Client does not exists');
+                } else {
+                    if($clients_email->status != Client::$status['active']){
+                        $fail('Client is not activated, pls kindly ask client to verify at their email');
+                    }
                 }
             }
             ],

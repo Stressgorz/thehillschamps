@@ -301,11 +301,27 @@ class UserController extends Controller
                                 }
 
                                 $all_downline_sales_amount = $all_downline_sales->sum('amount');
+    
+        $personal_sales = Sale::where('user_id', $id)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $personal_sales->where('date', '>=', $fdate);
+                                }
+                        
+                                if(isset($edate) && $edate){
+                                    $personal_sales->where('date', '>=', $edate);
+                                }
+
+                                $all_personal_sales = $personal_sales->sum('amount');
+
 
         return view('backend.users.show', [
             'user' => $user,
             'direct_ib_sales' => $direct_ib_sales_amount,
             'all_downline_sales' => $all_downline_sales_amount,
+            'all_personal_sales' => $all_personal_sales,
             'user_status' => User::$status,
         ]);
     }

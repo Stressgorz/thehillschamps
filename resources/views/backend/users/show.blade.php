@@ -5,17 +5,17 @@
 <div class="card">
 <form class="form-horizontal">
     <div class="card-header py-3">
-      <h5>View User</h5>
+    <h6 class="mb-3 font-weight-bold text-primary">View IB</h6>
       <div class="form-group row">
           <div class="col-md-2 col-sm-3 col-xs-12">
-              <label class="control-label">From Date</label>
+              <label class="control-label">From Date (sales)</label>
               <div class='input-group date datepicker'>
                   </span>
                   <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
               </div>
           </div>
           <div class="col-md-2 col-sm-3 col-xs-12">
-              <label class="control-label">To Date</label>
+              <label class="control-label">To Date (sales)</label>
               <div class='input-group date datepicker'>
                   </span>
                   <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
@@ -43,6 +43,11 @@
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Group Sales</label>
           <input id="inputTitle" type="text"  value="{{$all_downline_sales}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Personal Sales</label>
+          <input id="inputTitle" type="text"  value="{{$all_personal_sales}}" class="form-control" readonly>
         </div>
 
         <div class="form-group col-6">

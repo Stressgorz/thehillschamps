@@ -46,7 +46,7 @@ class AnnouncementController extends Controller
                 if($user->team_id != $request->user()->team_id){
                     continue;
                 }
-                $title = Calendar::$bdcontent .' '.$user->firstname.' '.$user->lastname;
+                $title = $user->firstname.' '.$user->lastname.', '.Calendar::$bdcontent;
                 $start_time = Carbon::parse($calendar->start_time)->format($this_year.'-m-d');
             }
             $events[] = [

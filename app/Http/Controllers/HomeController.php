@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\PostComment;
 use App\Models\Client;
+use App\Models\Sale;
 use App\Models\Calendar;
 use App\Models\UserWalletHistory;
 use App\Models\UserWallet;
@@ -48,23 +49,6 @@ class HomeController extends Controller
 
         $now = Carbon::now();
 
-        if (empty($request->query('fdate'))) {
-            $fdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->subMonths(1)->format('Y-m-d');
-            $request->request->add([
-                'fdate' => $fdate,
-            ]);
-        }
-        if (empty($request->query('tdate'))) {
-            $tdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->addDays(1)->format('Y-m-d');
-            $request->request->add([
-                'tdate' => $tdate,
-            ]);
-        }
-        $point_history = UserWalletHistory::where('user_id', $request->user()->id)
-                            ->where('created_at', '>=', $request->get('fdate'))
-                            ->where('created_at', '<', $request->get('tdate'))
-                            ->orderBy('created_at', 'DESC')
-                            ->get();
         $user_wallet = UserWallet::where('user_id', $request->user()->id)
                                     ->where('wallet', UserWallet::$wallet['points'])
                                     ->pluck('balance')
@@ -75,11 +59,76 @@ class HomeController extends Controller
         if($user_wallet){
             $user_points = $user_wallet;
         }
+
+        $id = $request->user()->id;
+
+        if(isset($request->fdate)){
+            $fdate = $request->fdate;
+        }
+
+        if(isset($request->edate)){
+            $edate = $request->edate;
+        }
+
+
+        $personal_sales = Sale::where('user_id', $request->user()->id)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $personal_sales->where('date', '>=', $fdate);
+                                }
+                        
+                                if(isset($edate) && $edate){
+                                    $personal_sales->where('date', '>=', $edate);
+                                }
+
+                                $all_personal_sales = $personal_sales->sum('amount');
+
+        $direct_ib = User::where('upline_id', $id)
+                            ->where('status', User::$status['active'])
+                            ->where('position_id', '!=', 5)
+                            ->select('id')
+                            ->pluck('id')
+                            ->toArray();
+
+        $direct_ib_sales = Sale::whereIn('user_id', $direct_ib)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $direct_ib_sales->where('date', '>=', $fdate);
+                                }
+
+                                if(isset($edate) && $edate){
+                                    $direct_ib_sales->where('date', '>=', $edate);
+                                }
+
+                                $direct_ib_sales_amount = $direct_ib_sales->sum('amount');
+
+        $all_downline = User::getAllIbDownline($id);
+
+        $all_downline_sales = Sale::whereIn('user_id', $all_downline)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $all_downline_sales->where('date', '>=', $fdate);
+                                }
+                        
+                                if(isset($edate) && $edate){
+                                    $all_downline_sales->where('date', '>=', $edate);
+                                }
+
+                                $all_downline_sales_amount = $all_downline_sales->sum('amount');
+
         // return $profile;
         return view('user.users.profile', [
             'profile' => $profile,
             'path' => $path,
-            'point_history' => $point_history,
+            'direct_ib_sales' => $direct_ib_sales_amount,
+            'all_downline_sales' => $all_downline_sales_amount,
+            'all_personal_sales' => $all_personal_sales,
             'user_points' => $user_points,
             'total_clients' => $total_clients,
         ]);
