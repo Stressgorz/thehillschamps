@@ -184,13 +184,13 @@ class ClientController extends Controller
             'zip' => $data['zip'],
             'upline_client_id' => $upline_client_id ??0,
             'upline_user_id' => $upline_user_id??0,
-            'status' => Client::$status['active'],
+            'status' => Client::$status['pending'],
         ]);
 
         if($client){
             $ib_name = $request->user()->firstname.' '.$request->user()->firstname;
 
-            $this->emailClient($data, $ib_name);
+            Client::emailClient($client, $ib_name);
             request()->session()->flash('success','client successfully added');
         } else{
             request()->session()->flash('error','Error occurred, Please try again!');
@@ -393,18 +393,33 @@ class ClientController extends Controller
         return redirect()->route('clients.index');
     }
 
-    protected function emailClient($data, $ib_name){
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public static function approveClient(Request $request, $id)
+    {
 
-        $tomail=[$data['email']];
-        $data['ib_name'] = $ib_name;
-        try{
-            //Mail::to($tomail)->send(new OrderConfirmMail($checkout_data, $invoice_id));
-            Mail::send('mail.client-pending', $data, function($message)use($data, $tomail) {
-                $message->to($tomail)
-                        ->subject('Client: '.$data["name"]);
-            }); 
-        }catch(\Exception $e){
-            // Log::error('message :'.$e->getMessage());
+        $client=Client::where('id', $id)
+                        ->where('status', Client::$status['pending'])
+                        ->first();
+
+        if($client){
+            // return $child_cat_id;
+            $client = Client::where('id', $id)->update([
+                'status' => Client::$status['active'],
+            ]);
+            $type = 'success';
+            request()->session()->flash('success','You have successfully activated');
+        } else {
+            $type = 'error';
+            request()->session()->flash('error','Error while activate, pls contact our support!');
         }
+
+        return view('user.clients.clients-approve')->with([
+            'type' => $type,
+        ]);
     }
 }

@@ -236,8 +236,13 @@ class ClientController extends Controller
     public function show($id)
     {
          $client = Client::findOrFail($id);
+         $is_pending = false;
+         if($client->status == Client::$status['pending']){
+            $is_pending = true;
+         }
         return view('backend.clients.show', [
             'client' => $client,
+            'is_pending' => $is_pending,
         ]);
     }
 
@@ -424,5 +429,35 @@ class ClientController extends Controller
             'user' => $user,
             'data' => $downline,
         ]);
+    }
+
+            /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public static function sendClientEmail(Request $request, $id)
+    {
+        $send_success = false;
+        $client=Client::where('id', $id)
+                        ->where('status', Client::$status['pending'])
+                        ->first();
+
+        if($client){
+            $ib = User::findOrFail($client->user_id);
+            $ib_name = $ib->firstname.' '.$ib->lastname;
+            $send_email = Client::emailClient($client, $ib_name);
+            if($send_email){
+                $send_success = true;
+            }
+        }
+        if($send_success == true){
+            request()->session()->flash('success','You have successfully send email');
+        } else {
+            request()->session()->flash('error','Error while send email, pls contact our handsome Chris Tan!');
+        }
+
+        return redirect()->route('clients-admin.index');
     }
 }

@@ -3,7 +3,17 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">View Client</h5>
+  <div class="card-header">
+    <div class = "row justify-content-between">
+    <h5>View Client</h5>
+    @if($is_pending == 'true')
+      <form method="POST" action="{{route('admin-send-client-approval',[$client->id])}}">
+        @csrf
+            <button class="btn btn-primary btn-sm sendBtn m-1" data-id={{$client->id}}  data-toggle="tooltip" data-placement="bottom" title="Delete">Send Approval Email</button>
+      </form>
+    @endif
+    </div>
+  </div>
     <div class="card-body">
         @csrf 
         @method('PATCH')
@@ -89,15 +99,36 @@
 @push('scripts')
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 <script src="{{asset('backend/summernote/summernote.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script>
     $('#lfm').filemanager('image');
 
     $(document).ready(function() {
-    $('#summary').summernote({
-      placeholder: "Write short description.....",
-        tabsize: 2,
-        height: 150
-    });
+      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+          $('.sendBtn').click(function(e){
+            var form=$(this).closest('form');
+              var dataID=$(this).data('id');
+              // alert(dataID);
+              e.preventDefault();
+              swal({
+                    title: "Are you sure?",
+                    text: "Once send, client will receive the email immediately!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                       form.submit();
+                    } else {
+                        swal("You did not send!");
+                    }
+                });
+          })
     });
 </script>
 

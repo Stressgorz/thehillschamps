@@ -35,7 +35,11 @@ class TestingController extends Controller
         // static::updateSaleSlip2();
         // static::addIbBd();
         // static::addUserPoints();
-        static::emailClient();
+        // static::emailClient();
+        $client = Client::find(36);
+        $user = User::find(256);
+
+        Client::emailClient($client, $user->firstname);
 
         dd('done');
     }

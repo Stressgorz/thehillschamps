@@ -41,10 +41,9 @@ class ClientPending extends Mailable
         return new Content(
             markdown: 'mail.client-pending',
             with: [
-                'email' => $this->data['email'],
-                'client_email' => $this->data['client_email'],
-                'ib_name' => $this->data['ib_name'],
-                'url' => $this->data['url'],
+                'client_email' => $this->data['client_email'] ?? '',
+                'ib_name' => $this->data['ib_name'] ?? '',
+                'url' => $this->data['url'] ?? '',
             ],
         );
     }

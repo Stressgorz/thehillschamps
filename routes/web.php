@@ -158,6 +158,7 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         // Client
         Route::resource('/clients-admin', 'Admin\ClientController');
         Route::get('/client-admin-downline/{user_id}', 'Admin\ClientController@getClientDownline')->name('client-get-client-downline');
+        Route::post('/client-admin-approve/{id}', 'Admin\ClientController@sendClientEmail')->name('admin-send-client-approval');
 
         // Client
         Route::resource('/announcements', 'Admin\AnnouncementController');
@@ -272,6 +273,9 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         Route::post('change-password', 'HomeController@changPasswordStore')->name('change.password');
 
     });
+
+// Client Approval
+Route::get('/client-approval/{id}', 'User\ClientController@approveClient')->name('client-approve');
 
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();

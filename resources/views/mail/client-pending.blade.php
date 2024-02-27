@@ -3,7 +3,6 @@
 
 Here is the message:
 
-<strong>From: </strong>{{$email}} <br>
 <strong>To: </strong>{{$client_email}} <br>
 
 Please Click the below button to ACTIVATE your account!

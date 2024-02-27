@@ -524,7 +524,7 @@ class UserController extends Controller
             ]);
         }
 
-        $user_wallet_history = $this->filterUserWallet($request);
+        $user_wallet_history = $this->filterUserWallet($request, $user_id);
 
         return view('backend.users.history', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
@@ -532,9 +532,10 @@ class UserController extends Controller
         ]);
     }
 
-    public static function filterUserWallet(Request $filters)
+    public static function filterUserWallet(Request $filters, $user_id)
     {
         $query = DB::table('user_wallet_history')
+                    ->where('user_id', $user_id)
                     ->where('wallet', UserWallet::$wallet['points'])
 		        	->select('*'
                     )

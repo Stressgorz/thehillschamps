@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Mail\ClientPending;
+use Illuminate\Support\Facades\Mail;
 
 class Client extends Model
 {
@@ -68,5 +70,28 @@ class Client extends Model
         }
 
         return $downline;
+    }
+
+    public static function emailClient($client, $ib_name){
+
+        $url = $url = route('client-approve', [$client->id]);
+        $is_send = false;
+
+        $tomail=$client->email;
+        $data = [
+            'ib_name' => $ib_name,
+            'client_email' => $client->email,
+            'url' => $url,
+        ];
+
+        try{
+            Mail::to($tomail)->send(new ClientPending($data));
+            $is_send = true;
+        }catch(\Exception $e){
+            dd($e->getMessage());
+            // Log::error('message :'.$e->getMessage());
+        }
+
+        return $is_send;
     }
 }

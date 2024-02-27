@@ -7,27 +7,27 @@
     <div class="card-header py-3">
       <h5>View User</h5>
       <div class="form-group row">
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label class="control-label">From Date</label>
-                <div class='input-group date datepicker'>
-                    </span>
-                    <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label class="control-label">To Date</label>
-                <div class='input-group date datepicker'>
-                    </span>
-                    <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
-                </div>
-            </div>
-          </div>
-          <div class="form-group">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                  <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
-                  <button id="clear_search" type="submit" class="btn btn-info">Clear Search</button>
+          <div class="col-md-2 col-sm-3 col-xs-12">
+              <label class="control-label">From Date</label>
+              <div class='input-group date datepicker'>
+                  </span>
+                  <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
               </div>
           </div>
+          <div class="col-md-2 col-sm-3 col-xs-12">
+              <label class="control-label">To Date</label>
+              <div class='input-group date datepicker'>
+                  </span>
+                  <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
+              </div>
+          </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
+                <button id="clear_search" type="submit" class="btn btn-info">Clear Search</button>
+            </div>
+        </div>
       <a href="{{route('get-users-history', $user->id)}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="edit Profile"> User Points </a>
     </div>
     </form>
