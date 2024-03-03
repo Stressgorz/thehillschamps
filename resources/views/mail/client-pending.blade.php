@@ -12,5 +12,5 @@ Approve
 </x-mail::button>
 
 Regards,<br>
-Noob
+THE HILLS CHAMPS
 @endcomponent
