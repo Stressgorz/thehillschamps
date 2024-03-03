@@ -54,6 +54,37 @@
         </div>
     </li>
 
+    @if(Auth::user()->position->name == 'IB')
+    <!--KPI -->
+    <li class="nav-item">
+      <a class="nav-link" href="https://forms.gle/hiBnxSw9Kw1RBe2bA">
+          <i class="fas fa-hammer fa-chart-area"></i>
+          <span>KPI</span>
+      </a>
+    </li>
+    @elseif(Auth::user()->position->name == 'Senior')
+    <li class="nav-item">
+      <a class="nav-link" href="https://forms.gle/NeEYaE5PRNXst8hj6">
+          <i class="fas fa-hammer fa-chart-area"></i>
+          <span>KPI</span>
+      </a>
+    </li>
+    @elseif(Auth::user()->position->name == 'Leader')
+    <li class="nav-item">
+      <a class="nav-link" href="https://forms.gle/8FQ39QcZQNihTb559">
+          <i class="fas fa-hammer fa-chart-area"></i>
+          <span>KPI</span>
+      </a>
+    </li>
+    @elseif(Auth::user()->position->name == 'Director')
+    <li class="nav-item">
+      <a class="nav-link" href="https://forms.gle/6azKWgfaaQdLfjFt9">
+          <i class="fas fa-hammer fa-chart-area"></i>
+          <span>KPI</span>
+      </a>
+    </li>
+    @endif
+    @if(Auth::user()->position->name != 'Marketer')
     <!--Leaderboard -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('get-leaderboard-sale', 'user')}}">
@@ -77,7 +108,7 @@
             <span>Leaderboard (Ib)</span>
         </a>
     </li>
-
+    @endif
     @if(Auth::user()->position->name != 'Director' && Auth::user()->position->name != 'Marketer')
     <!--Road Map Points -->
     <li class="nav-item">

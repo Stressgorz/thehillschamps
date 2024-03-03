@@ -14,6 +14,12 @@ class Position extends Model
         'inactive' => '9',
     ];
 
+    public static $name = [
+        'ib' => 'IB',
+        'senior' => 'Senior',
+        'leader' => 'Leader',
+        'director' => 'Director',
+    ];
             /**
      * The path of the storage folder to store uploaded files.
      *
