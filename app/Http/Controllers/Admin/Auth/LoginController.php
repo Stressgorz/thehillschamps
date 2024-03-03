@@ -54,8 +54,7 @@ class LoginController extends Controller
                 return redirect()->route('admin')->with('success','You are Logged in sucessfully.');
             } 
         }
-
-        return back()->with('error','Whoops! invalid email and password.');
+        return redirect()->route('admin.login_form')->with('error','Whoops! invalid email and password.');
     }
 
     /**

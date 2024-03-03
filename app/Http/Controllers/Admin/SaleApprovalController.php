@@ -128,12 +128,20 @@ class SaleApprovalController extends Controller
         if($client_upline){
             $client_upline_name = $client_upline->name;
         }
+
+        $slips = json_decode($sale->slip);
+        $slip_image = [];
+        foreach($slips as $index => $slip){
+            $slip_image[$index] = 'storage/'.Sale::$path.'/'.$slip;
+        }
+        
         return view('backend.sales-approval.show', [
             'sales' => $sale ?? [],
             'user_upline_name' => $user_upline_name,
             'client_upline_name' => $client_upline_name,
             'sales_status' => Sale::$sales_status,
             'sales_broker' => Sale::$broker,
+            'slip_image' => $slip_image,
         ]);
     }
 

@@ -380,9 +380,7 @@ class UserController extends Controller
         ];
 
         if(isset($data['password'])){
-            $updateData = [
-                'password' => Hash::make($data['password']),
-            ];
+            $updateData['password'] = Hash::make($data['password']);
         }
 
         $user=User::findOrFail($id);

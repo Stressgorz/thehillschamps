@@ -30,7 +30,6 @@ class FrontendController extends Controller
             return redirect('/user/login'); 
         }
 
-        return redirect()->route($request->user()->role);
     }
 
     public function home(){
@@ -362,15 +361,15 @@ class FrontendController extends Controller
         }
         else{
             request()->session()->flash('error','Invalid email and password pleas try again!');
-            return redirect()->back();
+            return redirect()->route('login.form');
         }
     }
 
     public function logout(){
         Session::forget('user');
-        Auth::logout();
+        auth()->guard('web')->logout();
         request()->session()->flash('success','Logout successfully');
-        return back();
+        return redirect()->route('login.form');
     }
 
     public function register(){
