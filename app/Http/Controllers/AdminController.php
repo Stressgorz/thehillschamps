@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Settings;
 use App\User;
+use App\Models\Sale;
+use App\Models\Client;
 use App\Rules\MatchOldPassword;
 use Hash;
 use Auth;
@@ -27,8 +29,27 @@ class AdminController extends Controller
      {
        $array[++$key] = [$value->day_name, $value->count];
      }
-    //  return $data;
-     return view('backend.index')->with('users', json_encode($array));
+
+     $sale_count = Sale::where('sales_status', Sale::$sales_status['approved'])
+                    ->count();
+
+    $client_count = Client::where('status', Client::$status['active'])
+                    ->count();
+
+    $user_count = User::where('status', User::$status['active'])
+                    ->count();
+
+    $sale_approval_count = Sale::where('status', Sale::$status['active'])
+                    ->where('sales_status', Sale::$sales_status['pending'])
+                    ->count();
+
+     return view('backend.index', [
+        'users' => json_encode($array),
+        'sale_count' => $sale_count ?? 0,
+        'client_count' => $client_count ?? 0,
+        'user_count' => $user_count ?? 0,
+        'sale_approval_count' => $sale_approval_count ?? 0,
+    ]);
     }
 
     public function profile(){

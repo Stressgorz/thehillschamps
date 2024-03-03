@@ -17,11 +17,11 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Category</div>
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">IB</div>
 
               </div>
               <div class="col-auto">
-                <i class="fas fa-sitemap fa-2x text-gray-300"></i>
+                <i class="fas fa-sitemap fa-2x text-gray-300">{{$user_count}}</i>
               </div>
             </div>
           </div>
@@ -34,11 +34,11 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Products</div>
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Clients</div>
 
               </div>
               <div class="col-auto">
-                <i class="fas fa-cubes fa-2x text-gray-300"></i>
+                <i class="fas fa-cubes fa-2x text-gray-300">{{$client_count}}</i>
               </div>
             </div>
           </div>
@@ -51,7 +51,7 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Order</div>
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Sales Approved</div>
                 <div class="row no-gutters align-items-center">
                   <div class="col-auto">
                   </div>
@@ -59,7 +59,7 @@
                 </div>
               </div>
               <div class="col-auto">
-                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                <i class="fas fa-clipboard-list fa-2x text-gray-300">{{$sale_count}}</i>
               </div>
             </div>
           </div>
@@ -72,11 +72,11 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Post</div>
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Sales</div>
 
               </div>
               <div class="col-auto">
-                <i class="fas fa-folder fa-2x text-gray-300"></i>
+                <i class="fas fa-folder fa-2x text-gray-300">{{$sale_approval_count}}</i>
               </div>
             </div>
           </div>
