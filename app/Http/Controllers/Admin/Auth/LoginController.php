@@ -106,7 +106,7 @@ class LoginController extends Controller
         auth()->guard('admin')->logout();
         Session::flush();
         Session::put('success', 'You are logout sucessfully');
-        return redirect(route('adminLogin'));
+        return redirect(route('admin.login_form'));
     }
 
 }

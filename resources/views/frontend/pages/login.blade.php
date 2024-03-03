@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-Shop || Login Page')
+@section('title','THE HILLS CHAMPS || Login Page')
 
 @section('main-content')
             

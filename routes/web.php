@@ -111,7 +111,7 @@ Route::get('thank-you', 'ThankYouController@index')->name('order.thankyou');
 // Socialite
 Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login_form');
 Route::post('admin/login', 'Admin\Auth\LoginController@login')->name('admin.login');
-Route::post('admin/logout', 'Admin\Auth\LoginController@logout');
+Route::post('admin/logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
 
 // Socialite
 Route::get('login/{provider}/', 'Auth\LoginController@redirect')->name('login.redirect');
