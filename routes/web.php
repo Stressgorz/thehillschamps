@@ -156,6 +156,7 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         Route::resource('/mar', 'Admin\MarController');
 
         // Client
+        Route::get('/clients-admin/export', 'Admin\ClientController@export');
         Route::resource('/clients-admin', 'Admin\ClientController');
         Route::get('/client-admin-downline/{user_id}', 'Admin\ClientController@getClientDownline')->name('client-get-client-downline');
         Route::post('/client-admin-approve/{id}', 'Admin\ClientController@sendClientEmail')->name('admin-send-client-approval');

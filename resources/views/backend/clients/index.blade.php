@@ -87,6 +87,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
                   <button id="clear_search" type="submit" class="btn btn-info">Clear Search</button>
+                  <button id="exportBtn" type="submit" class="btn btn-primary pull-right">Export</button>
               </div>
           </div>
       </form>           
@@ -186,6 +187,10 @@
   </script>
   <script>
       $(document).ready(function(){
+        $("#exportBtn").on('click', function(e) {
+            e.preventDefault();
+            window.open('{!! "clients-admin/export/".$query_string !!}', '_blank');
+        });
 
         $("#clear_search").on('click', function(e) {
             e.preventDefault();

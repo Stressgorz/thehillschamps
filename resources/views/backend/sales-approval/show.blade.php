@@ -55,7 +55,7 @@
 
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Ib</label>
-          <input id="inputTitle" type="text"  value="{{$user_upline_name?? ''}}" class="form-control" readonly>
+          <input id="inputTitle" type="text"  value="{{$user_upline_name ?? ''}}" class="form-control" readonly>
         </div>
 
         <div class="form-group col-6">

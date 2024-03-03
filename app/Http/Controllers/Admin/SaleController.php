@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Position;
 use App\Models\Team;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\MembersExport;
+use App\Exports\SaleExport;
 use Carbon\Carbon;
 use App\User;
 
@@ -334,7 +334,7 @@ class SaleController extends Controller
     {   
         
         $table_data = $this->filter($request);
-        return Excel::download(new MembersExport($table_data), 'members-'.Carbon::now()->format('YmdHis').'.xlsx');
+        return Excel::download(new SaleExport($table_data), 'sales-'.Carbon::now()->format('YmdHis').'.xlsx');
     }
     
 }

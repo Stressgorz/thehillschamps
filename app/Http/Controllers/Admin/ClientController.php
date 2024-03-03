@@ -11,6 +11,8 @@ use App\User;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ClientExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Helper;
 
@@ -459,5 +461,16 @@ class ClientController extends Controller
         }
 
         return redirect()->route('clients-admin.index');
+    }
+
+        /**
+     * Export filtered data.
+     *
+     */
+    public function export(Request $request)
+    {   
+        
+        $table_data = $this->filter($request);
+        return Excel::download(new ClientExport($table_data), 'clients-'.Carbon::now()->format('YmdHis').'.xlsx');
     }
 }
