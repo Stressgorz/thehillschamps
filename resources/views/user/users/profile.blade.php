@@ -18,11 +18,11 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
-                    <div class="image">
+                    <div class="row mt-5">
                         @if($profile->photo)
-                        <img class="card-img-top img-fluid roundend-circle" style="border-radius:50%;height:100px;width:100px;margin:auto;" src="{{asset('storage/'.$path.$profile->photo)}}" alt="profile picture">
+                        <img class="card-img-top img-fluid roundend-circle" style="border-radius:10%;height:150px;width:150px;margin:auto;" src="{{asset('storage/'.$path.$profile->photo)}}" alt="profile picture">
                         @else
-                        <img class="card-img-top img-fluid roundend-circle" style="border-radius:50%;height:100px;width:100px;margin:auto;" src="{{asset('backend/img/avatar.png')}}" alt="profile picture">
+                        <img class="card-img-top img-fluid roundend-circle" style="border-radius:10%;height:150px;width:150px;margin:auto;" src="{{asset('backend/img/avatar.png')}}" alt="profile picture">
                         @endif
                     </div>
                     <div class="card-body mt-4 ml-2">

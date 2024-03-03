@@ -60,6 +60,7 @@
 
                       <div class="form-group">
                       <label for="inputPhoto" class="col-form-label">Photo</label>  
+                      <p style='color:red;'>(Square size photo is recommended) </p>
                       <div class="input-group">
                         <input type="file" name="photo" class="form-control" value = "{{$profile->photo}}">
                       </div>

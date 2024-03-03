@@ -3,7 +3,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; <a href="" target="_blank">Chris</a> {{date('Y')}}</span>
+            <span>Copyright &copy; <a href="" target="_blank">THE HILLS CHAMPS.</a> {{date('Y')}}</span>
           </div>
         </div>
       </footer>
