@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class Admin
 {
@@ -14,8 +15,9 @@ class Admin
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
-        if($request->user()->role=='admin'){
+    {   
+
+        if (Auth::guard('admin')->check()) {
             return $next($request);
         }
         else{

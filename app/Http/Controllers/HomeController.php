@@ -7,7 +7,13 @@ use App\User;
 use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\PostComment;
+use App\Models\Client;
+use App\Models\Sale;
+use App\Models\Calendar;
+use App\Models\UserWalletHistory;
+use App\Models\UserWallet;
 use App\Rules\MatchOldPassword;
+use Carbon\Carbon;
 use Hash;
 
 class HomeController extends Controller
@@ -33,24 +39,168 @@ class HomeController extends Controller
         return view('user.index');
     }
 
-    public function profile(){
+    public function profile(Request $request){
         $profile=Auth()->user();
+        $total_clients = Client::where('user_id', $request->user()->id)
+                                ->where('status', Client::$status['active'])
+                                ->count();
+
+        $path = User::$path.'/';
+
+        $now = Carbon::now();
+
+        $user_wallet = UserWallet::where('user_id', $request->user()->id)
+                                    ->where('wallet', UserWallet::$wallet['points'])
+                                    ->pluck('balance')
+                                    ->first();
+                                    
+        $user_points = 0;
+
+        if($user_wallet){
+            $user_points = $user_wallet;
+        }
+
+        $id = $request->user()->id;
+
+        if(isset($request->fdate)){
+            $fdate = $request->fdate;
+        }
+
+        if(isset($request->edate)){
+            $edate = $request->edate;
+        }
+
+
+        $personal_sales = Sale::where('user_id', $request->user()->id)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $personal_sales->where('date', '>=', $fdate);
+                                }
+                        
+                                if(isset($edate) && $edate){
+                                    $personal_sales->where('date', '>=', $edate);
+                                }
+
+                                $all_personal_sales = $personal_sales->sum('amount');
+
+        $direct_ib = User::where('upline_id', $id)
+                            ->where('status', User::$status['active'])
+                            ->where('position_id', '!=', 5)
+                            ->select('id')
+                            ->pluck('id')
+                            ->toArray();
+
+        $direct_ib_sales = Sale::whereIn('user_id', $direct_ib)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $direct_ib_sales->where('date', '>=', $fdate);
+                                }
+
+                                if(isset($edate) && $edate){
+                                    $direct_ib_sales->where('date', '>=', $edate);
+                                }
+
+                                $direct_ib_sales_amount = $direct_ib_sales->sum('amount');
+
+        $all_downline = User::getAllIbDownline($id);
+
+        $all_downline_sales = Sale::whereIn('user_id', $all_downline)
+                                ->where('sales_status', Sale::$sales_status['approved'])
+                                ->where('status', Sale::$status['active']);
+
+                                if(isset($fdate) && $fdate){
+                                    $all_downline_sales->where('date', '>=', $fdate);
+                                }
+                        
+                                if(isset($edate) && $edate){
+                                    $all_downline_sales->where('date', '>=', $edate);
+                                }
+
+                                $all_downline_sales_amount = $all_downline_sales->sum('amount');
+
         // return $profile;
-        return view('user.users.profile')->with('profile',$profile);
+        return view('user.users.profile', [
+            'profile' => $profile,
+            'path' => $path,
+            'direct_ib_sales' => $direct_ib_sales_amount,
+            'all_downline_sales' => $all_downline_sales_amount,
+            'all_personal_sales' => $all_personal_sales,
+            'user_points' => $user_points,
+            'total_clients' => $total_clients,
+        ]);
+    }
+
+    public function showprofileUpdate(){
+        $profile=Auth()->user();
+        
+        // return $profile;
+        return view('user.users.profile-edit')->with('profile',$profile);
     }
 
     public function profileUpdate(Request $request,$id){
+
         // return $request->all();
         $user=User::findOrFail($id);
-        $data=$request->all();
-        $status=$user->fill($data)->save();
-        if($status){
+        if($user){
+            $data = static::profileUpdateValidation($request, $id);
+
+            $path = User::$path.'/';
+            $image = '';
+
+            if (isset($data['photo'])) {
+
+                $filename = $data['photo']->getClientOriginalName();
+                $data['photo']->storeAs($path, $filename, 'public');
+                $image = $filename;
+            }
+
+            $updateData = [
+                'dob' => $data['dob'],
+                'code' => $data['code'],
+                'firstname' => $data['firstname'],
+                'lastname' => $data['lastname'],
+                'phone' => $data['phone'],
+                'photo' => $image,
+            ];
+
+            // add birthday to calendar
+            if(isset($user->id) &&  $user->dob){
+                if($user->dob != $updateData['dob'])
+                Calendar::addUserDOB($user->id, $updateData['dob']);
+            }
+            
+            $user->fill($updateData)->save();
+
             request()->session()->flash('success','Successfully updated your profile');
-        }
-        else{
+        } else {
             request()->session()->flash('error','Please try again!');
         }
-        return redirect()->back();
+
+        return redirect()->route('user');
+    }
+
+    
+    public static function profileUpdateValidation($request, $id){
+
+        $data[] = $request->validate([
+            'dob' => ['required'],
+            'code' => ['required'],
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'phone' => ['required'],
+            'photo' => ['nullable'],
+        ]);
+
+        $validated = [];
+        foreach ($data as $value) {
+            $validated = array_merge($validated, $value);
+        }
+
+        return $validated;
     }
 
     // Order
@@ -85,7 +235,6 @@ class HomeController extends Controller
     public function orderShow($id)
     {
         $order=Order::find($id);
-        dd($order);
         // return $order;
         return view('user.order.show')->with('order',$order);
     }

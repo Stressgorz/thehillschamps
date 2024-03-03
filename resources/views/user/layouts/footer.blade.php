@@ -1,6 +1,6 @@
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
+      <footer class="sticky-footer" style = "background-color: rgb(212, 202, 163, 0.5);">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright &copy; <a href="" target="_blank">Chris.</a> {{date('Y')}}</span>

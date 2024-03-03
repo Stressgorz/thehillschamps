@@ -31,5 +31,16 @@
       @include('user.layouts.footer')
 
 </body>
-
 </html>
+<style>
+  .btn-primary{
+    background-color: #163255;
+    border-color: #163255;
+  }
+
+  .card-header{
+    background-color: rgb(212, 202, 163, 0.5);
+  }
+
+</style> 
+

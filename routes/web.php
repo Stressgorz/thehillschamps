@@ -35,14 +35,11 @@
     Route::post('user/register', 'FrontendController@registerSubmit')->name('register.submit');
 // Reset password
     Route::post('password-reset', 'FrontendController@showResetForm')->name('password.reset');
-// Socialite
-    Route::get('login/{provider}/', 'Auth\LoginController@redirect')->name('login.redirect');
-    Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name('login.callback');
 
-    Route::get('/', 'FrontendController@home')->name('home');
+    Route::get('/', 'FrontendController@index')->name('home');
 
 // Frontend Routes
-    Route::get('/home', 'FrontendController@index');
+    Route::get('/home', 'FrontendController@home');
     Route::get('/about-us', 'FrontendController@aboutUs')->name('about-us');
     Route::get('/contact', 'FrontendController@contact')->name('contact');
     Route::post('/contact/message', 'MessageController@store')->name('contact.store');
@@ -110,15 +107,82 @@ Route::get('payment/success', 'StripeController@success')->name('stripe.success'
 //after order page
 Route::get('thank-you', 'ThankYouController@index')->name('order.thankyou');
 
-// Backend section start
 
-    Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function () {
+// Socialite
+Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login_form');
+Route::post('admin/login', 'Admin\Auth\LoginController@login')->name('admin.login');
+Route::post('admin/logout', 'Admin\Auth\LoginController@logout');
+
+// Socialite
+Route::get('login/{provider}/', 'Auth\LoginController@redirect')->name('login.redirect');
+Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name('login.callback');
+Route::get('testing-abcdefg', 'Test\TestingController@index');
+
+// Backend section start
+    Route::group(['prefix' => '/admin', 'middleware' => ['auth.admin', 'admin']], function () {
+        
         Route::get('/', 'AdminController@index')->name('admin');
+
+        // admin
+        Route::resource('/admin-setting', 'Admin\AdminSettingController');
+
+        // ib
+        Route::get('/users/export', 'Admin\UserController@export');
+        Route::resource('/users', 'Admin\UserController');
+        Route::get('/ib-downline/{user_id}', 'Admin\UserController@getIbDownline')->name('get-ib-downline');
+        Route::get('/client-downline/{user_id}', 'Admin\UserController@getClientDownline')->name('get-client-downline');
+        Route::get('/marketer-downline/{user_id}', 'Admin\UserController@getMarketerDownline')->name('get-marketer-downline');
+        Route::get('/users-points/{user_id}', 'Admin\UserController@getUserWalletHistory')->name('get-users-history');
+        Route::get('/add-users-points/{user_id}', 'Admin\UserController@showUpdateUserPoints')->name('get-users-points-form');
+        Route::post('/add-users-points/{user_id}', 'Admin\UserController@updateUserPoints')->name('add-users-points');
+
+
+        // teams
+        Route::resource('/teams', 'Admin\TeamController');
+
+        // positions
+        Route::resource('/positions', 'Admin\PositionController');
+
+        // sales
+        Route::get('/sales-admin/export', 'Admin\SaleController@export');
+        Route::resource('/sales-admin', 'Admin\SaleController');
+
+        // Ads
+        Route::get('/ads/export', 'Admin\AdsController@export');
+        Route::resource('/ads', 'Admin\AdsController');
+
+        // Mar
+        Route::get('/mar/export', 'Admin\MarController@export');
+        Route::resource('/mar', 'Admin\MarController');
+
+        // Client
+        Route::resource('/clients-admin', 'Admin\ClientController');
+        Route::get('/client-admin-downline/{user_id}', 'Admin\ClientController@getClientDownline')->name('client-get-client-downline');
+        Route::post('/client-admin-approve/{id}', 'Admin\ClientController@sendClientEmail')->name('admin-send-client-approval');
+
+        // Client
+        Route::resource('/announcements', 'Admin\AnnouncementController');
+
+        // Client
+        Route::resource('/calendars', 'Admin\CalendarController');
+
+        // Leaderboard
+        Route::get('/leaderboard-sale/{data_type}', 'Admin\LeaderboardController@leaderboardSales')->name('admin-get-leaderboard-sale');
+        // Leaderboard
+        Route::get('/leaderboard-ib/{data_type}', 'Admin\LeaderboardController@leaderboardIb')->name('admin-get-leaderboard-ib');
+
+        // Leaderboard
+        Route::get('/leaderboard-client/{data_type}', 'Admin\LeaderboardController@leaderboardClient')->name('admin-get-leaderboard-client');
+        
+        // Client   
+        Route::resource('/sales-approval', 'Admin\SaleApprovalController');
+        Route::post('/sales-approval/{id}/approve', 'Admin\SaleApprovalController@approve')->name('sales.approve');
+        
         Route::get('/file-manager', function () {
             return view('backend.layouts.file-manager');
         })->name('file-manager');
-        // user route
-        Route::resource('users', 'UsersController');
+        // // user route
+        // Route::resource('users', 'UsersController');
         // Banner
         Route::resource('banner', 'BannerController');
         // Brand
@@ -159,15 +223,46 @@ Route::get('thank-you', 'ThankYouController@index')->name('order.thankyou');
         // Password Change
         Route::get('change-password', 'AdminController@changePassword')->name('change.password.form');
         Route::post('change-password', 'AdminController@changPasswordStore')->name('change.password');
+
+        Route::get('testing', 'Test\TestingController@index');
     });
 
 
 // User section start
     Route::group(['prefix' => '/user', 'middleware' => ['user']], function () {
-        Route::get('/', 'HomeController@index')->name('user');
+        Route::get('/', 'HomeController@profile')->name('user');
+
+        // Client
+        Route::resource('/targets', 'User\TargetController');
+
+        // Client
+        Route::resource('/clients', 'User\ClientController');
+
+        // Client
+        Route::resource('/sales', 'User\SaleController');
+
+        // Client
+        Route::get('/user-points', 'User\PointController@index')->name('user-point-history');
+
+        // Leaderboard
+        Route::get('/leaderboard-sale/{data_type}', 'User\LeaderboardController@leaderboardSales')->name('get-leaderboard-sale');
+
+        // Leaderboard
+        Route::get('/leaderboard-ib/{data_type}', 'User\LeaderboardController@leaderboardIb')->name('get-leaderboard-ib');
+
+        // Leaderboard
+        Route::get('/leaderboard-client/{data_type}', 'User\LeaderboardController@leaderboardClient')->name('get-leaderboard-client');
+
+        // Leaderboard
+        Route::get('/road-map-points', 'User\RoadMapPointController@index')->name('road-map-points');
+
+        // Client
+        Route::get('/announcement', 'User\AnnouncementController@index')->name('announcement-data');
+
         // Profile
-        Route::get('/profile', 'HomeController@profile')->name('user-profile');
-        Route::post('/profile/{id}', 'HomeController@profileUpdate')->name('user-profile-update');
+        Route::get('/profile', 'HomeController@profile')->name('user-profile'); 
+        Route::get('/profile/update/{id}', 'HomeController@showprofileUpdate')->name('user-profile-update-page');
+        Route::post('/profile/update/{id}', 'HomeController@profileUpdate')->name('user-profile-update');
         //  Order
         Route::get('/order', "HomeController@orderIndex")->name('user.order.index');
         Route::get('/order/show/{id}', "HomeController@orderShow")->name('user.order.show');
@@ -189,6 +284,9 @@ Route::get('thank-you', 'ThankYouController@index')->name('order.thankyou');
         Route::post('change-password', 'HomeController@changPasswordStore')->name('change.password');
 
     });
+
+// Client Approval
+Route::get('/client-approval/{id}', 'User\ClientController@approveClient')->name('client-approve');
 
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();

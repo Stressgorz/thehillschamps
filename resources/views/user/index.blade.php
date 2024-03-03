@@ -88,9 +88,6 @@
     <!-- Content Row -->
 
     <div class="row">
-      @php
-          $orders=DB::table('orders')->where('user_id',auth()->user()->id)->paginate(10);
-      @endphp
       <!-- Order -->
       <div class="col-xl-12 col-lg-12">
         <table class="table table-bordered" id="order-dataTable" width="100%" cellspacing="0">
@@ -119,7 +116,7 @@
               </tr>
           </tfoot>
           <tbody>
-            @if(count($orders)>0)
+            @if(isset($orders) &&  count($orders)>0)
               @foreach($orders as $order)   
                 <tr>
                     <td>{{$order->id}}</td>
@@ -154,8 +151,6 @@
               @endif
           </tbody>
         </table>
-
-        {{$orders->links()}}
       </div>
     </div>
 

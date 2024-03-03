@@ -7,18 +7,21 @@ use App\Models\Settings;
 use App\User;
 use App\Rules\MatchOldPassword;
 use Hash;
+use Auth;
 use Carbon\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 class AdminController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+
         $data = User::select(\DB::raw("COUNT(*) as count"), \DB::raw("DAYNAME(created_at) as day_name"), \DB::raw("DAY(created_at) as day"))
-        ->where('created_at', '>', Carbon::today()->subDay(6))
-        ->groupBy('day_name','day')
-        ->orderBy('day')
-        ->get();
+                    ->where('created_at', '>', Carbon::today()->subDay(6))
+                    ->groupBy('day_name','day')
+                    ->orderBy('day')
+                    ->get();
+                    
      $array[] = ['Name', 'Number'];
      foreach($data as $key => $value)
      {
@@ -29,7 +32,7 @@ class AdminController extends Controller
     }
 
     public function profile(){
-        $profile=Auth()->user();
+        $profile=Auth()->guard('admin')->user();
         // return $profile;
         return view('backend.users.profile')->with('profile',$profile);
     }

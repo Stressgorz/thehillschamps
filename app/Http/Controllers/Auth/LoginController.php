@@ -38,7 +38,8 @@ class LoginController extends Controller
      */
 
     public function credentials(Request $request){
-        return ['email'=>$request->email,'password'=>$request->password,'status'=>'active','role'=>'admin'];
+
+        return ['email'=>$request->username,'password'=>$request->password,'status'=>'active','role'=>'admin'];
     }
     public function __construct()
     {
@@ -47,14 +48,13 @@ class LoginController extends Controller
 
     public function redirect($provider)
     {
-        // dd($provider);
-     return Socialite::driver($provider)->redirect();
     }
  
     public function Callback($provider)
     {
         $userSocial =   Socialite::driver($provider)->stateless()->user();
         $users      =   User::where(['email' => $userSocial->getEmail()])->first();
+        
         // dd($users);
         if($users){
             Auth::login($users);

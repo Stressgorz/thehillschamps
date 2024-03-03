@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class User
 {
@@ -15,11 +16,13 @@ class User
      */
     public function handle($request, Closure $next)
     {
-        if(empty(session('user'))){
-            return redirect()->route('login.form');
+
+        if (Auth::guard('web')->check()) {
+            return $next($request);
         }
         else{
-            return $next($request);
+            request()->session()->flash('error','You do not have any permission to access this page');
+            return redirect()->route('login.form');
         }
     }
 }
