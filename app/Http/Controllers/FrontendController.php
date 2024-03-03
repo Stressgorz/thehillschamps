@@ -35,8 +35,13 @@ class FrontendController extends Controller
 
     public function home(){
 
-        // return $category;
-        return view('frontend.index');
+        if(auth()->guard('web')->user()){
+            return redirect('/user');
+        } else if(auth()->guard('admin')->user()){
+            return redirect('/admin');
+        } else{
+            return redirect('/user/login'); 
+        }
     }   
 
     public function aboutUs(){
@@ -400,8 +405,14 @@ class FrontendController extends Controller
             ]);
     }
     // Reset password
-    public function showResetForm(){
-        return view('auth.passwords.old-reset');
+    public function showResetForm(Request $request){
+
+        $token = '';
+        
+        if(isset($request->token)){
+            $token = $request->token;
+        }
+        return view('auth.passwords.reset')->with('token',$token);
     }
 
     public function subscribe(Request $request){
