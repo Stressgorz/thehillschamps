@@ -39,14 +39,14 @@ class CalendarController extends Controller
     
     public static function filter(Request $filters)
     {
-        $query = DB::table('Calendars')
+        $query = DB::table('calendars')
                     ->where('type', Calendar::$type['content'])
 		        	->select('*'
                     )
                     ->orderBy('id','DESC');
 
         $params = [
-            'Calendars' => [
+            'calendars' => [
                 'start_time' => 'start_time',
             ]
         ];
