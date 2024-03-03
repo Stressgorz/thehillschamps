@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kpi_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInterger('kpi_id');
+            $table->bigInteger('kpi_id');
             $table->integer('sort');
             $table->text('name');
             $table->decimal('points', 20, 2);

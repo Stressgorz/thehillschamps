@@ -98,7 +98,7 @@
                     <td>{{$data->dob}}</td>
                     <td>{{$data->email}}</td>
                     <td>{{$data->created_at}}</td>
-                    <td>{{$data->upline_firstname}}</td>
+                    <td>{{$data->upline_firstname .' '.$data->lastname}}</td>
                     <td>
                     <a href="{{route('get-ib-downline',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">IB</a>
                     <a href="{{route('get-client-downline',$data->id)}}" class="btn btn-primary btn-sm float-left m-1"  data-toggle="tooltip" title="edit" data-placement="bottom">Client</a>

@@ -36,10 +36,6 @@ class TestingController extends Controller
         // static::addIbBd();
         // static::addUserPoints();
         // static::emailClient();
-        $client = Client::find(36);
-        $user = User::find(256);
-
-        Client::emailClient($client, $user->firstname);
 
         dd('done');
     }
