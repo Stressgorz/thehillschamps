@@ -207,17 +207,7 @@
   </li>
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
-  <!-- Heading -->
-  <div class="sidebar-heading">
-    General Settings
-  </div>
-  <!-- General settings -->
 
-  <li class="nav-item">
-    <a class="nav-link" href="{{route('settings')}}">
-      <i class="fas fa-cog"></i>
-      <span>Settings</span></a>
-  </li>
 
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
