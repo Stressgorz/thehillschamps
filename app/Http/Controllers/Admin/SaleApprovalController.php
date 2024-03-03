@@ -119,11 +119,19 @@ class SaleApprovalController extends Controller
         $client_upline = Client::where('id', $client->upline_client_id)
                                 ->select('name')
                                 ->first();
+        $user_upline_name = '';
+        $client_upline_name = '';
+        if($user_upline){
+            $user_upline_name = $user_upline->firstname.' '.$user_upline->lastname;
+        }
 
+        if($client_upline){
+            $client_upline_name = $client_upline->name;
+        }
         return view('backend.sales-approval.show', [
             'sales' => $sale ?? [],
-            'user_upline' => $user_upline,
-            'client_upline' => $client_upline,
+            'user_upline_name' => $user_upline_name,
+            'client_upline_name' => $client_upline_name,
             'sales_status' => Sale::$sales_status,
             'sales_broker' => Sale::$broker,
         ]);

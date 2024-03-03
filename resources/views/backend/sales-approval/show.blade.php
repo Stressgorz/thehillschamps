@@ -55,12 +55,12 @@
 
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Ib</label>
-          <input id="inputTitle" type="text"  value="{{$user_upline->firstname ?? ''}}.' '.{{$user_upline->lastname ?? ''}}" class="form-control" readonly>
+          <input id="inputTitle" type="text"  value="{{$user_upline_name?? ''}}" class="form-control" readonly>
         </div>
 
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Marketers</label>
-          <input id="inputTitle" type="text"  value="{{$client_upline->name ?? ''}}" class="form-control" readonly>
+          <input id="inputTitle" type="text"  value="{{$client_upline_name ?? ''}}" class="form-control" readonly>
         </div>
         
         @if($sales->sales_status == 'rejected')
