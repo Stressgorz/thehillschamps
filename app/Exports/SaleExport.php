@@ -37,8 +37,8 @@ class SaleExport implements FromCollection, WithHeadings, WithMapping, WithColum
             'Client Name',
             'Phone',
             'Client Email',
-            'IB',
             'MT4 ID',
+            'IB',
             'Sales Date',
             'Submission Date',
         ];
@@ -54,8 +54,8 @@ class SaleExport implements FromCollection, WithHeadings, WithMapping, WithColum
             $data->client_name,
             $data->client_contact,
             $data->client_email,
-            $data->user_firstname .' '.$data->user_lastname,
             $data->mt4_id,
+            $data->user_firstname .' '.$data->user_lastname,
             $data->date,
             $data->updated_at,
         ];

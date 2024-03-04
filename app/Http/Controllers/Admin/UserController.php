@@ -133,7 +133,9 @@ class UserController extends Controller
         $positions = Position::where('status', Position::$status['active'])->get();
         $teams = Team::where('status', Team::$status['active'])->get();
         $users = User::select('id', 'firstname', 'lastname')
-                        ->where('status', User::$status['active'])->get();
+                        ->where('status', User::$status['active'])
+                        ->orderBy('firstname')
+                        ->get();
 
         return view('backend.users.create', [
             'user_status' => $user_status,  

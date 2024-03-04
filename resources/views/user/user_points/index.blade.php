@@ -24,6 +24,7 @@
                 <th>Previous Amount</th>
                 <th>Amounts</th>
                 <th>Balance</th>
+                <th>Description</th>
                 <th>Created Date</th>
               </tr>
             </thead>
@@ -36,6 +37,7 @@
                 <td>{{$data->prev_balance}}</td>
                 <td>{{$data->amount}}</td>
                 <td>{{$data->balance}}</td>
+                <td>{{$data->description}}</td>
                 <td>{{$data->created_at}}</td>
               </tr>
               @endforeach

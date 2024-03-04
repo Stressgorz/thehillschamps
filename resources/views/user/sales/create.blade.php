@@ -9,15 +9,20 @@
         {{csrf_field()}}
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Clients Email</label>
-        <input id="inputTitle" type="email" name="clients_email" placeholder="Enter email"  value="{{old('clients_email')}}" class="form-control">
-        @error('clients_email')
-        <span class="text-danger">{{$message}}</span>
-        @enderror
+          <label for="client_id" class="col-form-label">Client: <span class="text-danger">*</span></label>
+          </br>
+          <select class="selectpicker" data-live-search="true" name='client_id'>
+              @foreach($clients as $client)
+                  <option value='{{$client->id}}'>{{$client->name}}</option>
+              @endforeach
+          </select>
+          @error('client_id')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Amount</label>
+          <label for="inputTitle" class="col-form-label">Amount<span class="text-danger">*</span></label>
         <input id="inputTitle" type="number" name="amount" placeholder="Enter amount"  value="{{old('amount')}}" class="form-control">
         @error('amount')
         <span class="text-danger">{{$message}}</span>
@@ -25,7 +30,7 @@
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Sales Date</label>
+          <label for="inputTitle" class="col-form-label">Sales Date<span class="text-danger">*</span></label>
         <input id="inputTitle" type="date" name="date" placeholder="Enter date"  value="{{old('date')}}" class="form-control">
         @error('date')
         <span class="text-danger">{{$message}}</span>
@@ -33,7 +38,7 @@
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">MT4 ID</label>
+          <label for="inputTitle" class="col-form-label">MT4 ID<span class="text-danger">*</span></label>
         <input id="inputTitle" type="text" name="mt4_id" placeholder="Enter mt4 id"  value="{{old('mt4_id')}}" class="form-control">
         @error('mt4_id')
         <span class="text-danger">{{$message}}</span>
@@ -41,7 +46,7 @@
         </div>  
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">MT4 Read Only Password</label>
+          <label for="inputTitle" class="col-form-label">MT4 Read Only Password<span class="text-danger">*</span></label>
         <input id="inputTitle" type="text" name="mt4_pass" placeholder="Enter mt4 password"  value="{{old('mt4_pass')}}" class="form-control">
         @error('mt4_pass')
         <span class="text-danger">{{$message}}</span>
@@ -49,10 +54,10 @@
         </div>  
 
         <div class="form-group">
-          <label for="status">Broker</label>
+          <label for="status">Broker<span class="text-danger">*</span></label>
           <select name="broker_type" class="form-control">
               @foreach($sales_broker as $broker)
-                  <option value='{{$broker}}'>{{$broker}}</option>
+                  <option value='{{$broker}}'{{(($broker==old('broker_type')) ? 'selected' : '')}}>{{$broker}}</option>
               @endforeach
           </select>
         @error('broker')
@@ -61,7 +66,7 @@
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Remark</label>
+          <label for="inputTitle" class="col-form-label">Remark<span class="text-danger">*</span></label>
         <input id="inputTitle" type="text" name="remark" placeholder="Enter remark"  value="{{old('remark')}}" class="form-control">
         @error('remark')
         <span class="text-danger">{{$message}}</span>
@@ -69,11 +74,11 @@
         </div>  
 
         <div class="form-group">
-        <label for="inputPhoto" class="col-form-label">Slip</label>
+        <label for="inputPhoto" class="col-form-label">Slip<span class="text-danger">*</span></label>
         <div class="input-group">
           <input type="file" name="slip[]" class="form-control" multiple>
         </div>
-          @error('slip[]')
+          @error('slip')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
@@ -90,6 +95,10 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{asset('backend/summernote/summernote.min.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/css/bootstrap-select.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/js/bootstrap-select.js"></script>
 @endpush
 @push('scripts')
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>

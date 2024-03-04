@@ -141,13 +141,18 @@ class SaleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+
+        $clients = Client::where('user_id', $request->user()->id)
+                    ->where('status', Client::$status['active'])
+                    ->get();
 
         return view('user.sales.create', [
             'sales_status' => Sale::$sales_status,
             'status_data' => Sale::$status,
             'sales_broker' => Sale::$broker,
+            'clients' => $clients,
         ]);
     }
 
@@ -171,10 +176,8 @@ class SaleController extends Controller
             }
     	}   
 
-        $client = Client::where('email', $data['clients_email'])->first();
-
         $sales = Sale::create([
-            'client_id' => $client->id,
+            'client_id' => $data['client_id'],
             'user_id' => $request->user()->id,
             'amount' => $data['amount'],
             'type' => 1,
@@ -200,15 +203,15 @@ class SaleController extends Controller
     public static function saleStoreValidation($request){
 
         $data[] = $request->validate([
-            'clients_email' => ['required',
+            'client_id' => ['required',
             function ($attribute, $value, $fail) use ($request) {
-                $clients_email = Client::where('email', $value)
+                $clients = Client::where('id', $value)
                                         ->where('user_id', $request->user()->id)
                                         ->first();
-                if (empty($clients_email)) {
+                if (empty($clients)) {
                     $fail('Client does not exists');
                 } else {
-                    if($clients_email->status != Client::$status['active']){
+                    if($clients->status != Client::$status['active']){
                         $fail('Client is not activated, pls kindly ask client to verify at their email');
                     }
                 }

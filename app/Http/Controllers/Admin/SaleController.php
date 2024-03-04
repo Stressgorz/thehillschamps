@@ -29,8 +29,9 @@ class SaleController extends Controller
         $now = Carbon::now();
 
         if (empty($request->query('sales_status'))) {
+            $sales_status = Sale::$sales_status['pending'];
             $request->request->add([
-                'sales_status' => $request->query('sales_status'),
+                'sales_status' => $sales_status,
             ]);
         }
 
@@ -59,15 +60,13 @@ class SaleController extends Controller
         }
 
         if (empty($request->query('fdate'))) {
-            $fdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->subDays(1)->format('Y-m-d');
             $request->request->add([
-                'fdate' => $fdate,
+                'fdate' => $request->query('fdate'),
             ]);
         }
         if (empty($request->query('tdate'))) {
-            $tdate = Carbon::createFromFormat('Y-m-d H:i:s', $now)->format('Y-m-d');
             $request->request->add([
-                'tdate' => $tdate,
+                'tdate' => $request->query('tdate'),
             ]);
         }
 
@@ -133,7 +132,7 @@ class SaleController extends Controller
 	                $query->whereIn($table.'.'.$param, $filters->query($field));
 	            } else {
                     if (! empty($filters->query($field))) {
-                        if (in_array($field, ['status', 'type'])) { 
+                        if (in_array($field, ['status', 'type', 'sales_status'])) { 
                             $query->where($table.'.'.$param, '=',  $filters->query($field));
                         } else {
                             $query->where($table.'.'.$param, 'LIKE',  '%'.$filters->query($field).'%');

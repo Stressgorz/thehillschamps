@@ -53,7 +53,18 @@ class ClientController extends Controller
             ]);
         }
 
-        $teams = Team::all();
+        if (empty($request->query('fdate'))) {
+            $request->request->add([
+                'fdate' => $request->query('fdate'),
+            ]);
+        }
+        if (empty($request->query('tdate'))) {
+            $request->request->add([
+                'tdate' => $request->query('tdate'),
+            ]);
+        }
+
+        $teams = Team::where('status', Team::$status['active'])->get();
 
         $table_data = $this->filter($request);
 
@@ -95,6 +106,7 @@ class ClientController extends Controller
                 'state' => 'state',
                 'zip' => 'zip',
                 'status' => 'status',
+                'created_at' => 'created_at',
             ],
             'users' => [
                 'user_email' => 'email',
@@ -111,7 +123,7 @@ class ClientController extends Controller
         ];
         foreach ($params as $table => $columns) {
         	foreach ($columns as $field => $param) {
-	            if ($field == 'date') {
+	            if ($field == 'created_at') {
 	                if ($filters->query('fdate')) {
 	                    $query->where($table.'.'.$param, '>=',  $filters->query('fdate'));
 	                }

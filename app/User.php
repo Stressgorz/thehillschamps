@@ -49,6 +49,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static $position_type = [
+        'ib' => '1',
+        'senior' => '2',
+        'leader' => '3',
+        'director' => '4',
+        'marketer' => '5',
+    ];
+
     public function position(){
         return $this->hasOne('App\Models\Position','id','position_id');
     }

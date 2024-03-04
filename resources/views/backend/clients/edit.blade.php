@@ -96,7 +96,7 @@
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Upline (IB) Email <span class="text-danger">*</span></label>
+          <label for="inputTitle" class="col-form-label">Upline (IB) Email </label>
           <input id="inputTitle" type="email" name="upline_user_email" placeholder="Enter Upline (IB) Email "  value="{{$client->upline_user_email}}" class="form-control">
           @error('upline_user_email')
           <span class="text-danger">{{$message}}</span>
@@ -109,7 +109,7 @@
         </div>
 
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Upline (Client) Email  <span class="text-danger">*</span></label>
+          <label for="inputTitle" class="col-form-label">Upline (Client) Email </label>
           <input id="inputTitle" type="email  " name="upline_client_email" placeholder="Enter Upline (Client) Email "  value="{{$client->upline_client_email}}" class="form-control">
           @error('upline_client_email')
           <span class="text-danger">{{$message}}</span>

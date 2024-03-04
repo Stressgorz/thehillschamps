@@ -114,7 +114,9 @@
 
         <div class="form-group">
           <label for="upline_id" class="col-form-label">Upline <span class="text-danger">*</span></label>
-          <select class="form-control" data-live-search="true" name="upline_id">
+          </br>
+          <select class="selectpicker" data-live-search="true" name='upline_id'>
+          <option value=''>None</option>
               @foreach($users as $user)
                   <option value='{{$user->id}}'>{{$user->firstname.' '.$user->lastname}}</option>
               @endforeach
@@ -148,6 +150,11 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{asset('backend/summernote/summernote.min.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/css/bootstrap-select.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/js/bootstrap-select.js"></script>
+
 @endpush
 @push('scripts')
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>

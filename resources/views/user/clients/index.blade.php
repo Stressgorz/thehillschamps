@@ -98,6 +98,7 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
+              <th>Status</th>
               <th>Name</th>
               <th>IB</th>
               <th>Upline (IB)</th>
@@ -118,6 +119,7 @@
               @php
               @endphp
                 <tr>
+                    <td>{{Helper::$client_status[$data->status]}}</td>
                     <td>{{$data->name}}</td>
                     <td>{{$data->user_firstname .' '.$data->user_lastname}}</td>
                     <td>{{$data->upline_user_firstname .' '.$data->upline_user_lastname}}</td>

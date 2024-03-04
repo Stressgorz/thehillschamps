@@ -116,7 +116,7 @@
 
         <div class="form-group">
           <label for="role">Upline</label>
-          <select name="upline_id" class="form-control">
+          <select class="selectpicker" data-live-search="true" name='upline_id'>
               @foreach($users as $upline)
                   <option value='{{$upline->id}}' {{(($user->upline_id==$upline->id) ? 'selected' : '')}}>{{$upline->firstname .' '. $upline->lastname}}</option>
               @endforeach
@@ -143,6 +143,10 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{asset('backend/summernote/summernote.min.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/css/bootstrap-select.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/js/bootstrap-select.js"></script>
 @endpush
 @push('scripts')
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
