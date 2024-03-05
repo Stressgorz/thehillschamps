@@ -161,9 +161,8 @@ class SaleController extends Controller
 
                         $user = User::where('email', $filters->get('ib_team'))
                                         ->whereIn('position_id', [2,3,4])
-                                        ->select('id')
+                                        ->select('id', 'team_id')
                                         ->first();
-
                         if($user){
                             $direct_ib = User::where('team_id', $user->team_id)
                                             ->where('status', User::$status['active'])
