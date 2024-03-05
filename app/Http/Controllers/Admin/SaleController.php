@@ -174,6 +174,8 @@ class SaleController extends Controller
 
                             $direct_ib[] = $user->id;
                             $query->whereIn($table.'.'.$param,  $direct_ib);
+                        } else {
+                            $query->whereIn($table.'.'.$param,  []);
                         }
 	                }
                 } elseif ($field == 'ib_group') { 
@@ -186,6 +188,8 @@ class SaleController extends Controller
                             $all_downline = User::getAllIbDownline($user->id);
 
                             $query->whereIn($table.'.'.$param,  $all_downline);
+                        } else {
+                            $query->whereIn($table.'.'.$param,  []);
                         }
 	                }
                 } elseif (is_array($filters->query($field)) && ! empty($filters->query($field))) { 
