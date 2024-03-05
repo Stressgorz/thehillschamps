@@ -65,6 +65,17 @@
                       <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}"/>
                   </div>
               </div>
+              <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Status</label>
+                <div class="form-group">
+                  <select name="status" class="form-control">
+                  <option value=''>Select Sales Status</option>
+                      @foreach($user_status as $status)
+                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$general_status[$status]}}</option>
+                      @endforeach
+                  </select>
+                </div>
+            </div>
           </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">

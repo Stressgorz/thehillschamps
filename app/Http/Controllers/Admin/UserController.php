@@ -49,6 +49,12 @@ class UserController extends Controller
             ]);
         }
 
+        if (empty($request->query('status'))) {
+            $request->request->add([
+                'status' => $request->query('status'),
+            ]);
+        }
+
         if (empty($request->query('fdate'))) {
             $request->request->add([
                 'fdate' => $request->query('fdate'),
@@ -97,6 +103,7 @@ class UserController extends Controller
             'users' => [
                 'email' => 'email',
                 'created_at' => 'created_at',
+                'status' => 'status',
             ],
             'positions' => [
                 'position' => 'name',
