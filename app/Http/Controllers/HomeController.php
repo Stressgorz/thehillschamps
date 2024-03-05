@@ -66,8 +66,8 @@ class HomeController extends Controller
             $fdate = $request->fdate;
         }
 
-        if(isset($request->edate)){
-            $edate = $request->edate;
+        if(isset($request->tdate)){
+            $tdate = $request->tdate;
         }
 
 
@@ -79,8 +79,8 @@ class HomeController extends Controller
                                     $personal_sales->where('date', '>=', $fdate);
                                 }
                         
-                                if(isset($edate) && $edate){
-                                    $personal_sales->where('date', '>=', $edate);
+                                if(isset($tdate) && $tdate){
+                                    $personal_sales->where('date', '<=', $tdate);
                                 }
 
                                 $all_personal_sales = $personal_sales->sum('amount');
@@ -100,8 +100,8 @@ class HomeController extends Controller
                                     $direct_ib_sales->where('date', '>=', $fdate);
                                 }
 
-                                if(isset($edate) && $edate){
-                                    $direct_ib_sales->where('date', '>=', $edate);
+                                if(isset($tdate) && $tdate){
+                                    $direct_ib_sales->where('date', '<=', $tdate);
                                 }
 
                                 $direct_ib_sales_amount = $direct_ib_sales->sum('amount');
@@ -116,8 +116,8 @@ class HomeController extends Controller
                                     $all_downline_sales->where('date', '>=', $fdate);
                                 }
                         
-                                if(isset($edate) && $edate){
-                                    $all_downline_sales->where('date', '>=', $edate);
+                                if(isset($tdate) && $tdate){
+                                    $all_downline_sales->where('date', '<=', $tdate);
                                 }
 
                                 $all_downline_sales_amount = $all_downline_sales->sum('amount');

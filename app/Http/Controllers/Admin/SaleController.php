@@ -125,7 +125,7 @@ class SaleController extends Controller
 	                    $query->where($table.'.'.$param, '>=',  $filters->get('fdate'));
 	                }
 	                if ($filters->get('tdate')) {
-	                    $query->where($table.'.'.$param, '<', ($filters->get('tdate')));
+	                    $query->where($table.'.'.$param, '<=', ($filters->get('tdate')));
 	                }
 	            } elseif ($field == 'sales_status') { 
 	                if ($filters->get('sales_status')) {
