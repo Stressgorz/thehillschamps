@@ -335,8 +335,50 @@ class SaleController extends Controller
      */
     public function export(Request $request)
     {   
+        if (empty($request->query('sales_status'))) {
+            $sales_status = Sale::$sales_status['pending'];
+            $request->request->add([
+                'sales_status' => $sales_status,
+            ]);
+        }
+
+        if (empty($request->query('status'))) {
+            $request->request->add([
+                'status' => $request->query('status'),
+            ]);
+        }
+
+        if (empty($request->query('broker_type'))) {
+            $request->request->add([
+                'broker_type' => $request->query('broker_type'),
+            ]);
+        }
+
+        if (empty($request->query('client_email'))) {
+            $request->request->add([
+                'client_email' => $request->query('client_email'),
+            ]);
+        }
         
+        if (empty($request->query('client_name'))) {
+            $request->request->add([
+                'client_name' => $request->query('client_name'),
+            ]);
+        }
+
+        if (empty($request->query('fdate'))) {
+            $request->request->add([
+                'fdate' => $request->query('fdate'),
+            ]);
+        }
+        if (empty($request->query('tdate'))) {
+            $request->request->add([
+                'tdate' => $request->query('tdate'),
+            ]);
+        }
+
         $table_data = $this->filter($request);
+        
         return Excel::download(new SaleExport($table_data), 'sales-'.Carbon::now()->format('YmdHis').'.xlsx');
     }
     

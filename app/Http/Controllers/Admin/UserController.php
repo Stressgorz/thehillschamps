@@ -512,6 +512,41 @@ class UserController extends Controller
     public function export(Request $request)
     {   
         
+        if (empty($request->query('email'))) {
+            $request->request->add([
+                'email' => $request->query('email'),
+            ]);
+        }
+
+        if (empty($request->query('position'))) {
+            $request->request->add([
+                'position' => $request->query('position'),
+            ]);
+        }
+
+        if (empty($request->query('team'))) {
+            $request->request->add([
+                'team' => $request->query('team'),
+            ]);
+        }
+
+        if (empty($request->query('status'))) {
+            $request->request->add([
+                'status' => $request->query('status'),
+            ]);
+        }
+
+        if (empty($request->query('fdate'))) {
+            $request->request->add([
+                'fdate' => $request->query('fdate'),
+            ]);
+        }
+        if (empty($request->query('tdate'))) {
+            $request->request->add([
+                'tdate' => $request->query('tdate'),
+            ]);
+        }
+        
         $table_data = $this->filter($request);
         return Excel::download(new MembersExport($table_data), 'members-'.Carbon::now()->format('YmdHis').'.xlsx');
     }

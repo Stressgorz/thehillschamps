@@ -487,6 +487,42 @@ class ClientController extends Controller
     public function export(Request $request)
     {   
         
+        if (empty($request->query('status'))) {
+            $status = Client::$status['inactive'];
+            $request->request->add([
+                'status' => $status,
+            ]);
+        }
+
+        if (empty($request->query('name'))) {
+            $request->request->add([
+                'name' => $request->query('name'),
+            ]);
+        }
+
+        if (empty($request->query('upline_user_email'))) {
+            $request->request->add([
+                'upline_user_email' => $request->query('upline_user_email'),
+            ]);
+        }
+
+        if (empty($request->query('upline_client_name'))) {
+            $request->request->add([
+                'upline_client_name' => $request->query('upline_client_name'),
+            ]);
+        }
+
+        if (empty($request->query('fdate'))) {
+            $request->request->add([
+                'fdate' => $request->query('fdate'),
+            ]);
+        }
+        if (empty($request->query('tdate'))) {
+            $request->request->add([
+                'tdate' => $request->query('tdate'),
+            ]);
+        }
+        
         $table_data = $this->filter($request);
         return Excel::download(new ClientExport($table_data), 'clients-'.Carbon::now()->format('YmdHis').'.xlsx');
     }
