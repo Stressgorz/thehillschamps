@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Helper;
 
 class MembersExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting, ShouldAutoSize, WithEvents
 {
@@ -48,13 +49,14 @@ class MembersExport implements FromCollection, WithHeadings, WithMapping, WithCo
     {
 
         return [
-            $member->status,
+            Helper::$general_status[$member->status],
             $member->ib_code,
-            $member->username,
+            $member->firstname.' '.$member->lastname,
             $member->phone,
             $member->position_name,
             $member->team_name,
             $member->dob,
+            $member->email,
             $member->created_at,
             $member->upline_firstname . $member->upline_lastname,
         ];

@@ -48,6 +48,17 @@ class UserController extends Controller
                 'team' => $request->query('team'),
             ]);
         }
+
+        if (empty($request->query('fdate'))) {
+            $request->request->add([
+                'fdate' => $request->query('fdate'),
+            ]);
+        }
+        if (empty($request->query('tdate'))) {
+            $request->request->add([
+                'tdate' => $request->query('tdate'),
+            ]);
+        }
         
         $table_data = $this->filter($request);
 
@@ -85,6 +96,7 @@ class UserController extends Controller
         $params = [
             'users' => [
                 'email' => 'email',
+                'created_at' => 'created_at',
             ],
             'positions' => [
                 'position' => 'name',

@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Helper;
 
 class SaleExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting, ShouldAutoSize, WithEvents
 {
@@ -48,7 +49,7 @@ class SaleExport implements FromCollection, WithHeadings, WithMapping, WithColum
     {
 
         return [
-            $data->sales_status,
+            Helper::$approval_status[$data->sales_status],
             $data->broker_type,
             $data->amount,
             $data->client_name,

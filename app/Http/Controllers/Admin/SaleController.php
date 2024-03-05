@@ -127,12 +127,16 @@ class SaleController extends Controller
 	                if ($filters->get('tdate')) {
 	                    $query->where($table.'.'.$param, '<', ($filters->get('tdate')));
 	                }
-	            } elseif (is_array($filters->query($field)) && ! empty($filters->query($field))) { 
+	            } elseif ($field == 'sales_status') { 
+	                if ($filters->get('sales_status')) {
+	                    $query->where($table.'.'.$param, '=',  $filters->get('sales_status'));
+	                }
+                } elseif (is_array($filters->query($field)) && ! empty($filters->query($field))) { 
 	                // If is array and not empty
 	                $query->whereIn($table.'.'.$param, $filters->query($field));
 	            } else {
                     if (! empty($filters->query($field))) {
-                        if (in_array($field, ['status', 'type', 'sales_status'])) { 
+                        if (in_array($field, ['status', 'type'])) { 
                             $query->where($table.'.'.$param, '=',  $filters->query($field));
                         } else {
                             $query->where($table.'.'.$param, 'LIKE',  '%'.$filters->query($field).'%');
