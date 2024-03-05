@@ -104,7 +104,7 @@
         <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Upline</label>
           @if($user->upline)
-          <input id="inputTitle" type="text"  value="{{$user->upline->firstname.' '.$user->upline->firstname}}" class="form-control" readonly>
+          <input id="inputTitle" type="text"  value="{{$user->upline->firstname.' '.$user->upline->lastname}}" class="form-control" readonly>
           @else
           <input id="inputTitle" type="text"  value="" class="form-control" readonly>
           @endif
