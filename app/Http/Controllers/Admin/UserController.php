@@ -69,7 +69,9 @@ class UserController extends Controller
         $table_data = $this->filter($request);
 
         $positions = Position::where('status', Position::$status['active'])->get();
-        $teams = Team::where('status', Team::$status['active'])->get();
+        $teams = Team::where('status', Team::$status['active'])
+                        ->orderBy('name')
+                        ->get();
 
         return view('backend.users.index', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
