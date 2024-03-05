@@ -49,7 +49,7 @@ class SaleExport implements FromCollection, WithHeadings, WithMapping, WithColum
     {
 
         return [
-            Helper::$approval_status[$data->sales_status],
+            $data->sales_status,
             $data->broker_type,
             $data->amount,
             $data->client_name,
