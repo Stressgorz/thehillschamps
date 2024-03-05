@@ -286,27 +286,29 @@ class UserController extends Controller
             $tdate = $request->tdate;
         }
 
-        $direct_ib = User::where('upline_id', $id)
-                            ->where('status', User::$status['active'])
-                            ->where('position_id', '=', 1)
-                            ->select('id')
-                            ->pluck('id')
-                            ->toArray();
-        $direct_ib[] = $id;
+        if($user->position_id != 1 && $user->position_id != 5){
+            $direct_ib = User::where('upline_id', $id)
+                        ->where('status', User::$status['active'])
+                        ->whereIn('position_id', [1,5])
+                        ->select('id')
+                        ->pluck('id')
+                        ->toArray();
+            $direct_ib[] = $id;
 
-        $direct_ib_sales = Sale::whereIn('user_id', $direct_ib)
-                                ->where('sales_status', Sale::$sales_status['approved'])
-                                ->where('status', Sale::$status['active']);
+            $direct_ib_sales = Sale::whereIn('user_id', $direct_ib)
+                            ->where('sales_status', Sale::$sales_status['approved'])
+                            ->where('status', Sale::$status['active']);
 
-                                if(isset($fdate) && $fdate){
-                                    $direct_ib_sales->where('date', '>=', $fdate);
-                                }
+                            if(isset($fdate) && $fdate){
+                                $direct_ib_sales->where('date', '>=', $fdate);
+                            }
 
-                                if(isset($tdate) && $tdate){
-                                    $direct_ib_sales->where('date', '<=', $tdate);
-                                }
+                            if(isset($tdate) && $tdate){
+                                $direct_ib_sales->where('date', '<=', $tdate);
+                            }
 
-                                $direct_ib_sales_amount = $direct_ib_sales->sum('amount');
+                            $direct_ib_sales_amount = $direct_ib_sales->sum('amount');
+        }
 
         $all_downline = User::getAllIbDownline($id);
 
@@ -340,7 +342,7 @@ class UserController extends Controller
 
         return view('backend.users.show', [
             'user' => $user,
-            'direct_ib_sales' => $direct_ib_sales_amount,
+            'direct_ib_sales' => $direct_ib_sales_amount ?? 0,
             'all_downline_sales' => $all_downline_sales_amount,
             'all_personal_sales' => $all_personal_sales,
             'user_status' => User::$status,
