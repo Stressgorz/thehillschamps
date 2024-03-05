@@ -165,7 +165,7 @@ class SaleController extends Controller
                         if($user){
                             $direct_ib = User::where('upline_id', $user->id)
                                             ->where('status', User::$status['active'])
-                                            ->where('position_id', '!=', 5)
+                                            ->where('position_id', '=', 1)
                                             ->select('id')
                                             ->pluck('id')
                                             ->toArray();
