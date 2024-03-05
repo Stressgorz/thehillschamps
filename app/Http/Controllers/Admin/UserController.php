@@ -287,7 +287,7 @@ class UserController extends Controller
         }
 
         if($user->position_id != 1 && $user->position_id != 5){
-            $direct_ib = User::where('upline_id', $id)
+            $direct_ib = User::where('team_id', $user->team_id)
                         ->where('status', User::$status['active'])
                         ->whereIn('position_id', [1,5])
                         ->select('id')

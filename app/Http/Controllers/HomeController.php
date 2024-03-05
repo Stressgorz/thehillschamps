@@ -86,7 +86,7 @@ class HomeController extends Controller
                                 $all_personal_sales = $personal_sales->sum('amount');
 
         if($request->user()->position_id != 1 && $request->user()->position_id != 5){
-            $direct_ib = User::where('upline_id', $id)
+            $direct_ib = User::where('team_id', $request->user()->team_id)
                         ->where('status', User::$status['active'])
                         ->whereIn('position_id', [1,5])
                         ->select('id')

@@ -165,7 +165,7 @@ class SaleController extends Controller
                                         ->first();
 
                         if($user){
-                            $direct_ib = User::where('upline_id', $user->id)
+                            $direct_ib = User::where('team_id', $user->team_id)
                                             ->where('status', User::$status['active'])
                                             ->whereIn('position_id', [1,5])
                                             ->select('id')
