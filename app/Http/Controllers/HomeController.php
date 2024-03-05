@@ -92,6 +92,8 @@ class HomeController extends Controller
                             ->pluck('id')
                             ->toArray();
 
+        $direct_ib[] = $id;
+        
         $direct_ib_sales = Sale::whereIn('user_id', $direct_ib)
                                 ->where('sales_status', Sale::$sales_status['approved'])
                                 ->where('status', Sale::$status['active']);

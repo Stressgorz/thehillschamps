@@ -47,16 +47,22 @@
                   </select>
                 </div>
             </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">IB Email</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="user_email" value="{{ Request::get('user_email') }}"/>
+                </div>
+            </div>
           </div>
           <div class="form-group row">
-            <div class="col-md-2 col-sm-3 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">From Date</label>
                 <div class='input-group date datepicker'>
                     </span>
                     <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}"/>
                 </div>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">To Date</label>
                 <div class='input-group date datepicker'>
                     </span>
@@ -76,7 +82,20 @@
                 </div>
             </div>
           </div>
-
+          <div class="form-group row">
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">IB Email (Team Sales)</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="ib_team" value="{{ Request::get('ib_team') }}"/>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">IB Email (Group Sales)</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="ib_group" value="{{ Request::get('ib_group') }}"/>
+                </div>
+            </div>
+          </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <button id="advanced_search" type="submit" class="btn btn-success">Search</button>

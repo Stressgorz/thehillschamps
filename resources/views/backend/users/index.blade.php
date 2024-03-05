@@ -69,7 +69,7 @@
                 <label class="control-label">Status</label>
                 <div class="form-group">
                   <select name="status" class="form-control">
-                  <option value=''>Select Sales Status</option>
+                  <option value=''>Select Status</option>
                       @foreach($user_status as $status)
                           <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$general_status[$status]}}</option>
                       @endforeach

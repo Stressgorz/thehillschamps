@@ -37,6 +37,22 @@ class TestingController extends Controller
         // static::addUserPoints();
         // static::emailClient();
 
+        $sales = Sale::where('status', 999)->get();
+        foreach($sales as $sale){
+            $sale->update([
+                'status' => 9,
+            ]);
+        }
+
+        dd('done');
+        // $users = User::where('status', 999)->get();
+
+        // foreach($users as $user){
+        //     $user->update([
+        //         'status' => 9,
+        //     ]);
+        // }
+
         dd('done');
     }
 

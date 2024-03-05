@@ -32,7 +32,6 @@ class User extends Authenticatable
     public static $status = [
         'active' => '1',
         'inactive' => '9',
-        'removed' => '999',
     ];
 
     public static $role = [

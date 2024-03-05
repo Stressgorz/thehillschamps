@@ -47,6 +47,12 @@ class SaleController extends Controller
             ]);
         }
 
+        if (empty($request->query('user_email'))) {
+            $request->request->add([
+                'user_email' => $request->query('user_email'),
+            ]);
+        }
+
         if (empty($request->query('client_email'))) {
             $request->request->add([
                 'client_email' => $request->query('client_email'),
@@ -67,6 +73,23 @@ class SaleController extends Controller
         if (empty($request->query('tdate'))) {
             $request->request->add([
                 'tdate' => $request->query('tdate'),
+            ]);
+        }
+
+        if (empty($request->query('ib_team'))) {
+            $request->request->add([
+                'ib_team' => null,
+            ]);
+        }
+        if (empty($request->query('ib_group'))) {
+            $request->request->add([
+                'ib_group' => null,
+            ]);
+        }
+
+        if (empty($request->query('client_name'))) {
+            $request->request->add([
+                'client_name' => $request->query('client_name'),
             ]);
         }
 
@@ -108,6 +131,8 @@ class SaleController extends Controller
                 'status' => 'status',
                 'broker_type' => 'broker_type',
                 'date' => 'date',
+                'ib_team' => 'user_id',
+                'ib_group' => 'user_id',
             ],
             'users' => [
                 'user_email' => 'email',
@@ -130,6 +155,36 @@ class SaleController extends Controller
 	            } elseif ($field == 'sales_status') { 
 	                if ($filters->get('sales_status')) {
 	                    $query->where($table.'.'.$param, '=',  $filters->get('sales_status'));
+	                }
+                } elseif ($field == 'ib_team') { 
+	                if ($filters->get('ib_team')) {
+
+                        $user = User::where('email', $filters->get('ib_team'))
+                                        ->select('id')
+                                        ->first();
+                        if($user){
+                            $direct_ib = User::where('upline_id', $user->id)
+                                            ->where('status', User::$status['active'])
+                                            ->where('position_id', '!=', 5)
+                                            ->select('id')
+                                            ->pluck('id')
+                                            ->toArray();
+
+                            $direct_ib[] = $user->id;
+                            $query->whereIn($table.'.'.$param,  $direct_ib);
+                        }
+	                }
+                } elseif ($field == 'ib_group') { 
+	                if ($filters->get('ib_group')) {
+
+                        $user = User::where('email', $filters->get('ib_group'))
+                                        ->select('id')
+                                        ->first();
+                        if($user){
+                            $all_downline = User::getAllIbDownline($user->id);
+
+                            $query->whereIn($table.'.'.$param,  $all_downline);
+                        }
 	                }
                 } elseif (is_array($filters->query($field)) && ! empty($filters->query($field))) { 
 	                // If is array and not empty
