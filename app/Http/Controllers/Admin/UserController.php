@@ -391,6 +391,7 @@ class UserController extends Controller
         $data = static::userUpdateValidation($request, $id);
 
         $updateData = [
+            'email' => $data['email'],
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'code' => $data['code'],
@@ -430,6 +431,17 @@ class UserController extends Controller
 
 
         $data[] = $request->validate([
+            'email' => ['required',
+                function ($attribute, $value, $fail) use ($id) {
+                    $user = User::find($id);
+                    if($user->email != $value){
+                        $new_email = User::where('email', $value)
+                                        ->first();
+                        if ($new_email) {
+                            $fail('Email is exist');
+                        }
+                    }
+                }],
             'firstname' => ['required'],
             'lastname' => ['required'],
             'code' => ['required'],
