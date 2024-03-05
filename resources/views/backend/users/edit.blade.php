@@ -103,6 +103,9 @@
                   <option value='{{$team->id}}' {{(($user->team_id==$team->id) ? 'selected' : '')}}>{{$team->name}}</option>
               @endforeach
           </select>
+          @error('team_id')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
         </div>
 
         <div class="form-group">
@@ -112,6 +115,9 @@
                   <option value='{{$position->id}}' {{(($user->position_id==$position->id) ? 'selected' : '')}}>{{$position->name}}</option>
               @endforeach
           </select>
+          @error('position_id')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
         </div>
 
         <div class="form-group">
@@ -121,6 +127,9 @@
                   <option value='{{$upline->id}}' {{(($user->upline_id==$upline->id) ? 'selected' : '')}}>{{$upline->firstname .' '. $upline->lastname}}</option>
               @endforeach
           </select>
+          @error('upline_id')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
         </div>
 
         <div class="form-group">
@@ -130,6 +139,9 @@
                   <option value='{{$status}}' {{(($user->status==$status) ? 'selected' : '')}}>{{Helper::$general_status[$status]}}</option>
               @endforeach
           </select>
+          @error('status')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
         </div>
 
         <div class="form-group mb-3">

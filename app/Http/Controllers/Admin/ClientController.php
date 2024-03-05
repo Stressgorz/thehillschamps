@@ -360,10 +360,13 @@ class ClientController extends Controller
             }
             ],
             'upline_client_email' => ['nullable',
-            function ($attribute, $value, $fail) {
+            function ($attribute, $value, $fail) use ($id) {
                 $upline_client_id = Client::where('email', $value)->first();
                 if (empty($upline_client_id)) {
                     $fail('Upline Client does not exists');
+                }
+                if($value == $id){
+                    $fail('Upline Client cannot be same as Client');
                 }
             }
             ],

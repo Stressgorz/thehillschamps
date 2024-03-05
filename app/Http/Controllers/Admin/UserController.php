@@ -433,12 +433,16 @@ class UserController extends Controller
                 }
             }],
             'upline_id' => ['nullable',
-            function ($attribute, $value, $fail) {
+            function ($attribute, $value, $fail) use ($id){
+                
                 $upline = User::where('id', $value)
                             ->where('status', Position::$status['active'])
                             ->first();
                 if (empty($upline)) {
                     $fail('Upline does not exist');
+                }
+                if($value == $id){
+                    $fail('Upline cannot be yourself');
                 }
             }],
             'status' => ['required'],

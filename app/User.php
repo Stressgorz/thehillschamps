@@ -140,7 +140,8 @@ class User extends Authenticatable
                 foreach($current_level_downline_member as $upline_member => $downline_members){
                     foreach($downline_members as $upline => $downline_member){
                         $member_list = User::select('id')
-                                ->where('upline_id', $downline_member);
+                                ->where('upline_id', $downline_member)
+                                ->where('status', Static::$status['active']);
 
                         $member_list = $member_list
                             ->get();
