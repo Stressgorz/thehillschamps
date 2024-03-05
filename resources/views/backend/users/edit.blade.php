@@ -123,6 +123,7 @@
         <div class="form-group">
           <label for="role">Upline</label>
           <select class="selectpicker" data-live-search="true" name='upline_id'>
+          <option value=''>None</option>
               @foreach($users as $upline)
                   <option value='{{$upline->id}}' {{(($user->upline_id==$upline->id) ? 'selected' : '')}}>{{$upline->firstname .' '. $upline->lastname}}</option>
               @endforeach
