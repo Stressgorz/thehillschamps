@@ -142,6 +142,7 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
 
         // positions
         Route::resource('/positions', 'Admin\PositionController');
+        Route::get('/positions-steps/{user_id}', 'Admin\PositionController@addPositionSteps')->name('add-position-steps');
 
         // sales
         Route::get('/sales-admin/export', 'Admin\SaleController@export');

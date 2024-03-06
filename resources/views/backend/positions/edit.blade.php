@@ -3,190 +3,72 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Edit Position</h5>
+    <div class="card-header py-3">
+    <h5>Edit Position</h5>
+    @if($position_steps->isEmpty())
+    <a href="{{route('add-position-steps', $position->id)}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="edit Profile"> Add Steps </a>
+    @endif
+    </div>
     <div class="card-body">
       <form method="post" action="{{route('positions.update',$position->id)}}" enctype="multipart/form-data">
         @csrf 
         @method('PATCH')
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">1st Step Points<span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="step1" placeholder="Enter name"  value="{{$position->step1}}" class="form-control">
-          @error('step1')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">2nd Step Points<span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="step2" placeholder="Enter name"  value="{{$position->step2}}" class="form-control">
-          @error('step2')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">3rd Step Points<span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="step3" placeholder="Enter name"  value="{{$position->step3}}" class="form-control">
-          @error('step3')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">4th Step Points<span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="step4" placeholder="Enter name"  value="{{$position->step4}}" class="form-control">
-          @error('step4')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">5th Step Points<span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="step5" placeholder="Enter name"  value="{{$position->step5}}" class="form-control">
-          @error('step5')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Next Rank Points<span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="kpi" placeholder="Enter name"  value="{{$position->kpi}}" class="form-control">
-          @error('kpi')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class ='row'>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputPhoto" class="col-form-label">Step1 Image</label>
-              <div class="input-group">
-                <input type="file" name="step1_img" class="form-control" value = "{{$position->step1_img}}">
+        <div class="x_panel" id="position-step-list-div">
+          <div class="x_content">
+              <table class="table table-hover table-bordered">
+                  <thead>
+                      <tr>
+                      <th>Step</th>
+                      <th>Kpi Amount</th>
+                      <th>Name </th>
+                      <th>Image File</th>
+                      <th>Image</th>
+                      </tr>
+                  </thead>
+                  <tbody id="steps-table">
+                      @foreach($position_steps as $index => $steps)
+                          <tr class="steps-tr">
+                              <td style="width: 7%;">
+                                <input type="number" name="sort[]" class="form-control" min="1" step="1" value="{{ $steps->sort }}" readonly>
+                                @if ($errors->has('sort.'.$index))
+                                <span class="text-danger">{{ $errors->first('sort.'.$index) }}</span>
+                                @enderror
+                              </td>
+                              <td style="width: 10%;">
+                                <input type="number" name="amount[]" class="form-control" min="1" step="1" value="{{ $steps->amount }}">
+                                @if ($errors->has('amount.'.$index))
+                                <span class="text-danger">{{ $errors->first('amount.'.$index) }}</span>
+                                @enderror
+                              </td>
+                              <td>
+                                <input type="text" name="name[]" class="form-control" value="{{ $steps->name }}">
+                                @if ($errors->has('name.'.$index))
+                                <span class="text-danger">{{ $errors->first('name.'.$index) }}</span>
+                                @enderror
+                              </td>
+                              <td>
+                                <input type="file" name="image[]" class="form-control" value = "{{$steps->image}}">
+                                @if ($errors->has('image.'.$index))
+                                <span class="text-danger">{{ $errors->first('image.'.$index) }}</span>
+                                @enderror
+                              </td>
+                              <td style="width: 30%;">
+                                @if($steps->image)
+                                  <img src="{{ asset('storage/'.$path.'/'.$steps->image) }}" alt="..." style='max-width: 150px'>
+                                @endif
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <button name="removeRow" type="button" class="btn btn-dark"> Remove a row</button>
+                  <button name="addRow" type="button" class="btn btn-success">Add new row</button>
               </div>
-              <div class="input-group mt-3">
-                <img src="{{ asset('storage/'.$path.'/'.$position->step1_img) }}" alt="..." style='max-width: 250px'>
-              </div>
-              @error('step1_img')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
           </div>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputTitle" class="col-form-label">Step 1 Name<span class="text-danger">*</span></label>
-              <input id="inputTitle" type="text" name="step1_name" placeholder="Enter name"  value="{{$position->step1_name}}" class="form-control">
-              @error('step1_name')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-        </div>
+      </div>
 
-        <div class ='row'>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputPhoto" class="col-form-label">Step2 Image</label>
-              <div class="input-group">
-                <input type="file" name="step2_img" class="form-control" value = "{{$position->step2_img}}">
-              </div>
-              <div class="input-group mt-3">
-                <img src="{{ asset('storage/'.$path.'/'.$position->step2_img) }}" alt="..." style='max-width: 250px'>
-              </div>
-              @error('step2_img')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputTitle" class="col-form-label">Step 2 Name<span class="text-danger">*</span></label>
-              <input id="inputTitle" type="text" name="step2_name" placeholder="Enter name"  value="{{$position->step2_name}}" class="form-control">
-              @error('step2_name')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-        </div>
-
-        <div class ='row'>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputPhoto" class="col-form-label">Step3 Image</label>
-              <div class="input-group">
-                <input type="file" name="step3_img" class="form-control" value = "{{$position->step3_img}}">
-              </div>
-              <div class="input-group mt-3">
-                <img src="{{ asset('storage/'.$path.'/'.$position->step3_img) }}" alt="..." style='max-width: 250px'>
-              </div>
-              @error('step3_img')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputTitle" class="col-form-label">Step 3 Name<span class="text-danger">*</span></label>
-              <input id="inputTitle" type="text" name="step3_name" placeholder="Enter name"  value="{{$position->step3_name}}" class="form-control">
-              @error('step3_name')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-        </div>
-
-        <div class ='row'>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputPhoto" class="col-form-label">Step4 Image</label>
-              <div class="input-group">
-                <input type="file" name="step4_img" class="form-control" value = "{{$position->step4_img}}">
-              </div>
-              <div class="input-group mt-3">
-                <img src="{{ asset('storage/'.$path.'/'.$position->step4_img) }}" alt="..." style='max-width: 250px'>
-              </div>
-              @error('step4_img')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputTitle" class="col-form-label">Step 4 Name<span class="text-danger">*</span></label>
-              <input id="inputTitle" type="text" name="step4_name" placeholder="Enter name"  value="{{$position->step4_name}}" class="form-control">
-              @error('step4_name')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-        </div>
-
-        <div class ='row'>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputPhoto" class="col-form-label">Step5 Image</label>
-              <div class="input-group">
-                <input type="file" name="step5_img" class="form-control" value = "{{$position->step5_img}}">
-              </div>
-              <div class="input-group mt-3">
-                <img src="{{ asset('storage/'.$path.'/'.$position->step5_img) }}" alt="..." style='max-width: 250px'>
-              </div>
-              @error('step5_img')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-          <div class='col-md-6 col-12'>
-            <div class="form-group">
-              <label for="inputTitle" class="col-form-label">Step 5 Name<span class="text-danger">*</span></label>
-              <input id="inputTitle" type="text" name="step5_name" placeholder="Enter name"  value="{{$position->step5_name}}" class="form-control">
-              @error('step5_name')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group mb-3">
+        <div class="form-group row justify-content-end m-3">
            <button class="btn btn-success" type="submit">Update</button>
         </div>
       </form>
@@ -205,11 +87,27 @@
     $('#lfm').filemanager('image');
 
     $(document).ready(function() {
-    $('#summary').summernote({
-      placeholder: "Write short description.....",
-        tabsize: 2,
-        height: 150
-    });
+      $('#summary').summernote({
+        placeholder: "Write short description.....",
+          tabsize: 2,
+          height: 150
+      });
+
+      $("[name=addRow]").click(function(e){
+        e.preventDefault();
+
+        $(".steps-tr").last().clone().appendTo($("#steps-table"));
+
+        $("input[name='sort[]']").last().val($("#steps-table > tr").length);
+      });
+
+
+      $("[name=removeRow]").click(function(e){
+        e.preventDefault();
+        if($("#steps-table > tr").length != 1){
+            $(".steps-tr").last().remove();
+        }
+      });
     });
 </script>
 <script>

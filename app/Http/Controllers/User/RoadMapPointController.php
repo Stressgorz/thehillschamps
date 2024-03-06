@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Position;
 use App\Models\Team;
+use App\Models\PositionStep;
 use App\Models\Sale;
 use Carbon\Carbon;
 
@@ -27,14 +28,14 @@ class RoadMapPointController extends Controller
         $data = [];
         $path = Position::$path;
         if($request->user()->position){
-            $positions = $request->user()->position;
-            $kpi = [
-                'step1' => $request->user()->position->step1,
-                'step2' => $request->user()->position->step2,
-                'step3' => $request->user()->position->step3,
-                'step4' => $request->user()->position->step4,
-                'step5' => $request->user()->position->step5,
-            ];
+            $position_step = PositionStep::where('position_id', $request->user()->position_id)
+                                            ->where('status', PositionStep::$status['active'])
+                                            ->get();
+
+            foreach($position_step as $index => $steps){
+                $step_no = 'step'.$steps->sort;
+                $kpi[$step_no] = $steps->amount;
+            }
 
             $user_wallet = UserWallet::where('wallet', Userwallet::$wallet['points'])
                                     ->where('user_id', $request->user()->id)
@@ -50,7 +51,7 @@ class RoadMapPointController extends Controller
             $kpi_name = 'step1';
             $kpi_points = $kpi['step1'];
             foreach($kpi as $name => $points){
-                if($points >= $user_point){
+                if($points > $user_point){
                     $kpi_name = $name;
                     $kpi_points = $points;
                     break;
@@ -79,8 +80,8 @@ class RoadMapPointController extends Controller
         return view('user.roadmappoints.index', [
             'data' => $data,
             'path' => $path,
-            'positions' => $positions,
             'user_point' => $user_point,
+            'position_step' => $position_step,
         ]);
     }
     
