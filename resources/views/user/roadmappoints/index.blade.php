@@ -70,6 +70,7 @@
                 </div>
                 </div>
             </div>
+            @if(Auth::user()->position_id != 3)
             <div class="col-md-3">
             <div class="card shadow mb-4" style="width: 18rem;">
                 <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step5_img) }}"  style = 'height:300px' alt="Card image cap">
@@ -79,6 +80,7 @@
                 </div>
                 </div>
             </div>
+            @endif
         </div>
         <hr>
    </div>
