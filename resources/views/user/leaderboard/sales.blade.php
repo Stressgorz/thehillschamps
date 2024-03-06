@@ -11,7 +11,7 @@
                 <a href="{{route('get-leaderboard-sale', 'team')}}" class="btn btn-leader">TEAM</a>
                 @endif
             </div>
-            <div class="sort">
+            <!-- <div class="sort">
                 <ul class="nav nav-tabs " role="tablist">
                     <li class="nav-item" role="presentation">
                     <a class="btn btn-leaderboard" href="{{route('get-leaderboard-sale', $data_type.'?type=month')}}">Monthly</a>
@@ -20,7 +20,7 @@
                     <a class="btn btn-leaderboard" href="{{route('get-leaderboard-sale', $data_type.'?type=year')}}">Yearly</a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             @if($type == 'month')
             <div class="sort">
                 <ul class="nav nav-tabs " role="tablist">
@@ -32,7 +32,7 @@
                 </ul>
             </div>
             @elseif($type == 'year')
-            <div class="sort">
+            <!-- <div class="sort">
                 <ul class="nav nav-tabs " role="tablist">
                     @foreach(Helper::$year as $year)
                     <li class="nav-item" role="presentation">
@@ -40,7 +40,7 @@
                     </li>
                     @endforeach
                 </ul>
-            </div>
+            </div> -->
             @endif
             <div class="tab-content text-center" id="learn-tab">
                 <div class="tab-pane fade show active">
