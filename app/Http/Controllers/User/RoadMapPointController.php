@@ -56,7 +56,8 @@ class RoadMapPointController extends Controller
                     break;
                 }
             }
-            if($user_point){
+
+            if($user_point && $user_point != 0){
                 $percentage_to_next_step = ($user_point / $kpi_points) * 100 ?? 0;
                 $percentage_to_next_rank = ($user_point / $request->user()->position->kpi) * 100 ?? 0;
                 $points_to_next_step = $kpi_points - $user_point;
