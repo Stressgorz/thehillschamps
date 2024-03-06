@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Helpers;
 use App\Models\Client;
+use App\Models\UserWallet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Position;
@@ -34,7 +35,18 @@ class RoadMapPointController extends Controller
                 'step4' => $request->user()->position->step4,
                 'step5' => $request->user()->position->step5,
             ];
-            $user_point = $request->user()->points ?? 0;
+
+            $user_wallet = UserWallet::where('wallet', Userwallet::$wallet['points'])
+                                    ->where('user_id', $request->user()->id)
+                                    ->select('balance')
+                                    ->first();
+
+            if($user_wallet){
+                $user_point = $user_wallet->balance ?? 0;
+            } else {
+                $user_point = 0;
+            }
+
             $kpi_name = 'step1';
             $kpi_points = $kpi['step1'];
             foreach($kpi as $name => $points){
