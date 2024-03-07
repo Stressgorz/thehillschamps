@@ -63,7 +63,7 @@ class ClientController extends Controller
             ]);
         }
 
-        $teams = Team::all();
+        $teams = Team::where('status', Team::$status['active'])->get();
 
         $table_data = $this->filter($request);
 
