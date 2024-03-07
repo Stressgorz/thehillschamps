@@ -238,7 +238,7 @@ class ClientController extends Controller
             }
             ],
             'name' => ['required'],
-            'contact' => ['required'],
+            'contact' => ['required', 'max:16'],
             'address' => ['required'],
             'country' => ['required',
                 function ($attribute, $value, $fail) {
