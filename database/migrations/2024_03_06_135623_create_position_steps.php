@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kpi_answers', function (Blueprint $table) {
+        Schema::create('position_steps', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('kpi_id');
+            $table->bigInteger('position_id');
             $table->integer('sort');
-            $table->text('name');
-            $table->decimal('points', 20, 2);
-            $table->string('status');
+            $table->string('name', 251)->nullable();
+            $table->integer('amount')->nullable();
+            $table->text('image')->nullable();
+            $table->integer('status');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kpi_answers');
+        Schema::dropIfExists('position_steps');
     }
 };

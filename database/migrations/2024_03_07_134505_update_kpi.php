@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kpi', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('position_id');
-            $table->integer('sort');
-            $table->text('name');
-            $table->string('status', 20);
-            $table->timestamps();
+        Schema::table('kpi', function (Blueprint $table) {
+            $table->bigInteger('position_id')->after('id');
+            $table->string('status', 20)->after('name');
         });
     }
 
@@ -26,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kpi');
+        Schema::table('kpi', function (Blueprint $table) {
+            $table->dropColumn('position_id');
+            $table->dropColumn('status');
+        });
     }
 };

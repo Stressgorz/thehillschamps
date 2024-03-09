@@ -142,6 +142,10 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
 
         // positions
         Route::resource('/positions', 'Admin\PositionController');
+        Route::get('/positions-steps/{user_id}', 'Admin\PositionController@addPositionSteps')->name('add-position-steps');
+
+        // kpi question
+        Route::resource('/kpi-question', 'Admin\KpiController');
 
         // sales
         Route::get('/sales-admin/export', 'Admin\SaleController@export');
@@ -154,6 +158,9 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         // Mar
         Route::get('/mar/export', 'Admin\MarController@export');
         Route::resource('/mar', 'Admin\MarController');
+
+        // Admin Kpi
+        Route::resource('/admin-kpi', 'Admin\AdminKpiController');
 
         // Client
         Route::get('/clients-admin/export', 'Admin\ClientController@export');
@@ -241,6 +248,9 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
 
         // Client
         Route::resource('/sales', 'User\SaleController');
+
+        // Client
+        Route::resource('/user-kpi', 'User\UserKpiController');
 
         // Client
         Route::get('/user-points', 'User\PointController@index')->name('user-point-history');

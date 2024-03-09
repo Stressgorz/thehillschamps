@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('final_data')->nullable();
             $table->string('status', 20);
             $table->text('remarks')->nullable();
+            $table->text('comment')->nullable();
             $table->text('attachment')->nullable();
             $table->timestamps();
         });

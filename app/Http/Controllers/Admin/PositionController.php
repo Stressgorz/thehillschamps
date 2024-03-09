@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Position;
 use App\Models\Team;
+use App\Models\PositionStep;
 use Carbon\Carbon;
 
 class PositionController extends Controller
@@ -154,11 +155,15 @@ class PositionController extends Controller
     public function edit($id)
     {
         $position = Position::findOrFail($id);
+        $position_steps = PositionStep::where('position_id', $id)
+                        ->where('status', PositionStep::$status['active'])
+                        ->get();
 
         $path = Position::$path;
         return view('backend.positions.edit', [
             'position' => $position,
             'position_status' => Position::$status,
+            'position_steps' => $position_steps,
             'path' => $path,
         ]);
     }
@@ -172,61 +177,63 @@ class PositionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $is_update = false;
         // return $request->all();
         $data = static::positionUpdateValidation($request, $id);
 
-        $updateData = [
-            'step1' => $data['step1'],
-            'step2' => $data['step2'],
-            'step3' => $data['step3'],
-            'step4' => $data['step4'],
-            'step5' => $data['step5'],
-            'kpi' => $data['kpi'],
-            'step1_name' => $data['step1_name'],
-            'step2_name' => $data['step2_name'],
-            'step3_name' => $data['step3_name'],
-            'step4_name' => $data['step4_name'],
-            'step5_name' => $data['step5_name'],
-        ];
-
         $path = Position::$path;
 
-        if(isset($data['step1_img'])){
-            $filename = $data['step1_img']->getClientOriginalName();
-            $data['step1_img']->storeAs($path, $filename, 'public');
-            $updateData['step1_img'] = $filename;
+        if(isset($data['image'])){
+            foreach($data['image'] as $index => $image){
+                if($image){
+                    $filename = $image->getClientOriginalName();
+                    $image->storeAs($path, $filename, 'public');
+                    $data['image'][$index] = $filename;
+                }
+            }
         }
 
-        if(isset($data['step2_img'])){
-            $filename = $data['step2_img']->getClientOriginalName();
-            $data['step2_img']->storeAs($path, $filename, 'public');
-            $updateData['step2_img'] = $filename;
+        $position_steps = PositionStep::where('position_id', $id)
+                            ->select('sort', 'image')
+                            ->where('status', PositionStep::$status['active'])
+                            ->orderBy('sort')
+                            ->get();
+
+        // Update Or Insert the gift according to the order
+        foreach ($data['sort'] as $index => $sort) {
+            DB::table('position_steps')
+                ->updateOrInsert(
+                    [
+                        'sort' => $data['sort'][$index],
+                        'position_id' => $id,
+                    ],
+                    [
+                        'name' => $data['name'][$index],
+                        'amount' => $data['amount'][$index],
+                        'image' => isset($data['image'][$index]) ? $data['image'][$index] : $position_steps[$index]->image ?? '',
+                        'status' => PositionStep::$status['active'],
+                    ],
+                );
+            $is_update = true;
+            $sort_id[] = $data['sort'][$index];
         }
 
-        if(isset($data['step3_img'])){
-            $filename = $data['step3_img']->getClientOriginalName();
-            $data['step3_img']->storeAs($path, $filename, 'public');
-            $updateData['step3_img'] = $filename;
+        foreach($position_steps as $position_step){
+            $position_sort_id[] = $position_step->sort;
         }
 
-        if(isset($data['step4_img'])){
-            $filename = $data['step4_img']->getClientOriginalName();
-            $data['step4_img']->storeAs($path, $filename, 'public');
-            $updateData['step4_img'] = $filename;
+        $diff_id = array_diff($position_sort_id, $sort_id);
+
+        foreach($diff_id as $removed_id){
+            PositionStep::where('position_id', $id)
+                            ->where('sort', $removed_id)
+                            ->update([
+                                'status' => PositionStep::$status['inactive']
+                            ]);
         }
 
-        if(isset($data['step5_img'])){
-            $filename = $data['step5_img']->getClientOriginalName();
-            $data['step5_img']->storeAs($path, $filename, 'public');
-            $updateData['step5_img'] = $filename;
-        }
-
-        $position=Position::findOrFail($id);
-
-        if($position){
-            $position->fill($updateData)->save();
-            request()->session()->flash('success','Positions successfully updated');
+        if($is_update){
+            request()->session()->flash('success','Positions Steps successfully updated');
         }else {
             request()->session()->flash('error','Error occurred, Please try again!');
         }
@@ -237,22 +244,10 @@ class PositionController extends Controller
     public static function positionUpdateValidation($request, $id){
 
         $data[] = $request->validate([
-            'step1' => ['required'],
-            'step2' => ['required'],
-            'step3' => ['required'],
-            'step4' => ['required'],
-            'step5' => ['required'],
-            'kpi' => ['required'],
-            'step1_img' => ['nullable'],
-            'step2_img' => ['nullable'],
-            'step3_img' => ['nullable'],
-            'step4_img' => ['nullable'],
-            'step5_img' => ['nullable'],
-            'step1_name' => ['nullable'],
-            'step2_name' => ['nullable'],
-            'step3_name' => ['nullable'],
-            'step4_name' => ['nullable'],
-            'step5_name' => ['nullable'],
+            'sort.*' => ['required'],
+            'amount.*' => ['required'],
+            'name.*' => ['required'],
+            'image.*' => ['required'],
         ]);
 
         $validated = [];
@@ -261,6 +256,31 @@ class PositionController extends Controller
         }
         
         return $validated;
+    }
+
+    public static function addPositionSteps(Request $request, $id){
+
+        $positionsteps = false;
+
+        $steps = PositionStep::where('position_id', $id)->where('status', PositionStep::$status['active'])->first();
+        if(empty($steps)){
+            $positionsteps = PositionStep::create([
+                'sort' => 1,
+                'position_id' => $id,   
+                'name' => '',
+                'amount' => 0,
+                'image' => '',
+                'status' => PositionStep::$status['active'],
+            ]);
+        }
+        
+        if($positionsteps){
+            request()->session()->flash('success','Positions Steps successfully updated');
+        }else {
+            request()->session()->flash('error','Error occurred, Please try again!');
+        }
+
+        return redirect()->route('positions.index');
     }
 
 

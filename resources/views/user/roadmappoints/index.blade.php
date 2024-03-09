@@ -32,55 +32,19 @@
             </div>
         </div>  
         <div class="row justify-content-center">
-            <div class="col-md-3">
-                <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step1_img) }}" style = 'height:300px'  alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Step 1: {{$positions->step1_name}}</h5>
-                    <p class="card-text">Points: {{$positions->step1}}</p>
-                </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-            <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step2_img) }}" style = 'height:300px'  alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Step 2: {{$positions->step2_name}}</h5>
-                    <p class="card-text">Points: {{$positions->step2}}</p>
-                </div>
+            @foreach($position_step as $positionstep)
+            <div class="col-md-4">
+                <div class="row justify-content-center">
+                    <div class="card shadow mb-4" style="width: 18rem;">
+                        <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positionstep->image) }}" style = 'height:300px'  alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Step {{$positionstep->sort}}: {{$positionstep->name}}</h5>
+                            <p class="card-text">Points: {{$positionstep->amount}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3">
-            <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step3_img) }}"  style = 'height:300px' alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Step 3: {{$positions->step3_name}}</h5>
-                    <p class="card-text">Points: {{$positions->step3}}</p>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-3">
-            <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step4_img) }}" style = 'height:300px'  alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Step 4: {{$positions->step4_name}}</h5>
-                    <p class="card-text">Points: {{$positions->step4}}</p>
-                </div>
-                </div>
-            </div>
-            @if(Auth::user()->position_id != 3)
-            <div class="col-md-3">
-            <div class="card shadow mb-4" style="width: 18rem;">
-                <img class="card-img-top" src="{{ asset('storage/'.$path.'/'.$positions->step5_img) }}"  style = 'height:300px' alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Step 5: {{$positions->step5_name}}</h5>
-                    <p class="card-text">Points: {{$positions->step5}}</p>
-                </div>
-                </div>
-            </div>
-            @endif
+            @endforeach
         </div>
         <hr>
    </div>
@@ -88,41 +52,6 @@
 
 @endsection
 
-<style>
-    .breadcrumbs{
-        list-style: none;
-    }
-    .breadcrumbs li{
-        float:left;
-        margin-right:10px;
-    }
-    .breadcrumbs li a:hover{
-        text-decoration: none;
-    }
-    .breadcrumbs li .active{
-        color:red;
-    }
-    .breadcrumbs li+li:before{
-      content:"/\00a0";
-    }
-    .image{
-        background:url('{{asset('backend/img/background.jpg')}}');
-        height:150px;
-        background-position:center;
-        background-attachment:cover;
-        position: relative;
-    }
-    .image img{
-        position: absolute;
-        top:55%;
-        left:35%;
-        margin-top:30%;
-    }
-    i{
-        font-size: 14px;
-        padding-right:8px;
-    }
-  </style> 
 
 @push('scripts')
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
