@@ -84,6 +84,7 @@
     </div>
   </li>
 
+  @if(Auth::user()->id == '1')
   {{-- Admin Kpi --}}
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminkpicollpase" aria-expanded="true" aria-controls="adminkpicollpase">
@@ -97,7 +98,7 @@
       </div>
     </div>
   </li>
-
+  @endif
   <!-- Divider -->
   <hr class="sidebar-divider">
 
@@ -164,7 +165,7 @@
       </div>
     </div>
   </li>
-
+  @if(Auth::user()->id == '1')
   {{-- kpi --}}
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kpiCollapse" aria-expanded="true" aria-controls="kpiCollapse">
@@ -179,7 +180,7 @@
       </div>
     </div>
   </li>
-
+  @endif
   <!-- Divider -->
   <hr class="sidebar-divider">
 
