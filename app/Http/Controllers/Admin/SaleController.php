@@ -268,6 +268,12 @@ class SaleController extends Controller
         $user_upline = User::where('id', $user->upline_id)
                                 ->select('firstname', 'lastname')
                                 ->first();
+        
+        $user_upline_firstname = $user_upline->first_name ?? '';
+
+        $user_upline_lastname = $user_upline->first_name ?? '';
+
+        $user_upline_name = $user_upline_firstname.' '.$user_upline_lastname;
 
         $client_upline = Client::where('id', $client->upline_client_id)
                                 ->select('name')
@@ -286,6 +292,7 @@ class SaleController extends Controller
             'sales_status' => Sale::$sales_status,
             'sales_broker' => Sale::$broker,
             'slip_image' => $slip_image,
+            'user_upline_name' => $user_upline_name,
         ]);
     }
 
