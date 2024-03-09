@@ -3,96 +3,53 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">View Sales</h5>
+    <h5 class="card-header">View Kpi</h5>
     <div class="card-body">
         @csrf 
         @method('PATCH')
 
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Broker</label>
-          <input id="inputTitle" type="text" value="{{$sales->broker_type}}" class="form-control" readonly>
+        @if($kpi_question)
+        @foreach($kpi_question as $question_no => $question)
+        <div class="form-group">
+          <label for="inputTitle" class="col-form-label">Question {{$question_no}}: </label>
+          @foreach($question as $question_name => $kpi_answer)
+          <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
+          @foreach($kpi_answer as $answer_type => $answer)
+            @if($answer_type == 'original')
+              @foreach($answer as $data)
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Answer</label>
+                <input id="inputTitle" type="text" class="form-control" value="{{$data['answer'].' ('.$data['points'].'%)'}}" readonly>
+              </div>
+              @endforeach
+            @endif
+            @if($answer_type == 'final')
+              @foreach($answer as $data)
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Edited Answer</label>
+                <input id="inputTitle" type="text" class="form-control" value="{{$data['answer'].' ('.$data['points'].'%)'}}" readonly>
+              </div>
+              @endforeach
+            @endif
+          @endforeach
+          @endforeach
         </div>
+        @endforeach
 
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Amount</label>
-          <input id="inputTitle" type="number" value="{{$sales->amount}}" class="form-control" readonly>
+        <div class="form-group">  
+          <label for="inputTitle" class="col-form-label">Attachment</label>
         </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Client Name</label>
-          <input id="inputTitle" type="text" value="{{$sales->client_name}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Client Email</label>
-          <input id="inputTitle" type="text"  value="{{$sales->client_email}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Client Contact</label>
-          <input id="inputTitle" type="text"  value="{{$sales->client_contact}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Client Address</label>
-          <input id="inputTitle" type="text"  value="{{$sales->client_address}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">MT4 ID</label>
-          <input id="inputTitle" type="text" value="{{$sales->mt4_id}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">MT4 Password</label>
-          <input id="inputTitle" type="text" value="{{$sales->mt4_pass}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Ib Name</label>
-          <input id="inputTitle" type="text"  value="{{$sales->user_firstname ?? '' .' '.$sales->user_lastname?? ''}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Ib</label>
-          <input id="inputTitle" type="text"  value="{{$user_upline->username ?? ''}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Marketers</label>
-          <input id="inputTitle" type="text"  value="{{$client_upline->name ?? ''}}" class="form-control" readonly>
-        </div>
-        
-        @if($sales->sales_status == 'rejected')
-          <div class="form-group col-6">
-            <label for="inputTitle" class="col-form-label">Reject Reason</label>
-            <input id="inputTitle" type="text" value="{{$sales->reason}}" class="form-control" readonly>
-          </div>
-        @endif
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Remark</label>
-          <input id="inputTitle" type="text" value="{{$sales->remark}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">
-          <label for="inputTitle" class="col-form-label">Status</label>
-          <input id="inputTitle" type="text"  value="{{$sales->sales_status}}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group col-6">  
-          <label for="inputTitle" class="col-form-label">Sales Date</label>
-          <input id="inputTitle" type="date" value="{{$sales->date}}" class="form-control" readonly>
-        </div>
-        <div class="form-group col-6">  
-          <label for="inputTitle" class="col-form-label">Slip</label>
-        </div>
-        <div class="form-group col-6">  
-          @foreach($slip_image as $image)
+        <div class="form-group">  
+          @foreach($kpi_image as $image)
             <a href="#" class="img">
               <img src="{{ asset($image) }}" id="slip" alt="..." style='max-width: 250px'>
             </a>
           @endforeach
         </div>
+        @else
+        <h5>Hailat, something is wrong. Find Yan, is all Yan's fault</h5>
+        @endif
+        <hr>
     </div>
 </div>
 

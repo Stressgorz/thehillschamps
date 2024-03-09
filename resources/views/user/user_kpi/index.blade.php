@@ -57,11 +57,11 @@
               @php
               @endphp
                 <tr>
-                    <td>{{$data->status}}</td>
+                    <td>{{Helper::$approval_status[$data->status]}}</td>
                     <td>{{$data->created_at}}</td>
                     <td>{{$data->remarks}}</td>
                     <td>
-                    <a href="{{route('user_kpi.show',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="view" data-placement="bottom">Show</a>
+                    <a href="{{route('user-kpi.show',$data->id)}}" class="btn btn-primary btn-sm float-left m-1" data-toggle="tooltip" title="view" data-placement="bottom">Show</a>
                     </td>
                 </tr>
             @endforeach

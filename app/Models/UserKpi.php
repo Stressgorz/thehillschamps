@@ -30,5 +30,12 @@ class UserKpi extends Model
         'pending' => 9,
         'removed' => 999,
     ];
+
+            /**
+     * The path of the storage folder to store uploaded files.
+     *
+     * @var string
+     */
+    public static $path = 'User_Kpi';
     
 }

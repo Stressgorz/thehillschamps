@@ -16,18 +16,28 @@
           <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
           @foreach($kpi_answer as $answer_no => $answer)
           <div class="form-check">
-            <input id="inputTitle" type="radio" name="kpi_answer[]" class="form-check-input" id="{{$answer_no}}">
-            <label class="form-check-label" for="{{$answer_no}}">
+            <input id="inputTitle" type="radio" name="kpi_answer.{{$question_no}}" class="form-check-input ml-4" id="{{$answer_no}}" value="{{$answer_no}}">
+            <label class="form-check-label ml-5" for="{{$answer_no}}">
               {{$answer['answer']}} ({{$answer['points']}} %)
             </label>
           </div>
-          @error('mt4_id')
+          @error('kpi_answer.{{$question_no}}')
           <span class="text-danger">{{$message}}</span>
           @enderror
           @endforeach
           @endforeach
         </div>
         @endforeach
+        <hr>
+        <div class="form-group">
+          <label for="inputPhoto" class="col-form-label">Attachment<span class="text-danger">*</span></label>
+          <div class="input-group">
+            <input type="file" name="attachment[]" class="form-control" multiple>
+          </div>
+            @error('attachment')
+            <span class="text-danger">{{$message}}</span>
+            @enderror
+        </div>
         <hr>
         <div class="form-group mb-3">
           <button type="reset" class="btn btn-warning">Reset</button>
