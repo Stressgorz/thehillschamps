@@ -84,6 +84,21 @@
       </a>
     </li>
     @endif
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#userkpiCollapse" aria-expanded="true" aria-controls="userkpiCollapse">
+          <i class="fas fa-truck"></i>
+          <span>User Kpi</span>
+        </a>
+        <div id="userkpiCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">User Kpi Options:</h6>
+            <a class="collapse-item" href="{{route('user-kpi.index')}}">Kpi</a>
+            <a class="collapse-item" href="{{route('user-kpi.create')}}">Add Kpi</a>
+          </div>
+        </div>
+    </li>
+
     @if(Auth::user()->position->name != 'Marketer')
     <!--Leaderboard -->
     <li class="nav-item">

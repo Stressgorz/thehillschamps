@@ -247,6 +247,9 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         Route::resource('/sales', 'User\SaleController');
 
         // Client
+        Route::resource('/user-kpi', 'User\UserKpiController');
+
+        // Client
         Route::get('/user-points', 'User\PointController@index')->name('user-point-history');
 
         // Leaderboard
