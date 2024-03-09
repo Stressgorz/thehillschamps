@@ -269,9 +269,9 @@ class SaleController extends Controller
                                 ->select('firstname', 'lastname')
                                 ->first();
         
-        $user_upline_firstname = $user_upline->first_name ?? '';
+        $user_upline_firstname = $user_upline->firstname ?? '';
 
-        $user_upline_lastname = $user_upline->first_name ?? '';
+        $user_upline_lastname = $user_upline->lastname ?? '';
 
         $user_upline_name = $user_upline_firstname.' '.$user_upline_lastname;
 
