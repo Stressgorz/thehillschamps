@@ -84,8 +84,8 @@
     </div>
   </li>
 
-  @if(auth()->guard('admin')->id == '1')
-  {{-- Admin Kpi --}}
+
+  <!-- {{-- Admin Kpi --}}
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminkpicollpase" aria-expanded="true" aria-controls="adminkpicollpase">
       <i class="fas fa-truck"></i>
@@ -97,8 +97,8 @@
         <a class="collapse-item" href="{{route('admin-kpi.index')}}">Kpi</a>
       </div>
     </div>
-  </li>
-  @endif
+  </li> -->
+
   <!-- Divider -->
   <hr class="sidebar-divider">
 
@@ -165,8 +165,8 @@
       </div>
     </div>
   </li>
-  @if(auth()->guard('admin')->id == '1')
-  {{-- kpi --}}
+
+  <!-- {{-- kpi --}}
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kpiCollapse" aria-expanded="true" aria-controls="kpiCollapse">
       <i class="fas fa-truck"></i>
@@ -179,8 +179,8 @@
         <a class="collapse-item" href="{{route('kpi-question.create')}}">Add Kpi Question</a>
       </div>
     </div>
-  </li>
-  @endif
+  </li> -->
+
   <!-- Divider -->
   <hr class="sidebar-divider">
 
