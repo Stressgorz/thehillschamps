@@ -10,8 +10,6 @@
   </div>
   <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary float-left">User Kpi Lists</h6>
-
-
   </div>
   <div class="card-header py-3">
     <form class="form-horizontal">
@@ -38,19 +36,27 @@
             </select>
           </div>
         </div>
-        <div class="col-md-2 col-sm-3 col-xs-12">
+        <div class="col-md-3 col-sm-3 col-xs-12">
           <label class="control-label">From Date</label>
           <div class='input-group date datepicker'>
             </span>
             <input type='date' class="form-control" name="fdate" value="{{ Request::get('fdate') }}" />
           </div>
         </div>
-        <div class="col-md-2 col-sm-3 col-xs-12">
+        <div class="col-md-3 col-sm-3 col-xs-12">
           <label class="control-label">To Date</label>
           <div class='input-group date datepicker'>
             </span>
             <input type='date' class="form-control" name="tdate" value="{{ Request::get('tdate') }}" />
           </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3 col-sm-3 col-xs-12">
+            <label class="control-label">IB Email</label>
+            <div class="form-group">
+                <input type='text' class="form-control" name="email" value="{{ Request::get('email') }}"/>
+            </div>
         </div>
       </div>
       <div class="form-group">
@@ -69,6 +75,8 @@
           <tr>
             <th>Status</th>
             <th>Type</th>
+            <th>Name</th>
+            <th>Email</th>
             <th>Date</th>
             <th>Remarks</th>
             <th>Action</th>
@@ -82,6 +90,8 @@
           <tr>
             <td>{{Helper::$approval_status[$data->status]}}</td>
             <td>{{$data->type}}</td>
+            <td>{{$data->user_firstname.' '.$data->user_lastname}}</td>
+            <td>{{$data->user_email}}</td>
             <td>{{$data->created_at}}</td>
             <td>{{$data->remarks}}</td>
             <td>

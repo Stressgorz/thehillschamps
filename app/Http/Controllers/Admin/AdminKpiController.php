@@ -36,6 +36,12 @@ class AdminKpiController extends Controller
             ]);
         }
 
+        if (empty($request->query('email'))) {
+            $request->request->add([
+                'email' =>$request->query('email'),
+            ]);
+        }
+
         $table_data = $this->filter($request);
 
         return view('backend.admin_kpi.index', [
@@ -50,7 +56,11 @@ class AdminKpiController extends Controller
     public static function filter(Request $filters)
     {
         $query = DB::table('user_kpi')
-		        	->select('*'
+                    ->leftJoin('users', 'user_kpi.user_id' , '=', 'users.id')
+		        	->select('user_kpi.*', 
+                    'users.firstname as user_firstname',
+                    'users.lastname as user_lastname',
+                    'users.email as user_email',
                     )
                     ->orderBy('id','ASC');
 
@@ -61,6 +71,9 @@ class AdminKpiController extends Controller
                 'status' => 'status',
                 'type' => 'type',
             ],
+            'users' => [
+                'email' => 'email',
+            ]
         ];
 
         foreach ($params as $table => $columns) {
