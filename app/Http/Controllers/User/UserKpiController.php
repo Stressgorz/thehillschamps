@@ -145,8 +145,9 @@ class UserKpiController extends Controller
                 $image[] = $filename;
             }
     	}   
-
+        $comment = $data['comment'];
         unset($data['attachment']);
+        unset($data['comment']);
 
         foreach($data as $name => $detail){
             $name = str_replace("kpi_answer_", "", $name);
@@ -161,6 +162,7 @@ class UserKpiController extends Controller
             'type' => $position_name,
             'data' => json_encode($json_data),
             'final_data' => json_encode($json_data),
+            'comment' => $comment,
             'status' => UserKpi::$status['pending'],
             'attachment' => json_encode($image),
         ]);
@@ -192,6 +194,7 @@ class UserKpiController extends Controller
         }
 
         $data[] = $request->validate([
+            'comment' => ['nullable'],
             'attachment' => ['required'],
         ]);
 

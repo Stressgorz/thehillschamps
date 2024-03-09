@@ -29,6 +29,15 @@
         </div>
         @endforeach
         <hr>
+
+        <div class="form-group">
+          <label for="inputUsername" class="col-form-label"> Comment <span class="text-danger">*</span></label>
+          <textarea id="inputUsername" type="text" name="comment" placeholder="Enter comment"  value="{{old('comment')}}" class="form-control" style='min-height:200px'></textarea>
+          @error('comment')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
         <div class="form-group">
           <label for="inputPhoto" class="col-form-label">Attachment<span class="text-danger">*</span></label>
           <div class="input-group">

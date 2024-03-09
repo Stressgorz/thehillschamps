@@ -15,7 +15,7 @@ class UserKpi extends Model
     protected $table = 'user_kpi';
 
     protected $fillable = [
-        'user_id', 'type', 'data','final_data','status','remarks','attachment', 'created_at' ,'updated_at'
+        'user_id', 'type', 'data','final_data','status','remarks','comment','attachment', 'created_at' ,'updated_at'
     ];
 
     public static $type = [

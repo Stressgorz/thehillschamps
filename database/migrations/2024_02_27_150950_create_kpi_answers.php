@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('sort');
             $table->text('name');
             $table->decimal('points', 20, 2);
+            $table->string('status');
             $table->timestamps();
         });
     }

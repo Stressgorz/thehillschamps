@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('position_id');
             $table->integer('sort');
-            $table->string('name', 50)->nullable();
+            $table->string('name', 251)->nullable();
             $table->integer('amount')->nullable();
             $table->text('image')->nullable();
             $table->integer('status');

@@ -67,7 +67,7 @@
                   @enderror
                 </td>
                 <td style="width: 10%;">
-                  <input type="number" name="points[]" class="form-control" min="1" step="1" value="{{ $answer->points }}">
+                  <input type="number" name="points[]" class="form-control" min="0" step="1" value="{{ $answer->points }}">
                   @if ($errors->has('points.'.$index))
                   <span class="text-danger">{{ $errors->first('points.'.$index) }}</span>
                   @enderror

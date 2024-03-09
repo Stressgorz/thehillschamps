@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('kpi', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type', 20);
+            $table->bigInteger('position_id');
             $table->integer('sort');
             $table->text('name');
+            $table->string('status', 20);
             $table->timestamps();
         });
     }

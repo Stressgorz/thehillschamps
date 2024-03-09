@@ -62,14 +62,12 @@ class RoadMapPointController extends Controller
                 $percentage_to_next_step = ($user_point / $kpi_points) * 100 ?? 0;
                 $percentage_to_next_rank = ($user_point / $request->user()->position->kpi) * 100 ?? 0;
                 $points_to_next_step = $kpi_points - $user_point;
-                $points_to_next_rank = $request->user()->position->kpi - $user_point; 
             }
 
             $data = [
                 'percentage_to_next_step' => $percentage_to_next_step ??'',
                 'percentage_to_next_rank' => $percentage_to_next_rank ??'',
                 'points_to_next_step' => $points_to_next_step ??'',
-                'points_to_next_rank' => $points_to_next_rank ??'',
                 'kpi_name' => $kpi_name ?? '',
                 'kpi_points' => $kpi_points ?? '',
                 'rank_next_points' => $request->user()->position->kpi ?? '',

@@ -52,8 +52,13 @@
     @endforeach
 
     <div class="form-group">
+      <label for="inputTitle" class="col-form-label">Comment</label>
+      <textarea class="form-control" readonly>{{$user_kpi->comment}}</textarea>
+    </div>  
+
+    <div class="form-group">
       <label for="inputTitle" class="col-form-label">Remarks</label>
-      <input id="inputTitle" type="text" name="remarks" value="{{$user_kpi->remarks}}" class="form-control" readonly>
+      <textarea class="form-control" readonly>{{$user_kpi->remarks}}</textarea>
     </div>
 
     <div class="form-group">
@@ -90,6 +95,14 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{asset('backend/summernote/summernote.min.css')}}">
+<style>
+    textarea {
+        border: none;
+        outline: none;
+        width: 100%;
+        height: 100%;
+    }
+</style>
 @endpush
 @push('scripts')
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
