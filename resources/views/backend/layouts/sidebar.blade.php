@@ -84,7 +84,7 @@
     </div>
   </li>
 
-  @if(Auth::user()->id == '1')
+  @if(Auth::user()->email == 'admin@admin.com')
   {{-- Admin Kpi --}}
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminkpicollpase" aria-expanded="true" aria-controls="adminkpicollpase">
@@ -165,7 +165,7 @@
       </div>
     </div>
   </li>
-  @if(Auth::user()->id == '1')
+  @if(Auth::user()->email == 'admin@admin.com')
   {{-- kpi --}}
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kpiCollapse" aria-expanded="true" aria-controls="kpiCollapse">
