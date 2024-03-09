@@ -145,7 +145,7 @@
                     <td>{{$data->client_contact}}</td>
                     <td>{{$data->client_email}}</td>
                     <td>{{$data->mt4_id}}</td>
-                    <td>{{$data->user_firstname .' '.$data->user_lastname}}</td>
+                    <td>{{$data->user_firstname ?? ''}} {{$data->user_lastname ?? ''}}</td>
                     <td>{{$data->date}}</td>
                     <td>{{$data->updated_at}}</td>
                     <td>

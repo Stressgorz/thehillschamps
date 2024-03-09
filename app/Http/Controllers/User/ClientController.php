@@ -63,7 +63,9 @@ class ClientController extends Controller
             ]);
         }
 
-        $teams = Team::all();
+        $teams = Team::where('status', Team::$status['active'])
+                        ->orderBy('name')
+                        ->get();
 
         $table_data = $this->filter($request);
 
@@ -236,7 +238,7 @@ class ClientController extends Controller
             }
             ],
             'name' => ['required'],
-            'contact' => ['required'],
+            'contact' => ['required', 'max:16'],
             'address' => ['required'],
             'country' => ['required',
                 function ($attribute, $value, $fail) {

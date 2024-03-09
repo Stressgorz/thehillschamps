@@ -31,7 +31,9 @@
                         <h5 class="card-title text-left"><small>Email: {{$profile->email}}</small></h5>
                         <h5 class="card-title text-left"><small>Tel No: {{$profile->phone}}</small></h5>
                         <h5 class="card-title text-left"><small>DOB: {{$profile->dob}}</small></h5>
+                        @if(Auth::user()->position->name != 'Marketer')
                         <h5 class="card-title text-left"><small>Points : {{$user_points}}</small></h5>
+                        @endif
                         <h5 class="card-title text-left"><small>Team: {{$profile->team->name}}</small></h5>
                         <h5 class="card-title text-left"><small>Position: {{$profile->position->name}}</small></h5>
                         <h5 class="card-title text-left"><small>No of Client: {{$total_clients}}</small></h5>

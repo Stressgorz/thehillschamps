@@ -17,7 +17,7 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+    @if(Auth::user()->position->name != 'Marketer')
     <!--Leaderboard -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('user-point-history')}}">
@@ -25,7 +25,7 @@
             <span>Point History</span>
         </a>
     </li>
-
+    @endif
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientCollapse" aria-expanded="true" aria-controls="clientCollapse">
           <i class="fas fa-truck"></i>
