@@ -19,10 +19,11 @@ class UserKpi extends Model
     ];
 
     public static $type = [
-        'ib' => 'ib',
-        'senior' => 'senior',
-        'leader' => 'leader',
-        'director' => 'director',
+        'IB' => 'IB',
+        'Senior' => 'Senior',
+        'Leader' => 'Leader',
+        'Director' => 'Director',
+        'Marketer' => 'Marketer',
     ];
 
     public static $status = [

@@ -159,6 +159,9 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         Route::get('/mar/export', 'Admin\MarController@export');
         Route::resource('/mar', 'Admin\MarController');
 
+        // Admin Kpi
+        Route::resource('/admin-kpi', 'Admin\AdminKpiController');
+
         // Client
         Route::get('/clients-admin/export', 'Admin\ClientController@export');
         Route::resource('/clients-admin', 'Admin\ClientController');

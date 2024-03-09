@@ -1,24 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sale;
-use App\Models\Client;
-use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Position;
 use App\Models\UserKpi;
 use App\Models\Kpi;
+use App\Models\Position;
 use App\Models\KpiAnswer;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\MembersExport;
 use Carbon\Carbon;
 use App\User;
 
-class UserKpiController extends Controller
+class AdminKpiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -43,11 +38,11 @@ class UserKpiController extends Controller
 
         $table_data = $this->filter($request);
 
-        return view('user.user_kpi.index', [
+        return view('backend.admin_kpi.index', [
             'query_string' => $request->getQueryString() ? '?'.$request->getQueryString() : '',
             'table_data' => $table_data,
-            'user_kpi_status' => UserKpi::$status,
-            'brokers' => Sale::$broker,
+            'kpi_status' => UserKpi::$status,
+            'kpi_type' => UserKpi::$type,
         ]);
     }
 
@@ -55,7 +50,6 @@ class UserKpiController extends Controller
     public static function filter(Request $filters)
     {
         $query = DB::table('user_kpi')
-                    ->where('user_id', $filters->user()->id)
 		        	->select('*'
                     )
                     ->orderBy('id','ASC');
@@ -64,6 +58,8 @@ class UserKpiController extends Controller
             'user_kpi' => [
                 'fdate' => 'created_at',
                 'tdate' => 'created_at',
+                'status' => 'status',
+                'type' => 'type',
             ],
         ];
 
@@ -211,14 +207,21 @@ class UserKpiController extends Controller
     public function show(Request $request, $id)
     {
         $user_kpi = UserKpi::find($id);
+        $user = User::find($user_kpi->user_id);
+        $user_firstname = $user->firstname ?? '';
+        $user_lastname = $user->lastname ?? '';
+        $username = $user_firstname.' '.$user_lastname;
+        
         $position = Position::where('name', $user_kpi->type)->first();
         $position_id = $position->id;
-        $total_points = 0;
         $kpi_question = [];
+        
         if($position_id){
             $original_kpi = json_decode($user_kpi->data, true);
 
             $final_kpi = json_decode($user_kpi->final_data, true);
+
+            $total_points = 0;
 
             $original_data = $original_kpi['kpi_answer'];
 
@@ -229,7 +232,6 @@ class UserKpiController extends Controller
                             ->orderBy('sort')
                             ->get();
             foreach($questions as $question_index => $question){
-
                 foreach($original_data as $question_sort => $answer_sort){
                     if($question_sort == $question->sort){
                         $answer = KpiAnswer::where('kpi_id', $question->id)
@@ -237,8 +239,8 @@ class UserKpiController extends Controller
                                             ->where('sort', $answer_sort)
                                             ->first();
 
-                        $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['answer'] = $answer->name;
-                        $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['points'] = $answer->points;
+                            $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['answer'] = $answer->name;
+                            $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['points'] = $answer->points;
                     }
                 }
 
@@ -263,11 +265,14 @@ class UserKpiController extends Controller
         foreach($kpis as $index => $kpi){
             $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
         }
-        return view('user.user_kpi.show', [
+
+        return view('backend.admin_kpi.show', [
+            'user' => $user,
+            'username' => $username,
             'user_kpi' => $user_kpi,
             'kpi_question' => $kpi_question ?? [],
             'kpi_image' => $kpi_image,
-            'total_points' => $total_points,
+            'total_points' => $total_points ?? 0,
         ]);
     }
 
@@ -279,19 +284,77 @@ class UserKpiController extends Controller
      */
     public function edit($id)
     {
-        $sale = Sale::findOrFail($id);
+        $user_kpi = UserKpi::find($id);
+        $user = User::find($user_kpi->user_id);
+        $user_firstname = $user->firstname ?? '';
+        $user_lastname = $user->lastname ?? '';
+        $username = $user_firstname.' '.$user_lastname;
 
-        $slips = json_decode($sale->slip);
-        $slip_image = [];
-        foreach($slips as $index => $slip){
-            $slip_image[$index] = 'storage/'.Sale::$path.'/'.$slip;
+        $position = Position::where('name', $user_kpi->type)->first();
+        $position_id = $position->id;
+        $total_points = 0;
+        $kpi_question = [];
+        
+        if($position_id){
+            $original_kpi = json_decode($user_kpi->data, true);
+
+            $final_kpi = json_decode($user_kpi->final_data, true);
+
+            $original_data = $original_kpi['kpi_answer'];
+
+            $final_data = $final_kpi['kpi_answer'];
+            
+            $questions = Kpi::where('position_id', $position_id)
+                            ->where('status', Kpi::$status['active'])
+                            ->orderBy('sort')
+                            ->get();
+            foreach($questions as $question_index => $question){
+                $answers = KpiAnswer::where('kpi_id', $question->id)
+                                    ->where('status', KpiAnswer::$status['active'])
+                                    ->orderBy('sort')
+                                    ->get();
+                foreach($original_data as $question_sort => $answer_sort){
+                    if($question_sort == $question->sort){
+                        foreach($answers as $answer_index => $answer){
+                            if($answer->sort == $answer_sort){
+                                $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['sort'] = $answer->sort;
+                                $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['answer'] = $answer->name;
+                                $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['points'] = $answer->points;
+                            }
+                        }
+                    }
+                }
+
+                foreach($final_data as $question_sort => $answer_sort){
+                    if($question_sort == $question->sort){
+                        foreach($answers as $answer_index => $answer){
+                            if($answer->sort == $answer_sort){
+                                $kpi_question[$question->sort][$question->name]['all_answer'] = $answers;
+                                $kpi_question[$question->sort][$question->name]['final'][$answer->sort]['sort'] = $answer->sort;
+                                $kpi_question[$question->sort][$question->name]['final'][$answer->sort]['answer'] = $answer->name;
+                                $kpi_question[$question->sort][$question->name]['final'][$answer->sort]['points'] = $answer->points;
+
+                                $total_points = $total_points + $answer->points;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        return view('user.sales.edit', [
-            'sales' => $sale,
-            'sales_status' => Sale::$sales_status,
-            'sales_broker' => Sale::$broker,
-            'slip_image' => $slip_image,
+        $kpis = json_decode($user_kpi->attachment);
+        $kpi_image = [];
+        foreach($kpis as $index => $kpi){
+            $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
+        }
+        return view('backend.admin_kpi.edit', [
+            'user' => $user,
+            'username' => $username,
+            'user_kpi' => $user_kpi,
+            'kpi_question' => $kpi_question ?? [],
+            'kpi_image' => $kpi_image,
+            'kpi_status' => Kpi::$status,
+            'total_points' => $total_points ?? 0,
         ]);
     }
 
@@ -304,55 +367,61 @@ class UserKpiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // return $request->all();
-        $data = static::saleUpdateValidation($request, $id);
-        $image = [];
-    	foreach ($data['slip'] as $slip) {
 
-            $path = Sale::$path.'/'.$id;
-            if (isset($slip)) {
-                $filename = $slip->getClientOriginalName();
-                $slip->storeAs($path, $filename, 'public');
-                $image[] = $filename;
-            }
-    	}   
+        // return $request->all();
+        $data = static::adminKpiUpdateValidation($request, $id);
+
+        $remarks = $data['remarks'];
+        $status = $data['status'];
+
+        unset($data['remarks']);
+        unset($data['status']);
+
+        foreach($data as $name => $detail){
+            $name = str_replace("kpi_answer_", "", $name);
+
+            $json_data['kpi_answer'][$name] = $detail;
+        }
 
         $updateData = [
-            'amount' => $data['amount'],
-            'mt4_id' => $data['mt4_id'],
-            'mt4_pass' => $data['mt4_pass'],
-            'broker_type' => $data['broker_type'],
-            'sales_status' => $data['sales_status'],
-            'slip' => $image,
-            'reason' => $data['reason'],
-            'remark' => $data['remark'],
-            'date' => $data['date'],
+            'final_data' => json_encode($json_data),
+            'remarks' => $remarks,
+            'status' => $status,
         ];
 
-        $sale=Sale::findOrFail($id);
+        $user_kpi=UserKpi::findOrFail($id);
 
-        if($sale){
-            $sale->fill($updateData)->save();
-            request()->session()->flash('success','Sales successfully updated');
+        if($user_kpi){
+            $user_kpi->fill($updateData)->save();
+            request()->session()->flash('success','Kpi successfully updated');
         }else {
             request()->session()->flash('error','Error occurred, Please try again!');
         }
 
-        return redirect()->route('sales.index');
+        return redirect()->route('admin-kpi.index');
     }
 
-    public static function saleUpdateValidation($request, $id){
+    public static function adminKpiUpdateValidation($request, $id){
+
+        $user_kpi = UserKpi::find($id);
+
+        $position = Position::where('name', $user_kpi->type)->first();
+
+        $kpis = Kpi::where('position_id', $position->id)
+                    ->where('status', Kpi::$status['active'])
+                    ->select('sort')
+                    ->get();
+
+        foreach($kpis as $kpi){
+            $validation_name = 'kpi_answer_'.$kpi->sort;
+            $data[] = $request->validate([
+                $validation_name => ['required'],
+            ]);
+        }
 
         $data[] = $request->validate([
-            'amount' => ['required'],
-            'mt4_id' => ['required'],
-            'mt4_pass' => ['required'],
-            'broker_type' => ['required'],
-            'sales_status' => ['required'],
-            'slip' => ['required'],
-            'reason' => ['nullable'],
-            'remark' => ['nullable'],
-            'date' => ['required'],
+            'remarks' => ['nullable'],
+            'status' => ['required'],
         ]);
 
         $validated = [];

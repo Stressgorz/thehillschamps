@@ -1,4 +1,4 @@
-@extends('user.layouts.master')
+@extends('backend.layouts.master')
 
 @section('main-content')
 
@@ -7,6 +7,21 @@
   <div class="card-body">
     @csrf
     @method('PATCH')
+
+    <div class="form-group">
+      <label for="inputTitle" class="col-form-label">Ib Name</label>
+      <input id="inputTitle" type="text" value="{{$username}}" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="inputTitle" class="col-form-label">Ib Email</label>
+      <input id="inputTitle" type="text" value="{{$user->email}}" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="inputTitle" class="col-form-label">Position</label>
+      <input id="inputTitle" type="text" value="{{$user->position->name}}" class="form-control" readonly>
+    </div>
 
     @if($kpi_question)
     @foreach($kpi_question as $question_no => $question)
@@ -39,16 +54,6 @@
     <div class="form-group">
       <label for="inputTitle" class="col-form-label">Remarks</label>
       <input id="inputTitle" type="text" name="remarks" value="{{$user_kpi->remarks}}" class="form-control" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="inputTitle" class="col-form-label">Status</label>
-      <input id="inputTitle" type="text" name="status" value="{{Helper::$approval_status[$user_kpi->status]}}" class="form-control" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="inputTitle" class="col-form-label">Total Points</label>
-      <input id="inputTitle" type="text" value="{{$total_points}}" class="form-control" readonly>
     </div>
 
     <div class="form-group">
