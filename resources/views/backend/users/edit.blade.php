@@ -87,15 +87,7 @@
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
-
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Points <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="points" placeholder="Enter points"  value="{{$user->points}}" class="form-control">
-          @error('points')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
+        
       <div class="form-group">
           <label for="role">Team</label>
           <select name="team_id" class="form-control">

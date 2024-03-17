@@ -398,7 +398,6 @@ class UserController extends Controller
             'ib_code' => $data['ib_code'],
             'phone' => $data['phone'],
             'dob' => $data['dob'],
-            'points' => $data['points'],
             'team_id' => $data['team_id'],
             'position_id' => $data['position_id'],
             'upline_id' => $data['upline_id'],
@@ -448,7 +447,6 @@ class UserController extends Controller
             'ib_code' => ['required'],
             'phone' => ['required'],
             'dob' => ['required'],
-            'points' => ['nullable'],
             'team_id' => ['required',
             function ($attribute, $value, $fail) {
                 $team = Team::where('id', $value)
