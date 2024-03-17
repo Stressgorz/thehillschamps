@@ -386,7 +386,7 @@ class SaleController extends Controller
         if($sale){
             // return $child_cat_id;
             $sale = Sale::where('id', $id)->update([
-                'status' => Sale::$status['removed'],
+                'status' => Sale::$status['inactive'],
             ]);
 
             request()->session()->flash('success','Sales successfully deleted');
