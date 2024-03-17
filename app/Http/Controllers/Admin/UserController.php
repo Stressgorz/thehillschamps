@@ -152,7 +152,9 @@ class UserController extends Controller
     {
         $user_status = User::$status;
         $positions = Position::where('status', Position::$status['active'])->get();
-        $teams = Team::where('status', Team::$status['active'])->get();
+        $teams = Team::where('status', Team::$status['active'])
+                        ->orderBy('name')
+                        ->get();
         $users = User::select('id', 'firstname', 'lastname')
                         ->where('status', User::$status['active'])
                         ->orderBy('firstname')

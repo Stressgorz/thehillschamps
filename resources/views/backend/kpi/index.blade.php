@@ -21,7 +21,7 @@
                   <select name="status" class="form-control">
                   <option value=''>Select Status</option>
                       @foreach($kpi_status as $status)
-                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{$status}}</option>
+                          <option value='{{$status}}' {{(($status==Request::get('status')) ? 'selected' : '')}}>{{Helper::$general_status[$status]}}</option>
                       @endforeach
                   </select>
                 </div>
