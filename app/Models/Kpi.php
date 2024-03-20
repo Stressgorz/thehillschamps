@@ -17,4 +17,10 @@ class Kpi extends Model
         'active' => '1',
         'inactive' => '9',
     ];
+
+    public static $type = [
+        'selection' => 'selection',
+        'text' => 'text',
+        'image' => 'image',
+    ];
 }

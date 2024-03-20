@@ -14,17 +14,18 @@
           <label for="inputTitle" class="col-form-label">Question {{$question_no}}: </label>
           @foreach($question as $question_name => $kpi_answer)
           <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
+
           @foreach($kpi_answer as $answer_no => $answer)
           <div class="form-check">
-            <input id="inputTitle" type="radio" name="kpi_answer.{{$question_no}}" class="form-check-input ml-4" id="{{$answer_no}}" value="{{$answer_no}}">
+            <input id="inputTitle" type="radio" name="kpi_answer.{{$question_no}}[]" class="form-check-input ml-4" id="{{$answer_no}}" value="{{$answer_no}}" {{ in_array($answer_no, is_array(old('kpi_answer_'.$question_no)) ? old('kpi_answer_'.$question_no) : []) ? 'checked' : '' }}>
             <label class="form-check-label ml-5" for="{{$answer_no}}">
               {{$answer['answer']}} ({{$answer['points']}} %)
             </label>
           </div>
-          @error('kpi_answer.{{$question_no}}')
+          @endforeach
+          @error('kpi_answer_'.$question_no)
           <span class="text-danger">{{$message}}</span>
           @enderror
-          @endforeach
           @endforeach
         </div>
         @endforeach
