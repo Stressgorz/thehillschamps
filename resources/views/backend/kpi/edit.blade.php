@@ -21,6 +21,18 @@
       </div>
       
       <div class="form-group">
+        <label for="status" class="col-form-label">Question Type <span class="text-danger">*</span></label>
+        <select name="type" class="form-control">
+          @foreach($kpi_type as $type)
+          <option value='{{$type}}' {{(($kpi->type==$type) ? 'selected' : '')}}>{{$type}}</option>
+          @endforeach
+        </select>
+        @error('type')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+      </div>
+
+      <div class="form-group">
         <label for="inputTitle" class="col-form-label">Question<span class="text-danger">*</span></label>
         <input id="inputTitle" type="text" name="name" placeholder="Enter Email" value="{{$kpi->name}}" class="form-control">
         @error('name')

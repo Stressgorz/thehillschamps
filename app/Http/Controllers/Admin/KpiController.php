@@ -97,7 +97,8 @@ class KpiController extends Controller
         $positions = Position::all();
         return view('backend.kpi.create', [
             'kpi_status' => Kpi::$status,
-            'positions' => $positions,
+            'positions' => $positions,  
+            'kpi_type' => Kpi::$type,
         ]);
     }
 
@@ -116,6 +117,7 @@ class KpiController extends Controller
         	'position_id' => $data['position_id'],
             'sort' => $data['sort'],
             'name' => $data['name'],
+            'type' => $data['type'],
             'status' => Kpi::$status['active'],
         ]);
 
@@ -161,6 +163,7 @@ class KpiController extends Controller
                 }
             }],
             'name' => ['required'],
+            'type' => ['required'],
             'answer_sort.*' => ['required'],
             'answer_name.*' => ['required'],
             'points.*' => ['required'],
@@ -205,6 +208,7 @@ class KpiController extends Controller
             'position' => $position,
             'kpi_answers' => $kpi_answers,
             'kpi_status' => Kpi::$status,
+            'kpi_type' => Kpi::$type,
         ]);
     }
 
@@ -228,6 +232,7 @@ class KpiController extends Controller
 
         $updateData = [
             'name' => $data['name'],
+            'type' => $data['type'],
             'status' => $data['status'],
         ];
 
@@ -282,6 +287,7 @@ class KpiController extends Controller
 
         $data[] = $request->validate([
             'name' => ['required'],
+            'type' => ['required'],
             'status' => ['required'],
             'answer_sort.*' => ['required'],
             'answer_name.*' => ['required'],

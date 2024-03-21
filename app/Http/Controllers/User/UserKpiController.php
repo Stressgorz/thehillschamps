@@ -109,19 +109,18 @@ class UserKpiController extends Controller
                             ->get();
 
             foreach($questions as $question_index => $question){
-
                 $answers = KpiAnswer::where('kpi_id', $question->id)
                                     ->where('status', KpiAnswer::$status['active'])
                                     ->orderBy('sort')
                                     ->get();
 
                 foreach($answers as $answer_index => $answer){
-                    $kpi_question[$question->sort][$question->name][$answer->sort]['answer'] = $answer->name;
-                    $kpi_question[$question->sort][$question->name][$answer->sort]['points'] = $answer->points;
+                    $kpi_question[$question->sort][$question->name][$question->type][$answer->sort]['answer'] = $answer->name ?? '';
+                    $kpi_question[$question->sort][$question->name][$question->type][$answer->sort]['points'] = $answer->points ?? 0;
                 }
             }
         }
-
+        
         return view('user.user_kpi.create', [
             'kpi_question' => $kpi_question,
         ]);
@@ -137,22 +136,81 @@ class UserKpiController extends Controller
     {
         $data = static::userKpiStoreValidation($request);
 
-        foreach ($data['attachment'] as $attachment) {
-            $path = UserKpi::$path.'/';
-            if (isset($attachment)) {
-                $filename = $attachment->getClientOriginalName();
-                $attachment->storeAs($path, $filename, 'public');
-                $image[] = $filename;
-            }
-    	}   
         $comment = $data['comment'];
-        unset($data['attachment']);
         unset($data['comment']);
 
-        foreach($data as $name => $detail){
-            $name = str_replace("kpi_answer_", "", $name);
+        $final_data = [];
+        $json_data = [];
+        $final_json_data = [];
 
+        $position_id = $request->user()->position_id;
+        $questions = Kpi::where('position_id', $position_id)
+                            ->where('status', Kpi::$status['active'])
+                            ->orderBy('sort')
+                            ->get();
+        
+        foreach($data as $no => $answer){
+            $no = str_replace("kpi_answer_", "", $no);
+            $new_data[$no] = $answer;
+        }
+
+        foreach($questions as $question){
+            $kpi_answers = [];
+            if($question->type == Kpi::$type['selection']){
+                $kpi_answers = KpiAnswer::where('kpi_id', $question->id)
+                                    ->where('status', KpiAnswer::$status['active'])
+                                    ->orderBy('sort')
+                                    ->get();
+
+                foreach($kpi_answers as $kpi_answer){
+                    if($new_data[$question->sort][0] == $kpi_answer->sort){
+                        $user_data[$question->sort]['answer'] = $kpi_answer->name;
+                        $user_data[$question->sort]['question'] = $question->name?? '';
+                        $user_data[$question->sort]['type'] = $question->type?? '';
+                        $user_data[$question->sort]['points'] = $kpi_answer->points;
+    
+                        $final_data[$question->sort]['answer'] = '';
+                        $final_data[$question->sort]['question'] = $question->name?? '';
+                        $final_data[$question->sort]['type'] = $question->type?? '';
+                        $final_data[$question->sort]['points'] = 0;
+                    }
+                }
+            } else if ($question->type == Kpi::$type['image']){
+                $image = [];
+                foreach ($new_data[$question->sort] as $attachment) {
+                    $path = UserKpi::$path.'/';
+                    if (isset($attachment)) {
+                        $filename = $attachment->getClientOriginalName();
+                        $attachment->storeAs($path, $filename, 'public');
+                        $image[] = $filename;
+                    }
+                }   
+                $user_data[$question->sort]['answer'] = json_encode($image);
+                $user_data[$question->sort]['question'] = $question->name ?? '';
+                $user_data[$question->sort]['type'] = $question->type?? '';
+
+                $final_data[$question->sort]['answer'] = '';
+                $final_data[$question->sort]['question'] = $question->name?? '';
+                $final_data[$question->sort]['type'] = $question->type?? '';
+
+
+            } elseif($question->type == Kpi::$type['text']){
+                $user_data[$question->sort]['answer'] = $new_data[$question->sort];
+                $user_data[$question->sort]['question'] = $question->name?? '';
+                $user_data[$question->sort]['type'] = $question->type?? '';
+
+                $final_data[$question->sort]['answer'] = '';
+                $final_data[$question->sort]['question'] = $question->name?? '';
+                $final_data[$question->sort]['type'] = $question->type?? '';
+            }
+        }
+
+        foreach($user_data as $name => $detail){
             $json_data['kpi_answer'][$name] = $detail;
+        }
+
+        foreach($final_data as $final_name => $final_detail){
+            $final_json_data['kpi_answer'][$final_name] = $final_detail;
         }
         
         $position_name = $request->user()->position->name;
@@ -161,10 +219,9 @@ class UserKpiController extends Controller
             'user_id' => $request->user()->id,
             'type' => $position_name,
             'data' => json_encode($json_data),
-            'final_data' => json_encode($json_data),
+            'final_data' => json_encode($final_json_data),
             'comment' => $comment,
             'status' => UserKpi::$status['pending'],
-            'attachment' => json_encode($image),
         ]);
 
         if($user_kpi){
@@ -195,7 +252,7 @@ class UserKpiController extends Controller
 
         $data[] = $request->validate([
             'comment' => ['nullable'],
-            'attachment' => ['required'],
+            'attachment' => ['nullable'],
         ]);
 
         $validated = [];
@@ -227,50 +284,42 @@ class UserKpiController extends Controller
 
             $final_data = $final_kpi['kpi_answer'];
             
-            $questions = Kpi::where('position_id', $position_id)
-                            ->where('status', Kpi::$status['active'])
-                            ->orderBy('sort')
-                            ->get();
-            foreach($questions as $question_index => $question){
+                foreach($original_data as $question_sort => $question){
+                    if($question['type'] ==  KPI::$type['selection']){
+                        $kpi_question[$question_sort][$question['question']][$question['type']]['original']['answer'] = $question['answer'];
+                        $kpi_question[$question_sort][$question['question']][$question['type']]['original']['points'] = $question['points'];
+                    } else if($question['type'] ==  KPI::$type['image']){
+                        $image = json_decode($question['answer']);
 
-                foreach($original_data as $question_sort => $answer_sort){
-                    if($question_sort == $question->sort){
-                        $answer = KpiAnswer::where('kpi_id', $question->id)
-                                            ->where('status', KpiAnswer::$status['active'])
-                                            ->where('sort', $answer_sort)
-                                            ->first();
-
-                        $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['answer'] = $answer->name;
-                        $kpi_question[$question->sort][$question->name]['original'][$answer->sort]['points'] = $answer->points;
-                    }
-                }
-
-                foreach($final_data as $question_sort => $answer_sort){
-                    if($question_sort == $question->sort){
-                        $answer = KpiAnswer::where('kpi_id', $question->id)
-                                            ->where('status', KpiAnswer::$status['active'])
-                                            ->where('sort', $answer_sort)
-                                            ->first();
-                        if($answer_sort != $original_data[$question_sort]){
-                            $kpi_question[$question->sort][$question->name]['final'][$answer->sort]['answer'] = $answer->name;
-                            $kpi_question[$question->sort][$question->name]['final'][$answer->sort]['points'] = $answer->points;
+                        foreach($image as $index => $kpi){
+                            $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
                         }
-                        $total_points = $total_points + $answer->points;
+
+                        $kpi_question[$question_sort][$question['question']][$question['type']]['original']['answer'] = $kpi_image;
+                        $kpi_question[$question_sort][$question['question']][$question['type']]['original']['points'] = 0;
+
+                    } else if($question['type'] ==  KPI::$type['text']){
+                        $kpi_question[$question_sort][$question['question']][$question['type']]['original']['answer'] = $question['answer'];
+                        $kpi_question[$question_sort][$question['question']][$question['type']]['original']['points'] = 0;
                     }
                 }
-            }
-        }
 
-        $kpis = json_decode($user_kpi->attachment);
-        $kpi_image = [];
-        foreach($kpis as $index => $kpi){
-            $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
+                foreach($final_data as $final_question_sort => $final_question){
+                    if($final_question['type'] ==  KPI::$type['selection']){
+                        $kpi_question[$final_question_sort][$final_question['question']][$final_question['type']]['final']['answer'] = $final_question['answer'];
+                        $kpi_question[$final_question_sort][$final_question['question']][$final_question['type']]['final']['points'] = $final_question['points'];
+
+                    } else if($final_question['type'] ==  KPI::$type['text']){
+                        $kpi_question[$final_question_sort][$final_question['question']][$final_question['type']]['final']['answer'] = $final_question['answer'];
+                        $kpi_question[$final_question_sort][$final_question['question']][$final_question['type']]['final']['points'] = 0;
+                    }
+                }
         }
+        
         return view('user.user_kpi.show', [
             'user_kpi' => $user_kpi,
             'kpi_question' => $kpi_question ?? [],
-            'kpi_image' => $kpi_image,
-            'total_points' => $total_points,
+            'total_points' => $user_kpi->points,
         ]);
     }
 

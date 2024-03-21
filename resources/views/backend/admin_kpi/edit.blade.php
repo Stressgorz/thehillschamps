@@ -25,36 +25,62 @@
       </div>
 
       @if($kpi_question)
-      @foreach($kpi_question as $question_no => $question)
-      <div class="form-group">
-        <label for="inputTitle" class="col-form-label">Question {{$question_no}}: </label>
-        @foreach($question as $question_name => $kpi_answer)
-        <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
+    @foreach($kpi_question as $question_no => $question)
+    <div class="form-group">
+      <label for="inputTitle" class="col-form-label">Question {{$question_no}}: </label>
+      @foreach($question as $question_name => $question_type)
+      <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
+      @foreach($question_type as $type => $kpi_answer)
+
         @foreach($kpi_answer as $answer_type => $answer)
-        @if($answer_type == 'original')
-        @foreach($answer as $data)
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Answer</label>
-          <input id="inputTitle" type="text" class="form-control" value="{{$data['answer'].' ('.$data['points'].'%)'}}" readonly>
-        </div>
-        @endforeach
-        @endif
-        @if($answer_type == 'final')
-        @foreach($answer as $data)
-        <div class="form-group">
-          <label for="status">Edited Answer</label>
-          <select name="kpi_answer.{{$question_no}}" class="form-control">
-            @foreach($kpi_answer['all_answer'] as $edit_kpi_answer)
-            <option value='{{$edit_kpi_answer->sort}}' {{(($edit_kpi_answer->sort==$data['sort']) ? 'selected' : '')}}>{{$edit_kpi_answer->name .' ('.$edit_kpi_answer->points.'%)' }}</option>
+        @if($type == 'selection')
+          @if($answer_type == 'original')
+          <div class="form-group">
+            <label for="inputTitle" class="col-form-label">Answer</label>
+            <input id="inputTitle" type="text" class="form-control" value="{{$answer['answer'].' ('.$answer['points'].'%)'}}" readonly>
+          </div>
+          @endif
+          @if($answer_type == 'final')
+            <div class="form-group">
+              <label for="inputTitle" class="col-form-label">Edited Answer</label>
+              <input id="inputTitle" type="text" class="form-control" name='kpi_answer.{{$question_no}}' value="{{$answer['answer']}}">
+            </div>
+
+            <div class="form-group">
+              <label for="inputTitle" class="col-form-label">Edited Points</label>
+              <input id="inputTitle" type="text" class="form-control" name='kpi_points.{{$question_no}}' value="{{$answer['points']}}">
+            </div>
+          @endif
+        @elseif($type == 'image')
+          @if($answer_type == 'original')
+          <div class="form-group">
+            @foreach($answer['answer'] as $image)
+            <a href="#" class="img">
+              <img src="{{ asset($image) }}" id="slip" alt="..." style='max-width: 250px'>
+            </a>
             @endforeach
-          </select>
-        </div>
-        @endforeach
+          </div>
+          @endif
+        @elseif($type == 'text')
+          @if($answer_type == 'original')
+            <div class="form-group">
+              <label for="inputTitle" class="col-form-label"> Answer</label>
+              <input id="inputTitle" type="text" class="form-control" value="{{$answer['answer']}}" readonly>
+            </div>
+          @endif
+          @if($answer_type == 'final')
+            <div class="form-group">
+              <label for="inputTitle" class="col-form-label">Edited Answer</label>
+              <input id="inputTitle" type="text" class="form-control" name='kpi_answer.{{$question_no}}' value="{{$answer['answer']}}">
+            </div>
+          @endif
         @endif
         @endforeach
-        @endforeach
-      </div>
+
       @endforeach
+      @endforeach
+    </div>
+    @endforeach
 
       <div class="form-group">
         <label for="inputTitle" class="col-form-label">Comment</label>
@@ -79,20 +105,15 @@
       </div>
 
       <div class="form-group">
-        <label for="inputTitle" class="col-form-label">Total Points</label>
-        <input id="inputTitle" type="text" value="{{$total_points}}" class="form-control" readonly>
+        <label for="inputTitle" class="col-form-label">Original Points</label>
+        <input id="inputTitle" type="text" value="{{$original_points}}" class="form-control" readonly>
       </div>
 
       <div class="form-group">
-        <label for="inputTitle" class="col-form-label">Attachment</label>
+        <label for="inputTitle" class="col-form-label">Total Points</label>
+        <input id="inputTitle" type="text" name='points' value="{{$total_points}}" class="form-control">
       </div>
-      <div class="form-group">
-        @foreach($kpi_image as $image)
-        <a href="#" class="img">
-          <img src="{{ asset($image) }}" id="slip" alt="..." style='max-width: 250px'>
-        </a>
-        @endforeach
-      </div>
+
       @else
       <h5>Hailat, something is wrong. Find Yan, is all Yan's fault</h5>
       @endif
