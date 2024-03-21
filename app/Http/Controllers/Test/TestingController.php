@@ -10,6 +10,7 @@ use App\Models\Sale;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Models\Position;
+use App\Models\Kpi;
 use App\Models\UserPoint;
 use App\Models\Calendar;
 use App\Models\UserWalletHistory;
@@ -27,6 +28,14 @@ class TestingController extends Controller
      */
     public function index(Request $request)
     {
+
+        $kpis = Kpi::get();
+
+        foreach($kpis as $kpi){
+            $kpi->update([
+                'type' => 'selection',
+            ]);
+        }
         // static::addAdmin();
         // static::updatePositionImage();
         // static::updateUserImage();
