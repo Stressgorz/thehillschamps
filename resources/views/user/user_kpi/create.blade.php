@@ -12,41 +12,55 @@
         @foreach($kpi_question as $question_no => $question)
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Question {{$question_no}}: </label>
-          @foreach($question as $question_name => $kpi_answer)
+          @foreach($question as $question_name => $kpi_type)
           <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
+          @foreach($kpi_type as $type => $kpi_answer)
+          @if($type == 'selection')
           @foreach($kpi_answer as $answer_no => $answer)
           <div class="form-check">
-            <input id="inputTitle" type="radio" name="kpi_answer.{{$question_no}}" class="form-check-input ml-4" id="{{$answer_no}}" value="{{$answer_no}}">
+            <input id="inputTitle" type="radio" name="kpi_answer.{{$question_no}}[]" class="form-check-input ml-4" id="{{$answer_no}}" value="{{$answer_no}}" {{ in_array($answer_no, is_array(old('kpi_answer_'.$question_no)) ? old('kpi_answer_'.$question_no) : []) ? 'checked' : '' }}>
             <label class="form-check-label ml-5" for="{{$answer_no}}">
               {{$answer['answer']}} ({{$answer['points']}} %)
             </label>
           </div>
-          @error('kpi_answer.{{$question_no}}')
+          @endforeach
+          @elseif($type == 'text')
+          <div class="form-group">
+            <label for="inputUsername" class="col-form-label"> Answer </label>
+            <input type="text" name="kpi_answer.{{$question_no}}" class="form-control">
+            @error('comment')
+            <span class="text-danger">{{$message}}</span>
+            @enderror
+          </div>
+          @elseif($type == 'image')
+          <div class="form-group">
+            <label for="inputPhoto" class="col-form-label">Please Upload Your Image</label>
+            <div class="input-group">
+              <input type="file" name="kpi_answer.{{$question_no}}[]" class="form-control" multiple>
+            </div>
+            @error('attachment')
+            <span class="text-danger">{{$message}}</span>
+            @enderror
+          </div>
+          @endif
+
+          @endforeach
+          @error('kpi_answer_'.$question_no)
           <span class="text-danger">{{$message}}</span>
           @enderror
-          @endforeach
           @endforeach
         </div>
         @endforeach
         <hr>
 
         <div class="form-group">
-          <label for="inputUsername" class="col-form-label"> Comment <span class="text-danger">*</span></label>
-          <textarea id="inputUsername" type="text" name="comment" placeholder="Enter comment"  value="{{old('comment')}}" class="form-control" style='min-height:200px'></textarea>
+          <label for="inputUsername" class="col-form-label"> Comment</label>
+          <textarea id="inputUsername" type="text" name="comment" placeholder="Enter comment" value="{{old('comment')}}" class="form-control" style='min-height:200px'></textarea>
           @error('comment')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
 
-        <div class="form-group">
-          <label for="inputPhoto" class="col-form-label">Attachment<span class="text-danger">*</span></label>
-          <div class="input-group">
-            <input type="file" name="attachment[]" class="form-control" multiple>
-          </div>
-            @error('attachment')
-            <span class="text-danger">{{$message}}</span>
-            @enderror
-        </div>
         <hr>
         <div class="form-group mb-3">
           <button type="reset" class="btn btn-warning">Reset</button>
@@ -54,7 +68,7 @@
         </div>
         @else
         <h5>There is no KPI, please contact admin</h5>
-        @endif  
+        @endif
       </form>
     </div>
   </div>

@@ -35,6 +35,19 @@
         <span class="text-danger">{{$message}}</span>
         @enderror
       </div>
+
+      <div class="form-group">
+        <label for="status" class="col-form-label">Question Type <span class="text-danger">*</span></label>
+        <select name="type" class="form-control">
+          @foreach($kpi_type as $type)
+          <option value='{{$type}}'>{{$type}}</option>
+          @endforeach
+        </select>
+        @error('type')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+      </div>
+
       <h5 class="card-header">Add Answer</h5>
       <div class="x_panel" id="kpi-list-div">
         <div class="x_content">

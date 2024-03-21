@@ -27,25 +27,47 @@
     @foreach($kpi_question as $question_no => $question)
     <div class="form-group">
       <label for="inputTitle" class="col-form-label">Question {{$question_no}}: </label>
-      @foreach($question as $question_name => $kpi_answer)
+      @foreach($question as $question_name => $question_type)
       <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
-      @foreach($kpi_answer as $answer_type => $answer)
-      @if($answer_type == 'original')
-      @foreach($answer as $data)
-      <div class="form-group">
-        <label for="inputTitle" class="col-form-label">Answer</label>
-        <input id="inputTitle" type="text" class="form-control" value="{{$data['answer'].' ('.$data['points'].'%)'}}" readonly>
-      </div>
-      @endforeach
-      @endif
-      @if($answer_type == 'final')
-      @foreach($answer as $data)
-      <div class="form-group">
-        <label for="inputTitle" class="col-form-label">Edited Answer</label>
-        <input id="inputTitle" type="text" class="form-control" value="{{$data['answer'].' ('.$data['points'].'%)'}}" readonly>
-      </div>
-      @endforeach
-      @endif
+      @foreach($question_type as $type => $kpi_answer)
+
+        @foreach($kpi_answer as $answer_type => $answer)
+        @if($type == 'selection')
+          @if($answer_type == 'original')
+          <div class="form-group">
+            <label for="inputTitle" class="col-form-label">Answer</label>
+            <input id="inputTitle" type="text" class="form-control" value="{{$answer['answer'].' ('.$answer['points'].'%)'}}" readonly>
+          </div>
+          @endif
+          @if($answer_type == 'final')
+            @if($answer['answer'])
+            <div class="form-group">
+              <label for="inputTitle" class="col-form-label">Edited Answer</label>
+              <input id="inputTitle" type="text" class="form-control" value="{{$answer['answer'].' ('.$answer['points'].'%)'}}" readonly>
+            </div>
+            @else
+            @endif
+          @endif
+        @elseif($type == 'image')
+          @if($answer_type == 'original')
+          <div class="form-group">
+            @foreach($answer['answer'] as $image)
+            <a href="#" class="img">
+              <img src="{{ asset($image) }}" id="slip" alt="..." style='max-width: 250px'>
+            </a>
+            @endforeach
+          </div>
+          @endif
+        @elseif($type == 'text')
+          @if($answer_type == 'original')
+            <div class="form-group">
+              <label for="inputTitle" class="col-form-label"> Answer</label>
+              <input id="inputTitle" type="text" class="form-control" value="{{$answer['answer']}}" readonly>
+            </div>
+          @endif
+        @endif
+        @endforeach
+
       @endforeach
       @endforeach
     </div>
@@ -62,15 +84,15 @@
     </div>
 
     <div class="form-group">
-      <label for="inputTitle" class="col-form-label">Attachment</label>
-    </div>
+        <label for="inputTitle" class="col-form-label">Original Points</label>
+        <input id="inputTitle" type="text" value="{{$original_points}}" class="form-control" readonly>
+      </div>
+      
     <div class="form-group">
-      @foreach($kpi_image as $image)
-      <a href="#" class="img">
-        <img src="{{ asset($image) }}" id="slip" alt="..." style='max-width: 250px'>
-      </a>
-      @endforeach
+      <label for="inputTitle" class="col-form-label">Total Points</label>
+      <input id="inputTitle" type="text" value="{{$total_points}}" class="form-control" readonly>
     </div>
+
     @else
     <h5>Hailat, something is wrong. Find Yan, is all Yan's fault</h5>
     @endif

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('kpi_answers', function (Blueprint $table) {
-            $table->string('status', 20)->after('points');
+        Schema::table('user_kpi', function (Blueprint $table) {
+            $table->integer('points')->after('final_data')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('kpi_answers', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::table('user_kpi', function (Blueprint $table) {
+            $table->dropColumn('points');
         });
     }
 };
