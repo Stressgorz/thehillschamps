@@ -29,13 +29,6 @@ class TestingController extends Controller
     public function index(Request $request)
     {
 
-        $kpis = Kpi::get();
-
-        foreach($kpis as $kpi){
-            $kpi->update([
-                'type' => 'selection',
-            ]);
-        }
         // static::addAdmin();
         // static::updatePositionImage();
         // static::updateUserImage();
