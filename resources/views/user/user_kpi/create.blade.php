@@ -11,9 +11,9 @@
         @if($kpi_question)
         @foreach($kpi_question as $question_no => $question)
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Question {{$question_no}}: </label>
+          <label for="inputTitle" class="col-form-label"><b>Question {{$question_no}}: </b></label>
           @foreach($question as $question_name => $kpi_type)
-          <label for="inputTitle" class="col-form-label">{{$question_name}}</label>
+          <label for="inputTitle" class="col-form-label"><b>{{$question_name}}</b></label>
           @foreach($kpi_type as $type => $kpi_answer)
           @if($type == 'selection')
           @foreach($kpi_answer as $answer_no => $answer)
@@ -36,7 +36,7 @@
           <div class="form-group">
             <label for="inputPhoto" class="col-form-label">Please Upload Your Image</label>
             <div class="input-group">
-              <input type="file" name="kpi_answer.{{$question_no}}[]" class="form-control" multiple>
+              <input type="file" name="kpi_answer.{{$question_no}}[]" class="form-control" value='' multiple>
             </div>
             @error('attachment')
             <span class="text-danger">{{$message}}</span>

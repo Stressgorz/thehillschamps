@@ -165,7 +165,7 @@
       </div>
     </div>
   </li>
-  @if(Auth::guard('admin')->user()->id == 1)
+
   {{-- kpi --}}
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kpiCollapse" aria-expanded="true" aria-controls="kpiCollapse">
@@ -180,7 +180,7 @@
       </div>
     </div>
   </li>
-  @endif
+
   <!-- Divider -->
   <hr class="sidebar-divider">
 

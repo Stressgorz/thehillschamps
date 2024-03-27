@@ -177,14 +177,16 @@ class UserKpiController extends Controller
                 }
             } else if ($question->type == Kpi::$type['image']){
                 $image = [];
-                foreach ($new_data[$question->sort] as $attachment) {
-                    $path = UserKpi::$path.'/';
-                    if (isset($attachment)) {
-                        $filename = $attachment->getClientOriginalName();
-                        $attachment->storeAs($path, $filename, 'public');
-                        $image[] = $filename;
-                    }
-                }   
+                if($new_data[$question->sort]){
+                    foreach ($new_data[$question->sort] as $attachment) {
+                        $path = UserKpi::$path.'/';
+                        if (isset($attachment)) {
+                            $filename = $attachment->getClientOriginalName();
+                            $attachment->storeAs($path, $filename, 'public');
+                            $image[] = $filename;
+                        }
+                    }   
+                }
                 $user_data[$question->sort]['answer'] = json_encode($image);
                 $user_data[$question->sort]['question'] = $question->name ?? '';
                 $user_data[$question->sort]['type'] = $question->type?? '';
@@ -234,20 +236,30 @@ class UserKpiController extends Controller
     }
 
     public static function userKpiStoreValidation($request){
-
         $position_id = $request->user()->position_id;
 
         $kpis = Kpi::where('position_id', $position_id)
                     ->where('status', Kpi::$status['active'])
-                    ->select('sort')
+                    ->select('sort', 'type')
                     ->get();
 
         foreach($kpis as $kpi){
             $validation_name = 'kpi_answer_'.$kpi->sort;
-
-            $data[] = $request->validate([
-                $validation_name => ['required'],
-            ]);
+            if($kpi->type != Kpi::$type['image']){
+                $data[] = $request->validate([
+                    $validation_name => ['required'],
+                ]);
+            }else{
+                if(isset($request->$validation_name)){
+                }else{
+                    $request->request->add([
+                        $validation_name => [],
+                    ]);
+                }
+                $data[] = $request->validate([
+                    $validation_name => ['nullable'],
+                ]);
+            }
         }
 
         $data[] = $request->validate([
@@ -291,8 +303,11 @@ class UserKpiController extends Controller
                     } else if($question['type'] ==  KPI::$type['image']){
                         $image = json_decode($question['answer']);
 
-                        foreach($image as $index => $kpi){
-                            $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
+                        $kpi_image = [];
+                        if($image){
+                            foreach($image as $index => $kpi){
+                                $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
+                            }
                         }
 
                         $kpi_question[$question_sort][$question['question']][$question['type']]['original']['answer'] = $kpi_image;

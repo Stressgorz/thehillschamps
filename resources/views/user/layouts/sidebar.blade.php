@@ -53,7 +53,7 @@
           </div>
         </div>
     </li>
-
+    @if(Auth::user()->id == 1000000)
     @if(Auth::user()->position->name == 'IB')
     <!--KPI -->
     <li class="nav-item">
@@ -84,7 +84,8 @@
       </a>
     </li>
     @endif
-    @if(Auth::user()->id == '456')
+    @endif
+    
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#userkpiCollapse" aria-expanded="true" aria-controls="userkpiCollapse">
           <i class="fas fa-truck"></i>
@@ -98,7 +99,7 @@
           </div>
         </div>
     </li>
-    @endif
+
     
     @if(Auth::user()->position->name != 'Marketer')
     <!--Leaderboard -->
