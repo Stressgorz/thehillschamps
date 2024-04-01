@@ -65,7 +65,14 @@ class UserController extends Controller
                 'tdate' => $request->query('tdate'),
             ]);
         }
-        
+
+        if (empty($request->query('dob_month'))) {
+            $request->request->add([
+                'dob_month' => $request->query('dob_month'),
+            ]);
+        }
+
+
         $table_data = $this->filter($request);
 
         $positions = Position::where('status', Position::$status['active'])->get();
@@ -106,6 +113,7 @@ class UserController extends Controller
                 'email' => 'email',
                 'created_at' => 'created_at',
                 'status' => 'status',
+                'dob_month' => 'dob',
             ],
             'positions' => [
                 'position' => 'name',
@@ -126,6 +134,14 @@ class UserController extends Controller
 	                if ($filters->query('tdate')) {
 	                    $query->where($table.'.'.$param, '<=', ($filters->query('tdate').' 23:59:59'));
 	                }
+                }else if ($field == 'dob_month') {
+                    if($filters->query('dob_month')){
+                        $start_month = Carbon::parse($filters->query('dob_month'))->startOfMonth();
+                        $month = $start_month->month;
+
+                        $query->whereMonth($table.'.'.$param,  $month);
+                    }
+
 	            } elseif (is_array($filters->query($field)) && ! empty($filters->query($field))) { 
 	                // If is array and not empty
 	                $query->whereIn($table.'.'.$param, $filters->query($field));

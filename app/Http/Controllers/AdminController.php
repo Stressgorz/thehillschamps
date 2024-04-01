@@ -18,11 +18,16 @@ class AdminController extends Controller
 {
     public function index(Request $request){
 
-        $data = User::select(\DB::raw("COUNT(*) as count"), \DB::raw("DAYNAME(created_at) as day_name"), \DB::raw("DAY(created_at) as day"))
-                    ->where('created_at', '>', Carbon::today()->subDay(6))
-                    ->groupBy('day_name','day')
-                    ->orderBy('day')
-                    ->get();
+
+    $now = Carbon::now();
+
+    $this_year = Carbon::parse($now)->format('Y-01-01');
+    
+    $data = User::select(\DB::raw("COUNT(*) as count"), \DB::raw("DAYNAME(created_at) as day_name"), \DB::raw("DAY(created_at) as day"))
+                ->where('created_at', '>', Carbon::today()->subDay(6))
+                ->groupBy('day_name','day')
+                ->orderBy('day')
+                ->get();
                     
      $array[] = ['Name', 'Number'];
      foreach($data as $key => $value)
@@ -30,7 +35,8 @@ class AdminController extends Controller
        $array[++$key] = [$value->day_name, $value->count];
      }
 
-     $sale_count = Sale::where('sales_status', Sale::$sales_status['approved'])
+    $sale_count = Sale::where('sales_status', Sale::$sales_status['approved'])
+                    ->where('date', '>=', $this_year)
                     ->count();
 
     $client_count = Client::where('status', Client::$status['active'])
@@ -40,10 +46,11 @@ class AdminController extends Controller
                     ->count();
 
     $sale_approval_count = Sale::where('status', Sale::$status['active'])
+                    ->where('date', '>=', $this_year)   
                     ->where('sales_status', Sale::$sales_status['pending'])
                     ->count();
 
-     return view('backend.index', [
+    return view('backend.index', [
         'users' => json_encode($array),
         'sale_count' => $sale_count ?? 0,
         'client_count' => $client_count ?? 0,
