@@ -356,7 +356,7 @@ class AdminKpiController extends Controller
             'username' => $username,
             'user_kpi' => $user_kpi,
             'kpi_question' => $kpi_question ?? [],
-            'kpi_status' => Kpi::$status,
+            'kpi_status' => UserKpi::$status,
             'total_points' => $user_kpi->points,
             'original_points' => $original_points,
         ]);
