@@ -246,10 +246,12 @@ class AdminKpiController extends Controller
                     } else if($question['type'] ==  KPI::$type['image']){
                         $image = json_decode($question['answer']);
 
-                        foreach($image as $index => $kpi){
-                            $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
+                        $kpi_image = [];
+                        if($image){
+                            foreach($image as $index => $kpi){
+                                $kpi_image[$index] = 'storage/'.UserKpi::$path.'/'.$kpi;
+                            }
                         }
-
                         $kpi_question[$question_sort][$question['question']][$question['type']]['original']['answer'] = $kpi_image;
                         $kpi_question[$question_sort][$question['question']][$question['type']]['original']['points'] = 0;
 

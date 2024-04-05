@@ -35,9 +35,11 @@ class AdminController extends Controller
        $array[++$key] = [$value->day_name, $value->count];
      }
 
-    $sale_count = Sale::where('sales_status', Sale::$sales_status['approved'])
+    $sales_count = Sale::where('sales_status', Sale::$sales_status['approved'])
                     ->where('date', '>=', $this_year)
                     ->sum('amount');
+
+    $sale_count = number_format($sales_count) ?? 0;
 
     $client_count = Client::where('status', Client::$status['active'])
                     ->count();
