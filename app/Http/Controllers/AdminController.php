@@ -37,7 +37,7 @@ class AdminController extends Controller
 
     $sale_count = Sale::where('sales_status', Sale::$sales_status['approved'])
                     ->where('date', '>=', $this_year)
-                    ->count();
+                    ->sum('amount');
 
     $client_count = Client::where('status', Client::$status['active'])
                     ->count();

@@ -356,8 +356,15 @@ class FrontendController extends Controller
     public function loginSubmit(Request $request){
         $data= $request->all();
         if(auth()->guard('web')->attempt(['email' => $request->input('email'),  'password' => $request->input('password')])){
-            request()->session()->flash('success','Successfully login');
-            return redirect()->route('user');
+            
+            if(auth()->guard('web')->user()->status != 1){
+                auth()->guard('web')->logout();
+                request()->session()->flash('error','Your Account have been deactivated, please contact Customer Support');
+                return redirect()->route('login.form');
+            }else{
+                request()->session()->flash('success','Successfully login');
+                return redirect()->route('user');
+            }
         }
         else{
             request()->session()->flash('error','Invalid email and password pleas try again!');

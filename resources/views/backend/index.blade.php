@@ -59,7 +59,7 @@
                 </div>
               </div>
               <div class="col-auto">
-                <i class="fas fa-clipboard-list fa-2x text-gray-300">{{$sale_count}}</i>
+                <i class="fas fa-2x text-gray-300">$ {{$sale_count}}</i>
               </div>
             </div>
           </div>
