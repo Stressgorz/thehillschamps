@@ -83,7 +83,7 @@
         </div>
 
         <div class="form-group">
-          <label for="upline_client_id" class="col-form-label">Marketer (upline): <span class="text-danger">*</span></label>
+          <label for="upline_client_id" class="col-form-label">Marketer (upline):</label>
           </br>
           <select class="selectpicker" data-live-search="true" name='upline_client_id'>
           <option value=''>None</option>
@@ -97,7 +97,7 @@
         </div>
 
         <div class="form-group">
-          <label for="upline_user_id" class="col-form-label">Ib (upline): <span class="text-danger">*</span></label>
+          <label for="upline_user_id" class="col-form-label">Ib (upline):</label>
           </br>
           <select class="selectpicker" data-live-search="true" name='upline_user_id'>
           <option value=''>None</option>
