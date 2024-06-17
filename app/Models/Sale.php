@@ -29,8 +29,12 @@ class Sale extends Model
 
     public static $broker = [
         'LRX' => 'LRX',
-        // 'FXP' => 'FXP',
-        // 'Goldstone' => 'Goldstone',
+        'FXP' => 'FXP',
+        'Goldstone' => 'Goldstone',
+    ];
+
+    public static $broker_user = [
+        'LRX' => 'LRX',
     ];
 
         /**

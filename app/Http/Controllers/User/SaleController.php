@@ -151,7 +151,7 @@ class SaleController extends Controller
         return view('user.sales.create', [
             'sales_status' => Sale::$sales_status,
             'status_data' => Sale::$status,
-            'sales_broker' => Sale::$broker,
+            'sales_broker' => Sale::$broker_user,
             'clients' => $clients,
         ]);
     }
@@ -311,7 +311,7 @@ class SaleController extends Controller
         return view('user.sales.edit', [
             'sales' => $sale,
             'sales_status' => Sale::$sales_status,
-            'sales_broker' => Sale::$broker,
+            'sales_broker' => Sale::$broker_user,
             'slip_image' => $slip_image,
         ]);
     }
