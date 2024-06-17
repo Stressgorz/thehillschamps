@@ -73,7 +73,7 @@ class SaleController extends Controller
             'table_data' => $table_data,
             'total_amount' => $total_amount,
             'sales_status' => Sale::$sales_status,
-            'brokers' => Sale::$broker,
+            'brokers' => Sale::$broker_user,
         ]);
     }
 
