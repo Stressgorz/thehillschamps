@@ -109,6 +109,7 @@ class ClientController extends Controller
                 'zip' => 'zip',
                 'status' => 'status',
                 'created_at' => 'created_at',
+                'client_email' => 'email',
             ],
             'users' => [
                 'user_email' => 'email',

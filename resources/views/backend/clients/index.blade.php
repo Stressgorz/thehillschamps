@@ -43,6 +43,12 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Client Email</label>
+                <div class="form-group">
+                    <input type='email' class="form-control" name="client_email" value="{{ Request::get('client_email') }}"/>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">Client Upline Name</label>
                 <div class="form-group">
                     <input type='text' class="form-control" name="upline_client_name" value="{{ Request::get('upline_client_name') }}"/>
