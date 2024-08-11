@@ -37,6 +37,11 @@ class Sale extends Model
         'LRX' => 'LRX',
     ];
 
+    public static $sales_type = [
+        'own' => 'Own',
+        'downline' => 'Downline',
+    ];
+
         /**
      * The path of the storage folder to store uploaded files.
      *

@@ -67,6 +67,17 @@
                     <input type='text' class="form-control" name="client_email" value="{{ Request::get('client_email') }}"/>
                 </div>
             </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Sales Type</label>
+                <div class="form-group">
+                  <select name="sales_type" class="form-control">
+                  <option value=''>Select Type</option>
+                      @foreach($sales_type as $type)
+                          <option value='{{$type}}' {{(($type==Request::get('sales_type')) ? 'selected' : '')}}>{{$type}}</option>
+                      @endforeach
+                  </select>
+                </div>
+            </div>
         </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">

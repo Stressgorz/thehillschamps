@@ -62,7 +62,9 @@ class SaleController extends Controller
             ]);
         }
 
-        $table_data = $this->filter($request);
+        $downline_list = User::getAllIbDownline($request->user()->id);
+
+        $table_data = $this->filter($request, $downline_list);
         $total_amount = 0;
         foreach($table_data as $data){
             $total_amount = $total_amount + $data->amount;
@@ -73,19 +75,26 @@ class SaleController extends Controller
             'table_data' => $table_data,
             'total_amount' => $total_amount,
             'sales_status' => Sale::$sales_status,
+            'sales_type' => Sale::$sales_type,
             'brokers' => Sale::$broker_user,
         ]);
     }
 
     
-    public static function filter(Request $filters)
+    public static function filter(Request $filters, $downline_list = null)
     {
         $query = DB::table('sales')
                     ->leftJoin('users', 'sales.user_id' , '=', 'users.id')
                     ->leftJoin('clients', 'sales.client_id' , '=', 'clients.id')
-                    ->where('sales.status', Sale::$status['active'])
-                    ->where('sales.user_id', $filters->user()->id)
-		        	->select('sales.*',
+                    ->where('sales.status', Sale::$status['active']);
+
+        if($filters->get('sales_type') && $filters->get('sales_type') == Sale::$sales_type['downline']){
+            $query->whereIn('sales.user_id', $downline_list);
+        } else {
+            $query->where('sales.user_id', $filters->user()->id);
+        }
+
+		$query->select('sales.*',
                     'users.firstname as user_firstname',
                     'users.lastname as user_lastname',
                     'users.email as user_email',
