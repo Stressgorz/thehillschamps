@@ -63,7 +63,11 @@ class SaleController extends Controller
         }
 
         $downline_list = User::getAllIbDownline($request->user()->id);
-
+        foreach($downline_list as $key => $list){
+            if($list == $request->user()->id){
+                unset($downline_list[$key]);
+            }
+        }
         $table_data = $this->filter($request, $downline_list);
         $total_amount = 0;
         foreach($table_data as $data){

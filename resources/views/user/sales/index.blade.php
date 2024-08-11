@@ -68,6 +68,12 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">IB Email</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="user_email" value="{{ Request::get('user_email') }}"/>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">Sales Type</label>
                 <div class="form-group">
                   <select name="sales_type" class="form-control">
