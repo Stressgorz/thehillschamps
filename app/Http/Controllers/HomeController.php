@@ -163,6 +163,7 @@ class HomeController extends Controller
 
             $updateData = [
                 'dob' => $data['dob'],
+                'gender' => $data['gender'],
                 'code' => $data['code'],
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
@@ -191,6 +192,7 @@ class HomeController extends Controller
 
         $data[] = $request->validate([
             'dob' => ['required'],
+            'gender' => ['required'],
             'code' => ['required'],
             'firstname' => ['required'],
             'lastname' => ['required'],

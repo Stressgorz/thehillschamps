@@ -87,6 +87,17 @@
           @enderror 
         </div>
 
+        <div class="form-group">
+          <label for="gender" class="col-form-label">Team <span class="text-danger">*</span></label>
+          <select name="gender" class="form-control">
+              @foreach(Helper::$genders as $gender_key => $gender)
+                  <option value='{{$gender_key}}'>{{$gender}}</option>
+              @endforeach
+          </select>
+          @error('gender')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
         
         <div class="form-group">
           <label for="team_id" class="col-form-label">Team <span class="text-danger">*</span></label>

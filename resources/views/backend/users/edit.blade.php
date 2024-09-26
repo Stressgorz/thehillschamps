@@ -88,6 +88,19 @@
           @enderror
         </div>
         
+        <div class="form-group">
+          <label for="role">Team</label>
+          <select name="gender" class="form-control">
+              @foreach(Helper::$genders as $gender_key => $gender)
+                  <option value='{{$gender_key}}' {{(($user->gender==$gender_key) ? 'selected' : '')}}>{{$gender}}</option>
+              @endforeach
+          </select>
+          @error('gender')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+
       <div class="form-group">
           <label for="role">Team</label>
           <select name="team_id" class="form-control">

@@ -207,6 +207,11 @@ class Helper{
         '999' => 'Reject',
     ];
 
+    public static $genders = [
+        'm' => 'Male',
+        'f' => 'Female',
+    ];
+
     public static $year = [
         '2019',
         '2020',
@@ -229,6 +234,7 @@ class Helper{
         'Jul',
         'Aug',
         'Sep',
+        'Oct',
         'Nov',
         'Dec',
     ];

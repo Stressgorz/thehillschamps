@@ -59,6 +59,18 @@
                       </div>
 
                       <div class="form-group">
+                          <label for="inputEmail" class="col-form-label">Gender</label>
+                          <select name="gender" class="form-control">
+                              @foreach(Helper::$genders as $gender_key => $gender)
+                                  <option value='{{$gender_key}}' {{(($profile->gender==$gender_key) ? 'selected' : '')}}>{{$gender}}</option>
+                              @endforeach
+                          </select>
+                        @error('gender')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                      </div>
+
+                      <div class="form-group">
                       <label for="inputPhoto" class="col-form-label">Photo</label>  
                       <p style='color:red;'>(Square size photo is recommended) </p>
                       <div class="input-group">

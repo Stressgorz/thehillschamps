@@ -72,6 +72,11 @@ class UserController extends Controller
             ]);
         }
 
+        if (empty($request->query('gender'))) {
+            $request->request->add([
+                'gender' => $request->query('gender'),
+            ]);
+        }
 
         $table_data = $this->filter($request);
 
@@ -114,6 +119,7 @@ class UserController extends Controller
                 'created_at' => 'created_at',
                 'status' => 'status',
                 'dob_month' => 'dob',
+                'gender' => 'gender',
             ],
             'positions' => [
                 'position' => 'name',
@@ -204,6 +210,7 @@ class UserController extends Controller
             'ib_code' => $data['ib_code'],
             'phone' => $data['phone'],
             'dob' => $data['dob'],
+            'gender' => $data['gender'],
             'team_id' => $data['team_id'],
             'position_id' => $data['position_id'],
             'upline_id' => $data['upline_id'],
@@ -250,6 +257,7 @@ class UserController extends Controller
             'ib_code' => ['required'],
             'phone' => ['required'],
             'dob' => ['required'],
+            'gender' => ['required'],
             'team_id' => ['required',
             function ($attribute, $value, $fail) {
                 $team = Team::where('id', $value)
@@ -416,6 +424,7 @@ class UserController extends Controller
             'ib_code' => $data['ib_code'],
             'phone' => $data['phone'],
             'dob' => $data['dob'],
+            'gender' => $data['gender'],
             'team_id' => $data['team_id'],
             'position_id' => $data['position_id'],
             'upline_id' => $data['upline_id'],
@@ -465,6 +474,7 @@ class UserController extends Controller
             'ib_code' => ['required'],
             'phone' => ['required'],
             'dob' => ['required'],
+            'gender' => ['required'],
             'team_id' => ['required',
             function ($attribute, $value, $fail) {
                 $team = Team::where('id', $value)
@@ -577,6 +587,11 @@ class UserController extends Controller
         if (empty($request->query('tdate'))) {
             $request->request->add([
                 'tdate' => $request->query('tdate'),
+            ]);
+        }
+        if (empty($request->query('gender'))) {
+            $request->request->add([
+                'gender' => $request->query('gender'),
             ]);
         }
         

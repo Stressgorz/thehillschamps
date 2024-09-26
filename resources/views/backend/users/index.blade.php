@@ -88,6 +88,19 @@
           </div>
         </div>
       </div>
+      <div class="form-group row">
+      <div class="col-md-3 col-sm-3 col-xs-12">
+          <label class="control-label">Gender</label>
+          <div class="form-group">
+            <select name="gender" class="form-control">
+              <option value=''>Select Gender</option>
+              @foreach(Helper::$genders as $gender_key => $gender)
+                <option value='{{$gender_key}}' {{(($gender_key==Request::get('gender')) ? 'selected' : '')}}>{{$gender}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
       <div class="form-group">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
@@ -111,6 +124,7 @@
             <th>Team</th>
             <th>Points</th>
             <th>DOB</th>
+            <th>Gender</th>
             <th>Email</th>
             <th>Created date</th>
             <th>upline</th>
@@ -134,6 +148,7 @@
             <td>{{$data->team_name}}</td>
             <td>{{$data->user_points ?? 0}}</td>
             <td>{{$data->dob}}</td>
+            <td>{{$data->gender}}</td>
             <td>{{$data->email}}</td>
             <td>{{$data->created_at}}</td>
             <td>{{$data->upline_firstname .' '.$data->upline_lastname}}</td>
