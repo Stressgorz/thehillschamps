@@ -187,6 +187,9 @@ class Helper{
         return implode('', $pieces);
     }
 
+    public static $admin_setting_type = [
+        'leaderboard_switch' => 'leaderboard_switch',
+    ];
 
     public static $general_status = [
         '1' => 'Active',

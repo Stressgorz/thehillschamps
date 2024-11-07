@@ -182,6 +182,10 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         // Leaderboard
         Route::get('/leaderboard-client/{data_type}', 'Admin\LeaderboardController@leaderboardClient')->name('admin-get-leaderboard-client');
         
+        // Leaderboard
+        Route::get('/leaderboard-setting', 'Admin\LeaderboardSettingController@index')->name('admin-get-setting');
+        Route::post('/leaderboard-setting/edit/{id}', 'Admin\LeaderboardSettingController@edit')->name('admin-setting.edit');
+
         // Client   
         Route::resource('/sales-approval', 'Admin\SaleApprovalController');
         Route::post('/sales-approval/{id}/approve', 'Admin\SaleApprovalController@approve')->name('sales.approve');

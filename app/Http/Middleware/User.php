@@ -3,7 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\AdminSetting;
 use Illuminate\Support\Facades\Auth;
+use Helper;
+use Illuminate\Support\Facades\View;
 
 class User
 {
@@ -16,6 +19,13 @@ class User
      */
     public function handle($request, Closure $next)
     {
+
+        $admin_setting = AdminSetting::where('type', Helper::$admin_setting_type['leaderboard_switch'])->first();
+        
+        if($admin_setting){
+            $leaderboard_switch = $admin_setting->switch;
+            View::share('leaderboard_switch', $leaderboard_switch);
+        }
 
         if (Auth::guard('web')->check()) {
             return $next($request);
