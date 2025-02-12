@@ -36,6 +36,7 @@ class Sale extends Model
 
     public static $broker_user = [
         'LRX' => 'LRX',
+        'AIMS' => 'AIMS',
     ];
 
     public static $sales_type = [
