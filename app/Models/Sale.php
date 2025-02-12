@@ -30,6 +30,7 @@ class Sale extends Model
     public static $broker = [
         'LRX' => 'LRX',
         'FXP' => 'FXP',
+        'AIMS' => 'AIMS',
         'Goldstone' => 'Goldstone',
     ];
 
