@@ -263,17 +263,17 @@
           })
       })
 
-      $("[name=country]").on('change', function() {
+      $("[name=client_country]").on('change', function() {
           populateCountry();
       });
 
       populateCountry();
       function populateCountry() {
-          var country = $("[name=country] :checked").val();
+          var country = $("[name=client_country] :checked").val();
 
-          $("select[name='state']").find('option').prop("hidden", true);
-          $("select[name='state']").find('option.'+country).prop("hidden", false);
-          $("select[name='state']").find('option=[value=""]').prop("hidden", false);
+          $("select[name='client_state']").find('option').prop("hidden", true);
+          $("select[name='client_state']").find('option.'+country).prop("hidden", false);
+          $("select[name='client_state']").find('option=[value=""]').prop("hidden", false);
       }
   </script>
 @endpush
