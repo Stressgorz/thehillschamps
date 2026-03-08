@@ -84,6 +84,15 @@
           </div>
           <div class="form-group row">
             <div class="col-md-3 col-sm-3 col-xs-12">
+              <label for="client_country" class="control-label">Client Country</label>
+              <select name="client_country" class="form-control">
+                <option value="">None</option>
+                  @foreach(Helper::$country as $country)
+                      <option value='{{$country}}' {{(($country==Request::get('client_country')) ? 'selected' : '')}}>{{Helper::$country_name[$country]}}</option>
+                  @endforeach
+              </select>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
               <label for="client_state" class="control-label">Client State</label>
               <select name="client_state" class="form-control">
                 <option value="">None</option>
@@ -91,15 +100,6 @@
                     @foreach($states as $state)
                       <option class="{{ $countries }}" {{(($state==Request::get('client_state')) ? 'selected' : '')}}>{{$state}}</option>
                     @endforeach
-                  @endforeach
-              </select>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-              <label for="client_country" class="control-label">Client Country</label>
-              <select name="client_country" class="form-control">
-                <option value="">None</option>
-                  @foreach(Helper::$country as $country)
-                      <option value='{{$country}}' {{(($country==Request::get('client_country')) ? 'selected' : '')}}>{{Helper::$country_name[$country]}}</option>
                   @endforeach
               </select>
             </div>
@@ -262,5 +262,18 @@
                 });
           })
       })
+
+      $("[name=country]").on('change', function() {
+          populateCountry();
+      });
+
+      populateCountry();
+      function populateCountry() {
+          var country = $("[name=country] :checked").val();
+
+          $("select[name='state']").find('option').prop("hidden", true);
+          $("select[name='state']").find('option.'+country).prop("hidden", false);
+          $("select[name='state']").find('option=[value=""]').prop("hidden", false);
+      }
   </script>
 @endpush
