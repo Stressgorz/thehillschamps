@@ -84,16 +84,24 @@
           </div>
           <div class="form-group row">
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <label class="control-label">Client State</label>
-                <div class="form-group">
-                    <input type='text' class="form-control" name="client_state" value="{{ Request::get('client_state') }}"/>
-                </div>
+              <label for="client_state" class="control-label">Client State</label>
+              <select name="client_state" class="form-control">
+                <option value="">None</option>
+                  @foreach(Helper::$state as $countries => $states)
+                    @foreach($states as $state)
+                      <option class="{{ $countries }}" {{(($state==Request::get('client_state')) ? 'selected' : '')}}>{{$state}}</option>
+                    @endforeach
+                  @endforeach
+              </select>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <label class="control-label">Client Country</label>
-                <div class="form-group">
-                    <input type='text' class="form-control" name="client_country" value="{{ Request::get('client_country') }}"/>
-                </div>
+              <label for="client_country" class="control-label">Client Country</label>
+              <select name="client_country" class="form-control">
+                <option value="">None</option>
+                  @foreach(Helper::$country as $country)
+                      <option value='{{$country}}' {{(($country==Request::get('client_country')) ? 'selected' : '')}}>{{Helper::$country_name[$country]}}</option>
+                  @endforeach
+              </select>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">IB Email (Team Sales)</label>

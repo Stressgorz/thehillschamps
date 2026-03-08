@@ -36,7 +36,7 @@
           <label for="status">Broker</label>
           <select name="broker_type" class="form-control">
               @foreach($sales_broker as $broker)
-                  <option value='{{$broker}}' {{(($sales->broker==$broker) ? 'selected' : '')}}>{{$broker}}</option>
+                  <option value='{{$broker}}' {{(($sales->broker_type==$broker) ? 'selected' : '')}}>{{$broker}}</option>
               @endforeach
           </select>
         </div>
