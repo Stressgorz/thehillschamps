@@ -32,11 +32,13 @@ class Sale extends Model
         'FXP' => 'FXP',
         'AIMS' => 'AIMS',
         'Goldstone' => 'Goldstone',
+        'others' => 'others',
     ];
 
     public static $broker_user = [
-        'LRX' => 'LRX',
+        //'LRX' => 'LRX',
         'AIMS' => 'AIMS',
+        'others' => 'others'
     ];
 
     public static $sales_type = [

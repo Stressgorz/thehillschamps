@@ -110,6 +110,7 @@ class ClientController extends Controller
                 'status' => 'status',
                 'created_at' => 'created_at',
                 'client_email' => 'email',
+                'contact' => 'contact',
             ],
             'users' => [
                 'user_email' => 'email',

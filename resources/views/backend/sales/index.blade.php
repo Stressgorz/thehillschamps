@@ -84,6 +84,18 @@
           </div>
           <div class="form-group row">
             <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Client State</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="client_state" value="{{ Request::get('client_state') }}"/>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Client Country</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="client_country" value="{{ Request::get('client_country') }}"/>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <label class="control-label">IB Email (Team Sales)</label>
                 <div class="form-group">
                     <input type='text' class="form-control" name="ib_team" value="{{ Request::get('ib_team') }}"/>
@@ -117,7 +129,8 @@
               <th>Client Name</th>
               <th>Phone</th>
               <th>Client Email</th>
-              <th>MT4 ID</th>
+              <th>Client Country</th>
+              <th>Client State</th>
               <th>IB</th>
               <th>Sales Date</th>
               <th>Submission Date</th>
@@ -144,7 +157,8 @@
                     <td>{{$data->client_name}}</td>
                     <td>{{$data->client_contact}}</td>
                     <td>{{$data->client_email}}</td>
-                    <td>{{$data->mt4_id}}</td>
+                    <td>{{$data->client_country ?? ''}}</td>
+                    <td>{{$data->client_state ?? ''}}</td>
                     <td>{{$data->user_firstname ?? ''}} {{$data->user_lastname ?? ''}}</td>
                     <td>{{$data->date}}</td>
                     <td>{{$data->updated_at}}</td>

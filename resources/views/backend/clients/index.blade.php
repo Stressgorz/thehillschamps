@@ -54,6 +54,12 @@
                     <input type='text' class="form-control" name="upline_client_name" value="{{ Request::get('upline_client_name') }}"/>
                 </div>
             </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label">Client Contact</label>
+                <div class="form-group">
+                    <input type='text' class="form-control" name="contact" value="{{ Request::get('contact') }}"/>
+                </div>
+            </div>
         </div>
         <div class="form-group row">
             <div class="col-md-3 col-sm-3 col-xs-12">

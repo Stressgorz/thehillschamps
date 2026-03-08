@@ -122,6 +122,8 @@ class SaleController extends Controller
                     'clients.name as client_name',
                     'clients.email as client_email',
                     'clients.contact as client_contact',
+                    'clients.country as client_country',
+                    'clients.state as client_state',
                     )
                     ->orderBy('id','ASC');
 
@@ -140,6 +142,8 @@ class SaleController extends Controller
             'clients' => [
                 'client_email' => 'email',
                 'client_name' => 'name',
+                'client_state' => 'state',
+                'client_country' => 'country',
             ],
         ];
 
@@ -256,6 +260,8 @@ class SaleController extends Controller
                     'clients.email as client_email',
                     'clients.contact as client_contact',
                     'clients.address as client_address',
+                    'clients.country as client_country',
+                    'clients.state as client_state',
                     )
                     ->first();
         
