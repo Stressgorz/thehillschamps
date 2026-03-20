@@ -186,9 +186,6 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         Route::get('/leaderboard-setting', 'Admin\LeaderboardSettingController@index')->name('admin-get-setting');
         Route::post('/leaderboard-setting/edit/{id}', 'Admin\LeaderboardSettingController@edit')->name('admin-setting.edit');
 
-        // Roadmap
-        Route::resource('/roadmap', 'Admin\RoadmapController');
-
         // Client   
         Route::resource('/sales-approval', 'Admin\SaleApprovalController');
         Route::post('/sales-approval/{id}/approve', 'Admin\SaleApprovalController@approve')->name('sales.approve');
