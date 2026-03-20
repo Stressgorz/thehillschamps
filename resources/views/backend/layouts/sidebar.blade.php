@@ -181,6 +181,36 @@
     </div>
   </li>
 
+  {{-- Roadmap --}}
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#roadmapCollapse" aria-expanded="true" aria-controls="roadmapCollapse">
+      <i class="fas fa-truck"></i>
+      <span>Roadmap</span>
+    </a>
+    <div id="roadmapCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Roadmap Options:</h6>
+        <a class="collapse-item" href="{{route('roadmap.index')}}">Roadmap</a>
+        <a class="collapse-item" href="{{route('roadmap.create')}}">Add Roadmap</a>
+      </div>
+    </div>
+  </li>
+
+  {{-- Lot --}}
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#lotCollapse" aria-expanded="true" aria-controls="lotCollapse">
+      <i class="fas fa-truck"></i>
+      <span>Lot</span>
+    </a>
+    <div id="lotCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Lot Options:</h6>
+        <a class="collapse-item" href="{{route('lot.index')}}">Lot</a>
+        <a class="collapse-item" href="{{route('lot.create')}}">Add Lot</a>
+      </div>
+    </div>
+  </li>
+
   <!-- Divider -->
   <hr class="sidebar-divider">
 

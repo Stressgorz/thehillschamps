@@ -162,6 +162,12 @@ Route::get('testing-abcdefg', 'Test\TestingController@index');
         // Admin Kpi
         Route::resource('/admin-kpi', 'Admin\AdminKpiController');
 
+        // Roadmap
+        Route::resource('/roadmap', 'Admin\RoadmapController');
+
+        // Lot
+        Route::resource('/lot', 'Admin\LotController');
+
         // Client
         Route::get('/clients-admin/export', 'Admin\ClientController@export');
         Route::resource('/clients-admin', 'Admin\ClientController');
