@@ -21,6 +21,7 @@
             <tr>
               <th>Sales Status</th>
               <th>Broker</th>
+              <th>Funding</th>
               <th>Amounts</th>
               <th>Client Name</th>
               <th>Phone</th>
@@ -40,6 +41,7 @@
                 <tr>
                     <td>{{$data->sales_status}}</td>
                     <td>{{$data->broker_type}}</td>
+                    <td>{{ !empty($data->funding) ? __('sales.'.array_flip($funding_type)[$data->funding]) : 'NULL'}}</td>
                     <td>{{$data->amount}}</td>
                     <td>{{$data->client_name}}</td>
                     <td>{{$data->client_contact}}</td>

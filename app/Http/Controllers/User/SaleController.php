@@ -81,6 +81,7 @@ class SaleController extends Controller
             'sales_status' => Sale::$sales_status,
             'sales_type' => Sale::$sales_type,
             'brokers' => Sale::$broker_user,
+            'funding_type' => Sale::$funding,
         ]);
     }
 
@@ -114,6 +115,7 @@ class SaleController extends Controller
                 'broker_type' => 'broker_type',
                 'created_at' => 'created_at',
                 'date' => 'date',
+                'funding' => 'funding',
             ],
             'users' => [
                 'user_email' => 'email',
@@ -166,6 +168,7 @@ class SaleController extends Controller
             'sales_status' => Sale::$sales_status,
             'status_data' => Sale::$status,
             'sales_broker' => Sale::$broker_user,
+            'funding_type' => Sale::$funding,
             'clients' => $clients,
         ]);
     }
@@ -195,9 +198,10 @@ class SaleController extends Controller
             'user_id' => $request->user()->id,
             'amount' => $data['amount'],
             'type' => 1,
-            'mt4_id' => $data['mt4_id'],
-            'mt4_pass' => $data['mt4_pass'],
+            'mt4_id' => $data['mt4_id'] ?? null,
+            'mt4_pass' => $data['mt4_pass'] ?? null,
             'broker_type' => $data['broker_type'],
+            'funding' => $data['funding'],
             'slip' => json_encode($image),
             'remark' => $data['remark'],
             'date' => $data['date'],
@@ -232,9 +236,10 @@ class SaleController extends Controller
             }
             ],
             'amount' => ['required'],
-            'mt4_id' => ['required'],
-            'mt4_pass' => ['required'],
+            'mt4_id' => ['nullable'],
+            'mt4_pass' => ['nullable'],
             'broker_type' => ['required'],
+            'funding' => ['required'],
             'slip' => ['required'],
             'remark' => ['nullable'],
             'date' => ['required'],
@@ -301,6 +306,7 @@ class SaleController extends Controller
             'user_upline' => $user_upline,
             'client_upline' => $client_upline,
             'sales_status' => Sale::$sales_status,
+            'funding_type' => Sale::$funding,
             'sales_broker' => Sale::$broker,
             'slip_image' => $slip_image,
         ]);

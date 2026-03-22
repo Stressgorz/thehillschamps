@@ -33,6 +33,7 @@ class SaleApprovalController extends Controller
             'table_data' => $table_data,
             'sales_status' => Sale::$sales_status,
             'brokers' => Sale::$broker,
+            'funding_type' => Sale::$funding,
         ]);
     }
     
@@ -142,6 +143,7 @@ class SaleApprovalController extends Controller
             'sales_status' => Sale::$sales_status,
             'sales_broker' => Sale::$broker,
             'slip_image' => $slip_image,
+            'funding_type' => Sale::$funding,
         ]);
     }
 

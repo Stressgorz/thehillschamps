@@ -106,6 +106,7 @@ class SaleController extends Controller
             'sales_status' => Sale::$sales_status,
             'status_data' => Sale::$status,
             'brokers' => Sale::$broker,
+            'funding_type' => Sale::$funding,
         ]);
     }
 
@@ -135,6 +136,7 @@ class SaleController extends Controller
                 'date' => 'date',
                 'ib_team' => 'user_id',
                 'ib_group' => 'user_id',
+                'funding' => 'funding',
             ],
             'users' => [
                 'user_email' => 'email',
@@ -297,6 +299,7 @@ class SaleController extends Controller
             'client_upline' => $client_upline,
             'sales_status' => Sale::$sales_status,
             'sales_broker' => Sale::$broker,
+            'funding_type' => Sale::$funding,
             'slip_image' => $slip_image,
             'user_upline_name' => $user_upline_name,
         ]);
@@ -317,6 +320,7 @@ class SaleController extends Controller
             'sales_status' => Sale::$sales_status,
             'status_data' => Sale::$status,
             'sales_broker' => Sale::$broker,
+            'funding_type' => Sale::$funding,
         ]);
     }
 
@@ -334,9 +338,10 @@ class SaleController extends Controller
 
         $updateData = [
             'amount' => $data['amount'],
-            'mt4_id' => $data['mt4_id'],
-            'mt4_pass' => $data['mt4_pass'],
+            'mt4_id' => $data['mt4_id'] ?? null,
+            'mt4_pass' => $data['mt4_pass'] ?? null,
             'broker_type' => $data['broker_type'],
+            'funding' => $data['funding'],
             'sales_status' => $data['sales_status'],
             'status' => $data['status'],
             'reason' => $data['reason'],
@@ -360,14 +365,15 @@ class SaleController extends Controller
 
         $data[] = $request->validate([
             'amount' => ['required'],
-            'mt4_id' => ['required'],
-            'mt4_pass' => ['required'],
+            'mt4_id' => ['nullable'],
+            'mt4_pass' => ['nullable'],
             'broker_type' => ['required'],
             'sales_status' => ['required'],
             'status' => ['required'],
             'reason' => ['nullable'],
             'remark' => ['nullable'],
             'date' => ['required'],
+            'funding' => ['required'],
         ]);
 
         $validated = [];

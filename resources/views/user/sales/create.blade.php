@@ -37,7 +37,7 @@
         @enderror
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="inputTitle" class="col-form-label">MT4 ID<span class="text-danger">*</span></label>
         <input id="inputTitle" type="text" name="mt4_id" placeholder="Enter mt4 id"  value="{{old('mt4_id')}}" class="form-control">
         @error('mt4_id')
@@ -51,13 +51,25 @@
         @error('mt4_pass')
         <span class="text-danger">{{$message}}</span>
         @enderror
-        </div>  
+        </div>   -->
 
         <div class="form-group">
           <label for="status">Broker<span class="text-danger">*</span></label>
           <select name="broker_type" class="form-control">
               @foreach($sales_broker as $broker)
                   <option value='{{$broker}}'{{(($broker==old('broker_type')) ? 'selected' : '')}}>{{$broker}}</option>
+              @endforeach
+          </select>
+        @error('broker')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="funding">Funding<span class="text-danger">*</span></label>
+          <select name="funding" class="form-control">
+              @foreach($funding_type as $funding => $value)
+                  <option value='{{$value}}'{{(($value==old('funding')) ? 'selected' : '')}}>{{__('sales.'.$funding) }}</option>
               @endforeach
           </select>
         @error('broker')

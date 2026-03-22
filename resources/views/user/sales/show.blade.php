@@ -14,6 +14,11 @@
         </div>
 
         <div class="form-group col-6">
+          <label for="inputTitle" class="col-form-label">Funding</label>
+          <input id="inputTitle" type="text" value="{{ !empty($sales->funding) ? __('sales.'.array_flip($funding_type)[$sales->funding]) : 'NULL'}}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group col-6">
           <label for="inputTitle" class="col-form-label">Amount</label>
           <input id="inputTitle" type="number" value="{{$sales->amount}}" class="form-control" readonly>
         </div>

@@ -27,13 +27,25 @@
                   </select>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
+            <div class="col-md-2 col-sm-3 col-xs-12">
                 <label class="control-label">Broker</label>
                 <div class="form-group">
                   <select name="broker_type" class="form-control">
                   <option value=''>Select Broker</option>
                       @foreach($brokers as $broker)
                           <option value='{{$broker}}' {{(($broker==Request::get('broker_type')) ? 'selected' : '')}}>{{$broker}}</option>
+                      @endforeach
+                  </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <label class="control-label">Funding</label>
+                <div class="form-group">
+                  <select name="funding" class="form-control">
+                  <option value=''>Select Funding</option>
+                      @foreach($funding_type as $funding => $value)
+                          <option value='{{$value}}' {{(($value==Request::get('funding')) ? 'selected' : '')}}>{{ __('sales.'.$funding)}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -101,6 +113,7 @@
             <tr>
               <th>Sales Status</th>
               <th>Broker</th>
+              <th>Funding</th>
               <th>Amounts</th>
               <th>Client Name</th>
               <th>Phone</th>
@@ -128,6 +141,7 @@
                 <tr>
                     <td>{{$data->sales_status}}</td>
                     <td>{{$data->broker_type}}</td>
+                    <td>{{ !empty($data->funding) ? __('sales.'.array_flip($funding_type)[$data->funding]) : 'NULL'}}</td>
                     <td>{{$data->amount}}</td>
                     <td>{{$data->client_name}}</td>
                     <td>{{$data->client_contact}}</td>

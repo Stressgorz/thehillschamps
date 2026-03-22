@@ -42,6 +42,15 @@
         </div>
 
         <div class="form-group">
+          <label for="status">Funding</label>
+          <select name="funding" class="form-control">
+              @foreach($funding_type as $funding => $value)
+                  <option value='{{$value}}' {{(($sales->funding==$value) ? 'selected' : '')}}>{{__('sales.'.$funding) }}</option>
+              @endforeach
+          </select>
+        </div>
+
+        <div class="form-group">
           <label for="status">Sales Status</label>
           <select name="sales_status" class="form-control">
               @foreach($sales_status as $status)

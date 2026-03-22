@@ -116,6 +116,19 @@
                 </div>
             </div>
           </div>
+          <div class="form-group row">
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <label class="control-label">Funding</label>
+                <div class="form-group">
+                  <select name="funding" class="form-control">
+                  <option value=''>Select Funding</option>
+                      @foreach($funding_type as $funding => $value)
+                          <option value='{{$value}}' {{(($value==Request::get('funding')) ? 'selected' : '')}}>{{ __('sales.'.$funding)}}</option>
+                      @endforeach
+                  </select>
+                </div>
+            </div>
+          </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <button id="advanced_search" type="submit" class="btn btn-success">Search</button>
@@ -133,6 +146,7 @@
             <tr>
               <th>Sales Status</th>
               <th>Broker</th>
+              <th>Funding</th>
               <th>Amounts</th>
               <th>Client Name</th>
               <th>Phone</th>
@@ -148,6 +162,7 @@
           <tfoot>
             <tr>
               <th></th>
+              <th></th>
               <th>Total Amount</th>
               <th>{{$total_amount}}</th>
               <th></th>
@@ -161,6 +176,7 @@
                 <tr>
                     <td>{{$data->sales_status}}</td>
                     <td>{{$data->broker_type}}</td>
+                    <td>{{ !empty($data->funding) ? __('sales.'.array_flip($funding_type)[$data->funding]) : 'NULL'}}</td>
                     <td>{{$data->amount}}</td>
                     <td>{{$data->client_name}}</td>
                     <td>{{$data->client_contact}}</td>

@@ -13,7 +13,7 @@ class Sale extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'client_id', 'amount','slip','mt4_id','mt4_pass','broker_type', 'remark' ,'type', 'sales_status' ,'status' ,'reason' ,'created_at' ,'updated_at', 'date'
+        'user_id', 'client_id', 'amount','slip','mt4_id','mt4_pass','broker_type', 'funding', 'remark' ,'type', 'sales_status' ,'status' ,'reason' ,'created_at' ,'updated_at', 'date'
     ];
 
     public static $status = [
@@ -33,6 +33,11 @@ class Sale extends Model
         'AIMS' => 'AIMS',
         'Goldstone' => 'Goldstone',
         'others' => 'others',
+    ];
+
+    public static $funding = [
+        'new_client' => 1,
+        'top_up' => 2,
     ];
 
     public static $broker_user = [
